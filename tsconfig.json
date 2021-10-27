@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "esnext",
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "allowJs": true,
+    "alwaysStrict": true,
+    "baseUrl": "./",
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "paths": {
+      "utils/*": ["./utils/*"],
+      "domains/*": ["./domains/*"],
+      "application/*": ["./application/*"]
+    }
+  },
+}
