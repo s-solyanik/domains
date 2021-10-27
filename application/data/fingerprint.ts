@@ -3,7 +3,6 @@ import {Observable} from "rxjs";
 import { Data } from "data/core/data";
 
 import type { FiltersProps } from "domains/test/entity";
-
 type DataProps = {
     guid: string
     user: string
