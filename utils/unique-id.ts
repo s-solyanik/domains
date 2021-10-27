@@ -38,6 +38,14 @@ class UID implements IdentifierI {
         return this._value;
     }
 
+    isInstanceOf(id?: IdentifierI) {
+        if (id === null || id === undefined) {
+            return false;
+        }
+
+        return id instanceof this.constructor;
+    }
+
     static factory(name: string, value: string|number) {
         const contextInstance = UID.context.get(name);
 

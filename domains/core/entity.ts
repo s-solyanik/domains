@@ -1,5 +1,6 @@
 import type { ValueObject } from 'domains/core/value-object';
-import {IdentifierI} from "utils/unique-id";
+import type {IdentifierI} from "utils/unique-id";
+import { UID } from 'utils/unique-id';
 
 interface EntityLikeProps {
     id: IdentifierI
@@ -10,12 +11,19 @@ interface EntityLike<Props extends EntityLikeProps> {
     equals(object?: EntityLike<Props>): boolean
 }
 
+const entityTestId = UID.factory('EntityId', 'test');
+
+
 abstract class Entity<Props extends EntityLikeProps> implements EntityLike<Props> {
     static idName = 'EntityId';
 
     protected readonly props: Props;
 
     protected constructor(props: Props) {
+        if(!entityTestId.isInstanceOf(props.id)) {
+            throw new Error('Id is not an instance of EntityId');
+        }
+
         this.props = Object.freeze(props);
     }
 

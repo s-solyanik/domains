@@ -30,7 +30,7 @@ class EntityTest implements EntityTestI<UserFingerprintEntity> {
         this.record = domainsEntry.entity<UserFingerprintEntity>(UserFingerprintEntity.id(userId), this.read);
     }
 
-    private read = () => {
+    public read = () => {
         return FingerprintData.facade.read(this.filters).pipe(
             map(it => {
                 return UserFingerprintEntity.factory(it)
