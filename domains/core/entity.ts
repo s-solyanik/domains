@@ -1,19 +1,19 @@
 import type { ValueObject } from 'domains/core/value-object';
 import {IdentifierI} from "utils/unique-id";
 
-export interface EntityLikeProps {
+interface EntityLikeProps {
     id: IdentifierI
-    readonly value: ValueObject<any>|ValueObject<any>[]
+    readonly value: ValueObject<any>
 }
 
-export interface EntityLike<Props extends EntityLikeProps> {
+interface EntityLike<Props extends EntityLikeProps> {
     equals(object?: EntityLike<Props>): boolean
 }
 
 abstract class Entity<Props extends EntityLikeProps> implements EntityLike<Props> {
     static idName = 'EntityId';
 
-    private readonly props: Props;
+    protected readonly props: Props;
 
     protected constructor(props: Props) {
         this.props = Object.freeze(props);
@@ -40,14 +40,12 @@ abstract class Entity<Props extends EntityLikeProps> implements EntityLike<Props
         return this.props.value;
     }
 
-    static id(...args: any[]): IdentifierI {
-        throw new Error(`id getter method is not implemented ${args}`);
+    public get snapshot() {
+        return this.props.value.get();
     }
 
-    public get snapshot() {
-        return Array.isArray(this.props.value)
-            ? this.props.value.map(value => value.get())
-            : this.props.value.get();
+    static id(...args: any[]): IdentifierI {
+        throw new Error(`id getter method is not implemented ${args}`);
     }
 
     static isEntity(v: any): v is Entity<any> {

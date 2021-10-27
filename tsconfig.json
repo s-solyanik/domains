@@ -16,6 +16,7 @@
     "paths": {
       "utils/*": ["./utils/*"],
       "domains/*": ["./domains/*"],
+      "data/*": ["./application/data/*"],
       "application/*": ["./application/*"]
     }
   },

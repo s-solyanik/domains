@@ -4,12 +4,14 @@ import {map, take, tap} from "rxjs/operators";
 import {IdentifierI} from "utils/unique-id";
 
 import type {StateRecord} from "domains/core/state/record";
-import { domains } from 'domains/core/domains';
+import { domainsEntry } from 'domains/core/entry';
 
 import type { FingerprintType } from "domains/common/users.fingerprint";
 import { UserFingerprintEntity } from "domains/common/users.fingerprint";
 
-type FiltersProps = {
+import { FingerprintData } from "data/fingerprint";
+
+export type FiltersProps = {
     page: number
     perPage: number
 }
@@ -25,22 +27,15 @@ class EntityTest implements EntityTestI<UserFingerprintEntity> {
 
     constructor(userId: string, filters: FiltersProps) {
         this.filters = filters;
-        this.record = domains.entity<UserFingerprintEntity>(UserFingerprintEntity.id(userId), this.read);
+        this.record = domainsEntry.entity<UserFingerprintEntity>(UserFingerprintEntity.id(userId), this.read);
     }
 
     private read = () => {
-        console.log('request with filters', this.filters);
-
-        return new Observable<UserFingerprintEntity>(observer => {
-            observer.next(
-                UserFingerprintEntity.factory({
-                    guid: 'test',
-                    user: 'user-1',
-                    client: 'web_01'
-                })
-            );
-            observer.complete();
-        })
+        return FingerprintData.facade.read(this.filters).pipe(
+            map(it => {
+                return UserFingerprintEntity.factory(it)
+            })
+        )
     }
 
     public get id() {
@@ -49,9 +44,7 @@ class EntityTest implements EntityTestI<UserFingerprintEntity> {
 
     public data() {
         return this.record.data().pipe(
-            map(it => {
-                return it.value.get();
-            })
+            map(it => it.value.get())
         );
     }
 
@@ -65,7 +58,7 @@ class EntityTest implements EntityTestI<UserFingerprintEntity> {
                         ...value
                     })
                 )
-            })
+            }),
         ).subscribe((it) => ({}));
     }
 }

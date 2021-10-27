@@ -5,7 +5,6 @@ import { Entity } from 'domains/core/entity';
 import type { FingerprintType } from 'domains/common/users.fingerprint/type';
 import { UserFingerprintValueObject } from 'domains/common/users.fingerprint/value-object';
 
-
 interface UserFingerprintProps {
     readonly id: IdentifierI
     readonly value: UserFingerprintValueObject
