@@ -34,7 +34,7 @@ class UserEntity extends Entity<UserProps> {
     }
 
     static id(id: string) {
-        return UID.factory(UserEntity.idName, `users.${id}`);
+        return Entity.createId(`users.${id}`);
     }
 
     static factory(props: UserType) {

@@ -33,6 +33,10 @@ abstract class Entity<Props extends EntityLikeProps> implements EntityLike<Props
         this.props = Object.freeze(props);
     }
 
+    protected static createId(value: string|number): IdentifierI {
+        return UID.factory(Entity.idName, value);
+    }
+
     public equals(object?: Entity<Props>): boolean {
 
         if (object === null || object === undefined) {
@@ -57,6 +61,7 @@ abstract class Entity<Props extends EntityLikeProps> implements EntityLike<Props
     public get snapshot() {
         return this.props.value.get();
     }
+
 
     static id(...args: any[]): IdentifierI {
         throw new Error(`id getter method is not implemented ${args}`);

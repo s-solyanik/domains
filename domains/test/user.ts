@@ -1,6 +1,7 @@
 import {switchMap} from "rxjs";
 import {map, tap} from "rxjs/operators";
 
+import {singleton} from "utils/singleton";
 import type {IdentifierI} from "utils/unique-id";
 
 import { domainsEntry } from 'domains/core/singleton';
@@ -9,7 +10,6 @@ import type { UserType } from "domains/common/users";
 import { UserEntity } from "domains/common/users";
 
 import { UserData } from "data/user";
-import {singleton} from "utils/singleton";
 
 const TTL = 300;
 

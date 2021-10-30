@@ -1,6 +1,7 @@
 import {switchMap} from "rxjs";
 import {map, tap} from "rxjs/operators";
 
+import {singleton} from "utils/singleton";
 import type {IdentifierI} from "utils/unique-id";
 
 import { domainsEntry } from 'domains/core/singleton';
@@ -9,7 +10,6 @@ import type { FingerprintType } from "domains/common/users.fingerprint";
 import { UserFingerprintEntity } from "domains/common/users.fingerprint";
 
 import { FingerprintData } from "data/fingerprint";
-import {singleton} from "utils/singleton";
 
 const TTL = 300;
 
