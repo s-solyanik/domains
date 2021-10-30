@@ -15,8 +15,8 @@ const TTL = 300;
 
 class UserFingerPrint {
     static shared = singleton((id: string) => new UserFingerPrint(id));
-
     public readonly id: IdentifierI;
+
     private constructor(id: string) {
         this.id = UserFingerprintEntity.id(id);
     }
