@@ -4,19 +4,17 @@ import {map, take, tap} from "rxjs/operators";
 import {IdentifierI} from "utils/unique-id";
 
 import type {StateRecord} from "domains/core/state/record";
-import { domainsEntry } from 'domains/core/entry';
+import { domainsEntry } from 'domains/core/singleton';
 
 import type { FingerprintType } from "domains/common/users.fingerprint";
 import { UserFingerprintEntity } from "domains/common/users.fingerprint";
 
 import { FingerprintData } from "data/fingerprint";
 
-export type FiltersProps = {
+type FiltersProps = {
     page: number
     perPage: number
 }
-
-export type FingerprintType = FingerprintType;
 
 interface EntityTestI<T> {
     id: IdentifierI
@@ -73,4 +71,5 @@ class EntityTest implements EntityTestI<UserFingerprintEntity> {
     }
 }
 
+export type { FingerprintType, FiltersProps };
 export { EntityTest };

@@ -7,8 +7,8 @@ import {Application} from "application/main";
 import type { Actualize } from "domains/core/state/record";
 import { StateManager } from "domains/core/state/manager";
 
-class Entry {
-    static shared = singleton((domain: string) => new Entry(domain));
+class Singleton {
+    static shared = singleton((domain: string) => new Singleton(domain));
 
     private readonly domain: string;
 
@@ -24,6 +24,6 @@ class Entry {
     }
 }
 
-const domainsEntry = Entry.shared(Application.shared().settings.ids.domains);
+const domainsEntry = Singleton.shared(Application.shared().settings.ids.domains);
 
-export { Entry, domainsEntry };
+export { Singleton, domainsEntry };

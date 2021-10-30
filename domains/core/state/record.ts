@@ -23,6 +23,7 @@ class StateRecord<T> {
     constructor(id: IdentifierI, actualize: Actualize<T>, storage: StorageI) {
         this.id = id;
         this.storage = storage;
+
         this.state = defer(() => {
             this.storage.subject<T>(this.id.toString()).pipe(
                 take(1),
