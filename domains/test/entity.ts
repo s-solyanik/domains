@@ -21,6 +21,8 @@ interface EntityTestI<T> {
     read(): Observable<{ data: UserFingerprintEntity, expiration: number }>
 }
 
+const TTL = 300;
+
 class EntityTest implements EntityTestI<UserFingerprintEntity> {
     private readonly filters: FiltersProps;
     private readonly record: StateRecord<UserFingerprintEntity>;
@@ -34,7 +36,7 @@ class EntityTest implements EntityTestI<UserFingerprintEntity> {
         return FingerprintData.facade.read(this.filters).pipe(
             map(it => ({
                 data: UserFingerprintEntity.factory(it),
-                expiration: 0
+                expiration: TTL
             }))
         )
     }
@@ -45,7 +47,7 @@ class EntityTest implements EntityTestI<UserFingerprintEntity> {
 
     public data() {
         return this.record.data().pipe(
-            map(it => it.data.value.get())
+            map(it => it.value.get())
         );
     }
 
@@ -53,13 +55,12 @@ class EntityTest implements EntityTestI<UserFingerprintEntity> {
         this.record.data().pipe(
             take(1),
             tap(it => {
-                this.record.update({
-                    data: UserFingerprintEntity.factory({
-                        ...it.data.value.get(),
-                        ...value
-                    }),
-                    expiration: 0
-                })
+                const entity = UserFingerprintEntity.factory({
+                    ...it.value.get(),
+                    ...value
+                });
+
+                this.record.update(entity, TTL);
             }),
         ).subscribe((it) => ({}));
     }

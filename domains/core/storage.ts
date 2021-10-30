@@ -12,6 +12,7 @@ export type Record<T> = {
 
 export interface StorageI {
     id: IdentifierI
+    subject<T>(id: string): Observable<Record<T>>
     read<T>(id: IdentifierI): Observable<Record<T>>
     update<T>(id: IdentifierI, value: Record<T>): void
     remove(id: IdentifierI): void
@@ -32,7 +33,7 @@ class Storage implements StorageI {
         this.id = UID.factory(Storage.idName, `${domain}.storage`);
     }
 
-    private subject<T>(id: string) {
+    public subject<T>(id: string) {
         if(!this.storage.get(id)) {
             this.storage.set(id, new BehaviorSubject<Record<T>>(undefined))
         }
