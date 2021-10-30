@@ -5,6 +5,7 @@
     "module": "commonjs",
     "target": "esnext",
     "experimentalDecorators": true,
+    "esModuleInterop": true,
     "jsx": "react",
     "allowJs": true,
     "alwaysStrict": true,

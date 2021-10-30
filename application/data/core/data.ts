@@ -1,23 +1,23 @@
 import {Observable} from "rxjs";
 
 export interface DataI {
-    read<T>(...args: T[]): Observable<any>
-    create<T>(...args: T[]): Observable<any>
-    update<T>(...args: T[]): Observable<any>
-    delete<T>(...args: T[]): Observable<any>
+    read(...args: any[]): Observable<any>
+    create(...args: any[]): Observable<any>
+    update(...args: any[]): Observable<any>
+    delete(...args: any[]): Observable<any>
 }
 
 export abstract class Data implements DataI {
-    read<T>(...args: T[]): Observable<any> {
+    read(...args: any[]): Observable<any> {
         throw new Error('Method is not implemented');
     }
-    create<T>(...args: T[]): Observable<any> {
+    create(...args: any[]): Observable<any> {
         throw new Error('Method is not implemented');
     }
-    update<T>(...args: T[]): Observable<any> {
+    update(...args: any[]): Observable<any> {
         throw new Error('Method is not implemented');
     }
-    delete<T>(...args: T[]): Observable<any> {
+    delete(...args: any[]): Observable<any> {
         throw new Error('Method is not implemented');
     }
 }

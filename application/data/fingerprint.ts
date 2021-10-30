@@ -2,7 +2,8 @@ import {Observable} from "rxjs";
 
 import { Data } from "data/core/data";
 
-import type { FiltersProps } from "domains/test/entity";
+import type { FiltersProps, FingerprintType } from "domains/test/entity";
+
 type DataProps = {
     guid: string
     user: string
@@ -10,7 +11,7 @@ type DataProps = {
 }
 
 class FingerprintData extends Data {
-    read<FiltersProps>(filters: FiltersProps) {
+    read(filters: FiltersProps) {
         console.log('data filters', filters);
 
         return new Observable<DataProps>(observer => {
@@ -18,6 +19,18 @@ class FingerprintData extends Data {
                 guid: 'test',
                 user: 'user-1',
                 client: 'web_01'
+            });
+            observer.complete();
+        })
+    }
+
+    update(value: Partial<FingerprintType>) {
+        return new Observable<DataProps>(observer => {
+            observer.next({
+                guid: 'test',
+                user: 'user-1',
+                client: 'web_01',
+                ...value
             });
             observer.complete();
         })

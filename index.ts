@@ -10,9 +10,5 @@ entity.data().subscribe(it => {
     Application.shared().logger.debug('Record ID: %s, Value %s', entity.id.toString(), JSON.stringify(it));
 });
 
-entity.update({
-    guid: 'test',
-    user: 'user-2',
-    client: 'web_01'
-});
+entity.update({ user: 'user-2123' }).subscribe(() => ({}));
 

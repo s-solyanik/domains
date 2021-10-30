@@ -1,6 +1,6 @@
 import {defer, Observable, switchMap, zip, EMPTY, of, catchError} from "rxjs";
-import {take, map, tap, distinctUntilChanged} from "rxjs/operators";
-//import equal from 'fast-deep-equal';
+import {take, map, distinctUntilChanged} from "rxjs/operators";
+import equal from 'fast-deep-equal';
 
 import {IdentifierI} from "utils/unique-id";
 
@@ -57,8 +57,8 @@ class StateRecord<T> {
 
             return this.storage.read<T>(this.id);
         }).pipe(
-            map((it: Record<T>) => it.data)
-            //distinctUntilChanged(equal)
+            map((it: Record<T>) => it.data),
+            distinctUntilChanged(equal)
         );
     }
 

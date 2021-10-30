@@ -1,4 +1,4 @@
-import {Observable} from "rxjs";
+import {Observable, switchMap} from "rxjs";
 import {map, take, tap} from "rxjs/operators";
 
 import {IdentifierI} from "utils/unique-id";
@@ -15,6 +15,8 @@ export type FiltersProps = {
     page: number
     perPage: number
 }
+
+export type FingerprintType = FingerprintType;
 
 interface EntityTestI<T> {
     id: IdentifierI
@@ -51,18 +53,23 @@ class EntityTest implements EntityTestI<UserFingerprintEntity> {
         );
     }
 
-    public update(value: FingerprintType) {
-        this.record.data().pipe(
+    public update(value: Partial<FingerprintType>) {
+        return FingerprintData.facade.update(value).pipe(
             take(1),
-            tap(it => {
-                const entity = UserFingerprintEntity.factory({
-                    ...it.value.get(),
-                    ...value
-                });
-
+            switchMap((update) => {
+                return this.record.data().pipe(
+                    map(it => {
+                        return UserFingerprintEntity.factory({
+                            ...it.value.get(),
+                            ...update
+                        });
+                    })
+                )
+            }),
+            tap(entity => {
                 this.record.update(entity, TTL);
             }),
-        ).subscribe((it) => ({}));
+        )
     }
 }
 
