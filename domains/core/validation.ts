@@ -34,7 +34,7 @@ class ErrorMessage {
     readonly message: string;
 
     private constructor(name: string, message: string) {
-        this.id = UID.factory('ErrorId', name);
+        this.id = UID.factory(ErrorMessage.name, name);
         this.name = name;
         this.message = message;
     }

@@ -23,7 +23,7 @@ abstract class Entity<Props extends EntityLikeProps> implements EntityLike<Props
 
     protected constructor(props: Props) {
         if(!Entity.isEntityId(props.id)) {
-            throw new Error('Id is not an instance of EntityId');
+            throw new Error(`Id is not an instance of ${Entity.name}`);
         }
 
         this.props = Object.freeze(props);

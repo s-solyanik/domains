@@ -12,7 +12,6 @@ class Singleton {
     static shared = singleton((domain: string) => new Singleton(domain));
 
     private readonly domain: string;
-
     private readonly stateManager: StateManager;
 
     private constructor(domain: string) {
@@ -22,7 +21,7 @@ class Singleton {
 
     public entity<T>(id: IdentifierI, actualize: Actualize<T>) {
         if(!Entity.isEntityId(id)) {
-            throw new Error('Id is not an instance of EntityId');
+            throw new Error(`Id is not an instance of ${Entity.name}`);
         }
 
         return this.stateManager.createStateRecord<T>(id, actualize);
