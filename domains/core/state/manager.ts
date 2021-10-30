@@ -8,14 +8,13 @@ import type { Actualize } from "domains/core/state/record";
 import { StateRecord } from "domains/core/state/record";
 
 class StateManager {
-    static readonly idName = 'StateId';
     static readonly shared = singleton((domain: string) => new StateManager(domain));
 
-    readonly id: IdentifierI;
+    public readonly id: IdentifierI;
     private readonly storage: StorageI;
 
     private constructor(domain: string) {
-        this.id = UID.factory(StateManager.idName, `${domain}.state`);
+        this.id = UID.factory(StateManager.name, `${domain}.state`);
         this.storage = Storage.shared(domain);
     }
 

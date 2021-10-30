@@ -23,14 +23,13 @@ export interface StorageI {
 }
 
 class Storage implements StorageI {
-    static readonly idName = 'EntityId';
     static readonly shared = singleton((domain: string) => new Storage(domain));
 
     public readonly id: IdentifierI;
     private readonly storage = new Map<string, BehaviorSubject<Record<any>|undefined>>();
 
     private constructor(domain: string) {
-        this.id = UID.factory(Storage.idName, `${domain}.storage`);
+        this.id = UID.factory(Storage.name, `${domain}.storage`);
     }
 
     public subject<T>(id: string) {

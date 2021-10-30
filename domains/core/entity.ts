@@ -18,11 +18,7 @@ export interface AggregateFacade<T> {
     read(): Observable<{ data: T, expiration: number }>
 }
 
-const entityTestId = UID.factory('EntityId', 'test');
-
 abstract class Entity<Props extends EntityLikeProps> implements EntityLike<Props> {
-    private static idName = 'EntityId';
-
     protected readonly props: Props;
 
     protected constructor(props: Props) {
@@ -34,7 +30,7 @@ abstract class Entity<Props extends EntityLikeProps> implements EntityLike<Props
     }
 
     protected static createId(value: string|number): IdentifierI {
-        return UID.factory(Entity.idName, value);
+        return UID.factory(Entity.name, value);
     }
 
     public equals(object?: Entity<Props>): boolean {
@@ -62,13 +58,12 @@ abstract class Entity<Props extends EntityLikeProps> implements EntityLike<Props
         return this.props.value.get();
     }
 
-
     static id(...args: any[]): IdentifierI {
         throw new Error(`id getter method is not implemented ${args}`);
     }
 
     static isEntityId(id?: IdentifierI) {
-        return entityTestId.isInstanceOf(id);
+        return UID.factory(Entity.name, 'test').isInstanceOf(id);
     }
 
     static isEntity(v: any): v is Entity<any> {

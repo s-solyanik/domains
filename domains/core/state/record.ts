@@ -16,8 +16,9 @@ enum STATUS {
 
 class StateRecord<T> {
     public readonly id: IdentifierI;
-    private readonly state: Observable<T>;
+
     private readonly storage: StorageI;
+    private readonly state: Observable<T>;
     private status: STATUS = STATUS.INIT;
 
     constructor(id: IdentifierI, actualize: Actualize<T>, storage: StorageI) {
