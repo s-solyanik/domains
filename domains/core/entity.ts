@@ -21,12 +21,12 @@ export interface AggregateFacade<T> {
 const entityTestId = UID.factory('EntityId', 'test');
 
 abstract class Entity<Props extends EntityLikeProps> implements EntityLike<Props> {
-    static idName = 'EntityId';
+    private static idName = 'EntityId';
 
     protected readonly props: Props;
 
     protected constructor(props: Props) {
-        if(!entityTestId.isInstanceOf(props.id)) {
+        if(!Entity.isEntityId(props.id)) {
             throw new Error('Id is not an instance of EntityId');
         }
 
@@ -65,6 +65,10 @@ abstract class Entity<Props extends EntityLikeProps> implements EntityLike<Props
 
     static id(...args: any[]): IdentifierI {
         throw new Error(`id getter method is not implemented ${args}`);
+    }
+
+    static isEntityId(id?: IdentifierI) {
+        return entityTestId.isInstanceOf(id);
     }
 
     static isEntity(v: any): v is Entity<any> {
