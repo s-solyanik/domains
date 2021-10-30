@@ -1,4 +1,4 @@
-import {IdentifierI, UID} from "utils/unique-id";
+import type {IdentifierI} from "utils/unique-id";
 
 import { Entity } from 'domains/core/entity';
 

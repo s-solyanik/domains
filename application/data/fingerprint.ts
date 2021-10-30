@@ -4,14 +4,16 @@ import { Data } from "data/core/data";
 
 import type { FingerprintType } from "domains/test/fingerptint";
 
+const initial: FingerprintType = {
+    guid: 'test',
+    user: 'user-1',
+    client: 'web_01'
+};
+
 class FingerprintData extends Data {
     read() {
         return new Observable<FingerprintType>(observer => {
-            observer.next({
-                guid: 'test',
-                user: 'user-1',
-                client: 'web_01'
-            });
+            observer.next(initial);
             observer.complete();
         })
     }
@@ -19,9 +21,7 @@ class FingerprintData extends Data {
     update(value: Partial<FingerprintType>) {
         return new Observable<FingerprintType>(observer => {
             observer.next({
-                guid: 'test',
-                user: 'user-1',
-                client: 'web_01',
+                ...initial,
                 ...value
             });
             observer.complete();
