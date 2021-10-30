@@ -7,11 +7,7 @@ import type {StorageI} from "domains/core/storage";
 
 export type Actualize<T> = () => Observable<T>;
 
-export interface StateRecordI<T> {
-    update(id: IdentifierI, value: T): void
-}
-
-class StateRecord<T> implements StateRecordI<T> {
+class StateRecord<T> {
     public readonly id: IdentifierI;
     private readonly state:  Observable<T>;
     private readonly storage: StorageI;

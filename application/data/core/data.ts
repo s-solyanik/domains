@@ -8,16 +8,16 @@ export interface DataI {
 }
 
 export abstract class Data implements DataI {
-    read<T>(...args: T[]): T {
+    read<T>(...args: T[]): Observable<any> {
         throw new Error('Method is not implemented');
     }
-    create<T>(...args: T[]): T {
+    create<T>(...args: T[]): Observable<any> {
         throw new Error('Method is not implemented');
     }
-    update<T>(...args: T[]): T {
+    update<T>(...args: T[]): Observable<any> {
         throw new Error('Method is not implemented');
     }
-    delete<T>(...args: T[]): T {
+    delete<T>(...args: T[]): Observable<any> {
         throw new Error('Method is not implemented');
     }
 }

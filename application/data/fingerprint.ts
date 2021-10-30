@@ -10,7 +10,7 @@ type DataProps = {
 }
 
 class FingerprintData extends Data {
-    read(filters: FiltersProps) {
+    read<FiltersProps>(filters: FiltersProps) {
         console.log('data filters', filters);
 
         return new Observable<DataProps>(observer => {
