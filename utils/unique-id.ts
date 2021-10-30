@@ -3,6 +3,7 @@ export interface IdentifierI {
     equals(id?: IdentifierI): boolean
     toString(): string
     toValue(): string|number
+    isInstanceOf(id?: IdentifierI): boolean
 }
 
 interface UIDI {
@@ -17,7 +18,7 @@ class UID implements IdentifierI {
         this._value = value;
     }
 
-    equals(id?: IdentifierI): boolean {
+    public equals(id?: IdentifierI): boolean {
         if (id === null || id === undefined) {
             return false;
         }
@@ -29,16 +30,16 @@ class UID implements IdentifierI {
         return id.toValue() === this.toValue();
     }
 
-    toString() {
+    public toString() {
         const constructorName = this.constructor.name;
         return `${constructorName}(${String(this.toValue())})`;
     }
 
-    toValue(): string|number {
+    public toValue(): string|number {
         return this._value;
     }
 
-    isInstanceOf(id?: IdentifierI) {
+    public isInstanceOf(id?: IdentifierI) {
         if (id === null || id === undefined) {
             return false;
         }

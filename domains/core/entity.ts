@@ -4,7 +4,6 @@ import { UID } from 'utils/unique-id';
 
 import type { ValueObject } from 'domains/core/value-object';
 
-
 interface EntityLikeProps {
     id: IdentifierI
     readonly value: ValueObject<any>

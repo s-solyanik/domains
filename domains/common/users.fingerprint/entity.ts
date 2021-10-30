@@ -22,8 +22,8 @@ class UserFingerprintEntity extends Entity<UserFingerprintProps> {
         });
     }
 
-    static id(user: string) {
-        return UID.factory(UserFingerprintEntity.idName, `users.fingerprint.${user}`);
+    static id(id: string) {
+        return UID.factory(UserFingerprintEntity.idName, `users.fingerprint.${id}`);
     }
 
     static factory(props: FingerprintType) {
