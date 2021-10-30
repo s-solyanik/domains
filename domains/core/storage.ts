@@ -5,14 +5,19 @@ import type {IdentifierI} from "utils/unique-id";
 import {singleton} from "utils/singleton";
 import {UID} from "utils/unique-id";
 
+export type Record<T> = {
+    data: T
+    expiration: number
+}
+
 export interface StorageI {
     id: IdentifierI
-    read<T>(id: IdentifierI): Observable<T>
-    update<T>(id: IdentifierI, value: T): void
+    read<T>(id: IdentifierI): Observable<Record<T>>
+    update<T>(id: IdentifierI, value: Record<T>): void
     remove(id: IdentifierI): void
     clear(): void
     keys(): Observable<string[]>
-    values<T>(): Observable<T[]>
+    values<T>(): Observable<Record<T>[]>
     size(): Observable<number>
 }
 
@@ -21,7 +26,7 @@ class Storage implements StorageI {
     static readonly shared = singleton((domain: string) => new Storage(domain));
 
     public readonly id: IdentifierI;
-    private readonly storage = new Map<string, BehaviorSubject<any|undefined>>();
+    private readonly storage = new Map<string, BehaviorSubject<Record<any>|undefined>>();
 
     private constructor(domain: string) {
         this.id = UID.factory(Storage.idName, `${domain}.storage`);
@@ -29,13 +34,13 @@ class Storage implements StorageI {
 
     private subject<T>(id: string) {
         if(!this.storage.get(id)) {
-            this.storage.set(id, new BehaviorSubject<T>(undefined))
+            this.storage.set(id, new BehaviorSubject<Record<T>>(undefined))
         }
 
-        return this.storage.get(id) as BehaviorSubject<T>;
+        return this.storage.get(id) as BehaviorSubject<Record<T>>;
     }
 
-    public read<T>(id: IdentifierI): Observable<T> {
+    public read<T>(id: IdentifierI): Observable<Record<T>> {
         return this.subject<T>(id.toString()).pipe(
             switchMap(it => {
                 if (it === undefined) {
@@ -47,7 +52,7 @@ class Storage implements StorageI {
         )
     }
 
-    public update<T>(id: IdentifierI, value: T) {
+    public update<T>(id: IdentifierI, value: Record<T>) {
         this.subject<T>(id.toString()).next(value);
     }
 
@@ -71,11 +76,11 @@ class Storage implements StorageI {
     }
 
     public values() {
-        return new Observable<any[]>((observer) => {
+        return new Observable<Record<any>[]>((observer) => {
             zip([...this.storage.values()]).pipe(
                 take(1)
             ).subscribe(it => {
-                observer.next(it?.filter(value => value));
+                observer.next(it?.filter(record => record.data));
                 observer.complete();
             });
         });

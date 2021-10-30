@@ -18,7 +18,7 @@ export type FiltersProps = {
 
 interface EntityTestI<T> {
     id: IdentifierI
-    read(): Observable<UserFingerprintEntity>
+    read(): Observable<{ data: UserFingerprintEntity, expiration: number }>
 }
 
 class EntityTest implements EntityTestI<UserFingerprintEntity> {
@@ -32,9 +32,10 @@ class EntityTest implements EntityTestI<UserFingerprintEntity> {
 
     public read = () => {
         return FingerprintData.facade.read(this.filters).pipe(
-            map(it => {
-                return UserFingerprintEntity.factory(it)
-            })
+            map(it => ({
+                data: UserFingerprintEntity.factory(it),
+                expiration: 0
+            }))
         )
     }
 
@@ -44,7 +45,7 @@ class EntityTest implements EntityTestI<UserFingerprintEntity> {
 
     public data() {
         return this.record.data().pipe(
-            map(it => it.value.get())
+            map(it => it.data.value.get())
         );
     }
 
@@ -52,12 +53,13 @@ class EntityTest implements EntityTestI<UserFingerprintEntity> {
         this.record.data().pipe(
             take(1),
             tap(it => {
-                this.record.update(
-                    UserFingerprintEntity.factory({
-                        ...it.value.get(),
+                this.record.update({
+                    data: UserFingerprintEntity.factory({
+                        ...it.data.value.get(),
                         ...value
-                    })
-                )
+                    }),
+                    expiration: 0
+                })
             }),
         ).subscribe((it) => ({}));
     }

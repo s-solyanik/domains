@@ -1,15 +1,15 @@
 import {defer, Observable} from "rxjs";
-import {take} from "rxjs/operators";
+import {take, map} from "rxjs/operators";
 
 import {IdentifierI} from "utils/unique-id";
 
-import type {StorageI} from "domains/core/storage";
+import type {StorageI, Record} from "domains/core/storage";
 
-export type Actualize<T> = () => Observable<T>;
+export type Actualize<T> = () => Observable<Record<T>>;
 
 class StateRecord<T> {
     public readonly id: IdentifierI;
-    private readonly state:  Observable<T>;
+    private readonly state:  Observable<Record<T>>;
     private readonly storage: StorageI;
 
     constructor(id: IdentifierI, actualize: Actualize<T>, storage: StorageI) {
@@ -24,11 +24,27 @@ class StateRecord<T> {
         });
     }
 
-    public data(): Observable<T> {
+    private getDate = (): Observable<number> => {
+        return new Observable(it => {
+            it.next(Date.now());
+            it.complete();
+        });
+    };
+
+    private isExpired = (): Observable<boolean> => {
+        return this.storage.read(this.id).pipe(
+            take(1),
+            map(it => {
+                return it?.data !== undefined && it?.expiration <= Date.now()
+            })
+        )
+    };
+
+    public data(): Observable<Record<T>> {
         return this.state;
     }
 
-    public update(value: T) {
+    public update(value: Record<T>) {
         this.storage.update(this.id, value);
     }
 }
