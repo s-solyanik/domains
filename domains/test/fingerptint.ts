@@ -11,22 +11,14 @@ import { UserFingerprintEntity } from "domains/common/users.fingerprint";
 import { FingerprintData } from "data/fingerprint";
 import {singleton} from "utils/singleton";
 
-type FiltersProps = {
-    page: number
-    perPage: number
-}
-
 const TTL = 300;
 
 class UserFingerPrint {
-    static shared = singleton((id: string, filters: FiltersProps) => new UserFingerPrint(id, filters));
+    static shared = singleton((id: string) => new UserFingerPrint(id));
 
     public readonly id: IdentifierI;
-    private readonly filters: FiltersProps;
-
-    private constructor(id: string, filters: FiltersProps) {
+    private constructor(id: string) {
         this.id = UserFingerprintEntity.id(id);
-        this.filters = filters;
     }
 
     private get entity() {
@@ -34,7 +26,7 @@ class UserFingerPrint {
     }
 
     private read = () => {
-        return FingerprintData.facade.read(this.filters).pipe(
+        return FingerprintData.facade.read().pipe(
             map(it => ({
                 data: UserFingerprintEntity.factory(it),
                 expiration: TTL
@@ -52,12 +44,7 @@ class UserFingerPrint {
         return FingerprintData.facade.update(value).pipe(
             switchMap((update) => {
                 return this.entity.data().pipe(
-                    map(it => {
-                        return UserFingerprintEntity.factory({
-                            ...it.value.get(),
-                            ...update
-                        });
-                    })
+                    map((it) => it.update(update))
                 )
             }),
             tap(entity => this.entity.update(entity, TTL)),
@@ -65,5 +52,5 @@ class UserFingerPrint {
     }
 }
 
-export type { FingerprintType, FiltersProps };
+export type { FingerprintType };
 export { UserFingerPrint };
