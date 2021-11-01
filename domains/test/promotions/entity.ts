@@ -29,8 +29,8 @@ class PromotionCodesEntity implements EntityArrayI<PromotionCodeType> {
         this.filters = filters;
     }
 
-    public unitId(props: PromotionCodeType) {
-        return PromotionCodeEntity.id(`${props.id}`);
+    public unitId(id: number) {
+        return PromotionCodeEntity.id(`${id}`);
     }
 
     public read = () => {
@@ -53,7 +53,7 @@ class PromotionCodesEntity implements EntityArrayI<PromotionCodeType> {
 
     public delete(id: number) {
         return CodesData.facade.delete(id).pipe(
-            map(() => PromotionCodeEntity.id(`${id}`))
+            map(() => true)
         )
     }
 }

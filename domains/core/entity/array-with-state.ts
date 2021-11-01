@@ -16,12 +16,12 @@ export enum SORT {
 export interface EntityArrayI<T> {
     id: IdentifierI
     ttl: number
-    unitId(props: T): IdentifierI
+    unitId(id: string|number): IdentifierI
     read(): Observable<Entity<any>[]>
     sort?: SORT
     create?: (value: T) => Observable<Entity<any>>
     update?: (id: number|string, value: Partial<T>) => Observable<Entity<any>>
-    delete?: (id: number|string) => Observable<IdentifierI>
+    delete?: (id: number|string) => Observable<boolean>
 }
 
 class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
@@ -84,7 +84,9 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
             switchMap( (updatedEntity) => {
                 return this.items().pipe(
                     tap((items) => {
-                        const state = items.map(entity => entity.id.equals(updatedEntity.id) ? updatedEntity :  entity);
+                        const state = items.map(entity => {
+                            return this.entities.unitId(id).equals(updatedEntity.id) ? updatedEntity : entity
+                        });
                         this.state.update(state as EntityT, this.entities.ttl)
                     }),
                     map(() => true)
@@ -99,10 +101,10 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
         }
 
         return this.entities.delete(id).pipe(
-            switchMap( (it) => {
+            switchMap( () => {
                 return this.items().pipe(
                     tap((items) => {
-                        const state = items.filter(entity => !entity.id.equals(it));
+                        const state = items.filter(entity => !this.entities.unitId(id).equals(entity));
                         this.state.update(state as EntityT, this.entities.ttl)
                     }),
                     map(() => true)
