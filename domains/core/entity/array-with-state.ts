@@ -85,7 +85,7 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
                 return this.items().pipe(
                     tap((items) => {
                         const state = items.map(entity => {
-                            return this.entities.unitId(id).equals(updatedEntity.id) ? updatedEntity : entity
+                            return this.entities.unitId(id).equals(entity.id) ? updatedEntity : entity
                         });
                         this.state.update(state as EntityT, this.entities.ttl)
                     }),
@@ -103,9 +103,9 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
         return this.entities.delete(id).pipe(
             switchMap( () => {
                 return this.items().pipe(
-                    tap((items) => {
-                        const state = items.filter(entity => !this.entities.unitId(id).equals(entity));
-                        this.state.update(state as EntityT, this.entities.ttl)
+                    tap((items: EntityT) => {
+                        const state = items.filter(entity => !this.entities.unitId(id).equals(entity.id));
+                        this.state.update(state as EntityT, this.entities.ttl);
                     }),
                     map(() => true)
                 );
