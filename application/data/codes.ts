@@ -6,7 +6,7 @@ import {singleton} from "utils/singleton";
 
 export const CODES_TEMP: PromotionCodeType = {
     id: 0,
-    promoCode: 'CODE',
+    promoCode: '0',
     startDate: new Date(),
     expiration: new Date(),
     amount: 123,
@@ -52,7 +52,7 @@ class CodesData extends Data {
     }
 
     update(id: number, value: Partial<any>) {
-        return new Observable<any>(observer => {
+        return new Observable<PromotionCodeType>(observer => {
             observer.next({
                 ...CODES_TEMP,
                 ...value
@@ -62,7 +62,7 @@ class CodesData extends Data {
     }
 
     delete(id: number) {
-        return new Observable<any>(observer => {
+        return new Observable<boolean>(observer => {
             observer.next(true);
             observer.complete();
         })

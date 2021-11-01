@@ -24,7 +24,9 @@ codes.create({
     promoCode: "2"
 }).subscribe()
 
-codes.update(0, {
+codes.update(1, {
     ...CODES_TEMP,
     promoCode: "0 Updated"
 }).subscribe()
+
+codes.delete(1).subscribe()
