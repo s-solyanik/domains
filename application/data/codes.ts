@@ -2,6 +2,7 @@ import {Observable} from "rxjs";
 
 import { Data } from "data/core/data";
 import type { FiltersProps, PromotionCodeType } from "domains/test/promotions/entity";
+import {singleton} from "utils/singleton";
 
 export const CODES_TEMP: PromotionCodeType = {
     id: 0,
@@ -17,6 +18,8 @@ export const CODES_TEMP: PromotionCodeType = {
 };
 
 class CodesData extends Data {
+    static shared = singleton(() => new CodesData());
+
     private readonly ids = [0];
     private readonly codes: PromotionCodeType[] = [];
 
@@ -37,13 +40,12 @@ class CodesData extends Data {
 
     create(value: PromotionCodeType) {
         return new Observable<PromotionCodeType>(observer => {
-            const id = this.ids.length;
-            this.ids.push(id);
+            this.ids.push(this.ids.length);
 
             observer.next({
                 ...CODES_TEMP,
                 ...value,
-                id: id
+                id: this.ids.length - 1
             });
             observer.complete();
         })
@@ -67,7 +69,7 @@ class CodesData extends Data {
     }
 
     static get facade() {
-        return new CodesData();
+        return CodesData.shared();
     }
 }
 

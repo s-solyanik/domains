@@ -16,10 +16,15 @@ codes.data().subscribe(it => {
 
 codes.create({
     ...CODES_TEMP,
-    promoCode: "NEW CODE added code"
+    promoCode: "1"
+}).subscribe()
+
+codes.create({
+    ...CODES_TEMP,
+    promoCode: "2"
 }).subscribe()
 
 codes.update(0, {
     ...CODES_TEMP,
-    promoCode: "CODE Updated"
+    promoCode: "0 Updated"
 }).subscribe()
