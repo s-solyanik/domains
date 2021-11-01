@@ -12,7 +12,11 @@ interface PromotionCodeProps {
 
 class PromotionCodeEntity extends Entity<PromotionCodeProps> {
     public get() {
-        return this.value.get();
+        return this.props.value.get();
+    }
+
+    public errors() {
+        return this.props.value.errors();
     }
 
     static getAlaCateProducts() {
@@ -21,12 +25,12 @@ class PromotionCodeEntity extends Entity<PromotionCodeProps> {
 
     public update(props: Partial<PromotionCodeType>) {
         const entity = PromotionCodeEntity.factory({
-            ...this.value.get(),
+            ...this.props.value.get(),
             ...props
         });
 
-        if(entity.value.errors().length) {
-            return entity.value.errors();
+        if(entity.errors().length) {
+            return entity.errors();
         }
 
         return entity;

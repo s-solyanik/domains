@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import { Data } from "data/core/data";
 import type { FiltersProps, PromotionCodeType } from "domains/test/promotions/entity";
 
-const code: PromotionCodeType = {
+export const CODES_TEMP: PromotionCodeType = {
     id: 0,
     promoCode: 'CODE',
     startDate: new Date(),
@@ -16,25 +16,34 @@ const code: PromotionCodeType = {
     description: 'description'
 };
 
-const CODES = [code].map(code => ({
-    ...code,
-    id: Math.floor(Math.random() * 100)
-}))
-
 class CodesData extends Data {
+    private readonly ids = [0];
+    private readonly codes: PromotionCodeType[] = [];
+
+    constructor() {
+        super();
+        this.codes = this.ids.map((id, index) => ({
+            ...CODES_TEMP,
+            id: id
+        }))
+    }
+
     read(filters: FiltersProps) {
         return new Observable<PromotionCodeType[]>(observer => {
-            observer.next(CODES);
+            observer.next(this.codes);
             observer.complete();
         })
     }
 
     create(value: PromotionCodeType) {
         return new Observable<PromotionCodeType>(observer => {
+            const id = this.ids.length + 1;
+            this.ids.push(id);
+
             observer.next({
-                ...code,
+                ...CODES_TEMP,
                 ...value,
-                id: Math.floor(Math.random() * 100)
+                id: id
             });
             observer.complete();
         })
@@ -43,9 +52,8 @@ class CodesData extends Data {
     update(id: number, value: Partial<any>) {
         return new Observable<any>(observer => {
             observer.next({
-                ...code,
-                ...value,
-                id: Math.floor(Math.random() * 100)
+                ...CODES_TEMP,
+                ...value
             });
             observer.complete();
         })

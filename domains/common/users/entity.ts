@@ -18,7 +18,7 @@ class UserEntity extends Entity<UserProps> {
     ];
 
     public get() {
-        return this.value.get();
+        return this.props.value.get();
     }
 
     public update(value: Partial<UserType>) {

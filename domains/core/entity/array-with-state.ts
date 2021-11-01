@@ -1,5 +1,5 @@
-import { Observable } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { Observable, switchMap } from "rxjs";
+import { map, tap, take } from "rxjs/operators";
 
 import type { StateRecord } from "domains/core/state/record";
 import { Entity } from "domains/core/entity/index";
@@ -10,11 +10,11 @@ import {IdentifierI} from "utils/unique-id";
 export interface EntityArrayI<T> {
     id: IdentifierI
     ttl: number
-    byId(props: T): IdentifierI
+    unitId(props: T): IdentifierI
     read(): Observable<Entity<any>[]>
     create?: (value: T) => Observable<Entity<any>>
-    update?: (value: Partial<T>) => Observable<Entity<any>>
-    delete?: (id: number|string) => Observable<boolean>
+    update?: (id: number|string, value: Partial<T>) => Observable<Entity<any>>
+    delete?: (id: number|string) => Observable<IdentifierI>
 }
 
 class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
@@ -24,6 +24,11 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
     constructor(entities: EntityArrayI<ValueT>) {
         this.entities = entities;
         this.state = Domains.shared().state<EntityT>(this.entities.id, this.read);
+    }
+
+    //TODO create safe get for state which will work without actualize request
+    private items() {
+        return this.state.data().pipe(take(1));
     }
 
     private read = () => {
@@ -41,7 +46,7 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
 
     public data(): Observable<ValueT[]> {
         return this.state.data().pipe(
-            map(it => it.map(entity => entity.value.get()))
+            map(it => it.map(entity => entity.get()))
         );
     }
 
@@ -51,23 +56,32 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
         }
 
         return this.entities.create(value).pipe(
-            tap((it) => {
-                this.state.update([it] as EntityT, this.entities.ttl)
-            }),
-            map(() => true)
+            switchMap( (it) => {
+                return this.items().pipe(
+                    tap((items) => {
+                        this.state.update([it, ...items] as EntityT, this.entities.ttl)
+                    }),
+                    map(() => true)
+                );
+            })
         )
     }
 
-    public update(value: Partial<ValueT>) {
+    public update(id: number|string, value: Partial<ValueT>) {
         if(!this.entities.update) {
             throw new Error('Method is not implemented');
         }
 
-        return this.entities.update(value).pipe(
-            tap((it) => {
-                this.state.update([it] as EntityT, this.entities.ttl)
-            }),
-            map(() => true)
+        return this.entities.update(id, value).pipe(
+            switchMap( (updatedEntity) => {
+                return this.items().pipe(
+                    tap((items) => {
+                        const state = items.map(entity => entity.id.equals(updatedEntity.id) ? updatedEntity :  entity);
+                        this.state.update(state as EntityT, this.entities.ttl)
+                    }),
+                    map(() => true)
+                );
+            })
         )
     }
 
@@ -77,10 +91,15 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
         }
 
         return this.entities.delete(id).pipe(
-            tap(() => {
-                this.state.delete()
-            }),
-            map(() => true)
+            switchMap( (it) => {
+                return this.items().pipe(
+                    tap((items) => {
+                        const state = items.filter(entity => !entity.id.equals(it));
+                        this.state.update(state as EntityT, this.entities.ttl)
+                    }),
+                    map(() => true)
+                );
+            })
         )
     }
 }

@@ -40,7 +40,7 @@ class EntityWithState<EntityT extends Entity<any>, ValueT> {
 
     public data(): Observable<ValueT> {
         return this.state.data().pipe(
-            map(it => it.value.get())
+            map(it => it.get())
         );
     }
 

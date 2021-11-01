@@ -12,7 +12,7 @@ interface UserFingerprintProps {
 
 class UserFingerprintEntity extends Entity<UserFingerprintProps> {
     public get() {
-        return this.value.get();
+        return this.props.value.get();
     }
 
     public update(value: Partial<FingerprintType>) {

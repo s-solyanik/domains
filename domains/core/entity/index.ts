@@ -45,8 +45,12 @@ abstract class Entity<Props extends EntityLikeProps> implements EntityLike<Props
         return this.props.id.equals(object.props.id);
     }
 
-    public get value(): Pick<Props, 'value'>['value'] {
-        return this.props.value;
+    public get id() {
+        return this.props.id;
+    }
+
+    public get(): any {
+        throw new Error(`Get method is not implemented ${this.props.id.toString()}`);
     }
 
     public get snapshot() {
