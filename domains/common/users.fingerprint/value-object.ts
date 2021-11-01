@@ -1,4 +1,4 @@
-import { ValueObject } from 'domains/core/value-object';
+import { ValueObject } from 'domains/core/entity/value-object';
 
 import type { FingerprintType } from 'domains/common/users.fingerprint/type';
 

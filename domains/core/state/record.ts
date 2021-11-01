@@ -2,17 +2,16 @@ import {defer, Observable, switchMap, zip, EMPTY, of, catchError} from "rxjs";
 import {take, map, distinctUntilChanged} from "rxjs/operators";
 import equal from 'fast-deep-equal';
 
-import {IdentifierI} from "utils/unique-id";
-
+import type {IdentifierI} from "utils/unique-id";
 import type {StorageI, Record} from "domains/core/storage";
-
-export type Actualize<T> = () => Observable<Record<T>>;
 
 enum STATUS {
     INIT = 'init',
     PENDING = 'pending',
     SUCCESS = 'success'
 }
+
+type Actualize<T> = () => Observable<Record<T>>;
 
 class StateRecord<T> {
     public readonly id: IdentifierI;
@@ -96,6 +95,11 @@ class StateRecord<T> {
             expiration: ttl
         });
     }
+
+    public delete() {
+        this.storage.remove(this.id);
+    }
 }
 
+export type { Actualize };
 export { StateRecord };

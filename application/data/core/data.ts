@@ -1,4 +1,4 @@
-import {Observable} from "rxjs";
+import { Observable } from "rxjs";
 
 export interface DataI {
     read(...args: any[]): Observable<any>
@@ -7,7 +7,7 @@ export interface DataI {
     delete(...args: any[]): Observable<any>
 }
 
-export abstract class Data implements DataI {
+abstract class Data implements DataI {
     read(...args: any[]): Observable<any> {
         throw new Error('Method is not implemented');
     }
@@ -21,3 +21,5 @@ export abstract class Data implements DataI {
         throw new Error('Method is not implemented');
     }
 }
+
+export { Data };

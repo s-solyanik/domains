@@ -1,4 +1,4 @@
-import { ValueObject } from 'domains/core/value-object';
+import { ValueObject } from 'domains/core/entity/value-object';
 import { Validation } from 'domains/core/validation';
 
 import type { PromotionCodeType, AlaCateProducts } from 'domains/common/promotions.code/type';

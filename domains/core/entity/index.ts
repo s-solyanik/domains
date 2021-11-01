@@ -2,7 +2,7 @@ import { Observable } from "rxjs";
 import type {IdentifierI} from "utils/unique-id";
 import { UID } from 'utils/unique-id';
 
-import type { ValueObject } from 'domains/core/value-object';
+import type { ValueObject } from 'domains/core/entity/value-object';
 
 interface EntityLikeProps {
     id: IdentifierI
@@ -11,11 +11,6 @@ interface EntityLikeProps {
 
 interface EntityLike<Props extends EntityLikeProps> {
     equals(object?: EntityLike<Props>): boolean
-}
-
-export interface AggregateFacade<T> {
-    id: IdentifierI
-    read(): Observable<{ data: T, expiration: number }>
 }
 
 abstract class Entity<Props extends EntityLikeProps> implements EntityLike<Props> {

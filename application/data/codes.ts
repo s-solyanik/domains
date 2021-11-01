@@ -1,7 +1,7 @@
 import {Observable} from "rxjs";
 
 import { Data } from "data/core/data";
-import type { FiltersProps, PromotionCodeType } from "domains/test/promotions/codes";
+import type { FiltersProps, PromotionCodeType } from "domains/test/promotions/entity";
 
 const code: PromotionCodeType = {
     id: 0,

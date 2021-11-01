@@ -2,7 +2,7 @@ import {Observable} from "rxjs";
 
 import { Data } from "data/core/data";
 
-import type { FingerprintType } from "domains/test/fingerptint";
+import type { FingerprintType } from "domains/test/fingerprint/entity";
 
 const initial: FingerprintType = {
     guid: 'test',

@@ -1,11 +1,12 @@
-import {IdentifierI, UID} from "utils/unique-id";
-import {singleton} from "utils/singleton";
+import type { IdentifierI } from "utils/unique-id";
+import { UID } from "utils/unique-id";
+import { singleton } from "utils/singleton";
 
 import type { StorageI } from "domains/core/storage";
 import { Storage } from "domains/core/storage";
 
-import type { Actualize } from "domains/core/state/record";
 import { StateRecord } from "domains/core/state/record";
+import type { Actualize } from "domains/core/state/record";
 
 class StateManager {
     static readonly shared = singleton((domain: string) => new StateManager(domain));

@@ -1,5 +1,4 @@
 import type { IdentifierI } from 'utils/unique-id';
-import { UID } from 'utils/unique-id';
 
 import { Entity } from 'domains/core/entity';
 
