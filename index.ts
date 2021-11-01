@@ -14,7 +14,12 @@ codes.data().subscribe(it => {
     Application.shared().logger.debug('Id %s value %s', codes.id.toString(), JSON.stringify(it))
 })
 
+codes.create({
+    ...CODES_TEMP,
+    promoCode: "NEW CODE added code"
+}).subscribe()
+
 codes.update(0, {
     ...CODES_TEMP,
-    promoCode: "NEW CODE Updates"
+    promoCode: "CODE Updated"
 }).subscribe()

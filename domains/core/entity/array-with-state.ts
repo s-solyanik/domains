@@ -1,17 +1,24 @@
 import { Observable, switchMap } from "rxjs";
 import { map, tap, take } from "rxjs/operators";
 
+import type { IdentifierI } from "utils/unique-id";
+
 import type { StateRecord } from "domains/core/state/record";
 import { Entity } from "domains/core/entity/index";
 
 import { Domains } from "domains/core/domains/application";
-import {IdentifierI} from "utils/unique-id";
+
+export enum SORT {
+    ASC,
+    DESC
+}
 
 export interface EntityArrayI<T> {
     id: IdentifierI
     ttl: number
     unitId(props: T): IdentifierI
     read(): Observable<Entity<any>[]>
+    sort?: SORT
     create?: (value: T) => Observable<Entity<any>>
     update?: (id: number|string, value: Partial<T>) => Observable<Entity<any>>
     delete?: (id: number|string) => Observable<IdentifierI>
@@ -19,16 +26,16 @@ export interface EntityArrayI<T> {
 
 class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
     private readonly entities: EntityArrayI<ValueT>;
-    private readonly state: StateRecord<EntityT>
+    private readonly state: StateRecord<EntityT>;
 
     constructor(entities: EntityArrayI<ValueT>) {
         this.entities = entities;
         this.state = Domains.shared().state<EntityT>(this.entities.id, this.read);
     }
 
-    //TODO create safe get for state which will work without actualize request
+    //TODO create safe get for origin state which will work without actualize request
     private items() {
-        return this.state.data().pipe(take(1));
+        return this.state.origin([]).pipe(take(1));
     }
 
     private read = () => {
@@ -59,7 +66,8 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
             switchMap( (it) => {
                 return this.items().pipe(
                     tap((items) => {
-                        this.state.update([it, ...items] as EntityT, this.entities.ttl)
+                        const state = this.entities.sort === SORT.ASC ? [it, ...items] : items.concat(it);
+                        this.state.update(state as EntityT, this.entities.ttl)
                     }),
                     map(() => true)
                 );

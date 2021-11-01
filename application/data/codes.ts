@@ -37,7 +37,7 @@ class CodesData extends Data {
 
     create(value: PromotionCodeType) {
         return new Observable<PromotionCodeType>(observer => {
-            const id = this.ids.length + 1;
+            const id = this.ids.length;
             this.ids.push(id);
 
             observer.next({

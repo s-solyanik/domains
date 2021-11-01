@@ -3,6 +3,7 @@ import { map } from "rxjs/operators";
 import type { IdentifierI } from "utils/unique-id";
 
 import type { EntityArrayI } from "domains/core/entity/array-with-state";
+import { SORT } from "domains/core/entity/array-with-state";
 
 import type { PromotionCodeType } from "domains/common/promotions.code";
 import { PromotionCodeEntity } from "domains/common/promotions.code";
@@ -18,6 +19,7 @@ type FiltersProps = {
 
 class PromotionCodesEntity implements EntityArrayI<PromotionCodeType> {
     public readonly ttl = 300;
+    public readonly sort = SORT.ASC;
 
     public readonly id: IdentifierI;
     private readonly filters: FiltersProps;

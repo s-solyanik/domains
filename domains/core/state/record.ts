@@ -85,6 +85,18 @@ class StateRecord<T> {
         });
     };
 
+    public origin<T>(empty: T) {
+        return this.storage.subject<T>(this.id.toString()).pipe(
+            map(it => {
+                if(!it) {
+                    return empty;
+                }
+
+                return it.data as T;
+            })
+        );
+    }
+
     public data(): Observable<T> {
         return this.state;
     }
