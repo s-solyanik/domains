@@ -1,6 +1,6 @@
 import {map} from "rxjs/operators";
 
-import {Result} from "utils/result/dto";
+import { Result } from "utils/result/dto";
 
 import type {IdentifierI} from "utils/unique-id";
 
