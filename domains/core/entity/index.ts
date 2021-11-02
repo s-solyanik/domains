@@ -1,5 +1,4 @@
-import { Observable } from "rxjs";
-import type {IdentifierI} from "utils/unique-id";
+import type { IdentifierI } from "utils/unique-id";
 import { UID } from 'utils/unique-id';
 
 import type { ValueObject } from 'domains/core/entity/value-object';
