@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import { Data } from "data/core/data";
 
 import type { FingerprintType } from "domains/test/fingerprint/entity";
+import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 
 const initial: FingerprintType = {
     guid: 'test',
@@ -12,18 +13,20 @@ const initial: FingerprintType = {
 
 class FingerprintData extends Data {
     read() {
-        return new Observable<FingerprintType>(observer => {
-            observer.next(initial);
+        return new Observable<Result<FingerprintType, FAILURE_MESSAGE>>(observer => {
+            observer.next(Result.success(initial));
             observer.complete();
         })
     }
 
     update(value: Partial<FingerprintType>) {
-        return new Observable<FingerprintType>(observer => {
-            observer.next({
-                ...initial,
-                ...value
-            });
+        return new Observable<Result<FingerprintType, FAILURE_MESSAGE>>(observer => {
+            observer.next(
+                Result.success({
+                    ...initial,
+                    ...value
+                })
+            );
             observer.complete();
         })
     }

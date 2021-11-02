@@ -1,5 +1,6 @@
 import { map } from "rxjs/operators";
 
+import {Result} from "utils/result/dto";
 import type { IdentifierI } from "utils/unique-id";
 
 import type { EntityArrayI } from "domains/core/entity/array-with-state";
@@ -35,25 +36,49 @@ class PromotionCodesEntity implements EntityArrayI<PromotionCodeType> {
 
     public read = () => {
         return CodesData.facade.read(this.filters).pipe(
-            map(it => it.map(PromotionCodeEntity.factory))
+            map(it => {
+                if(!it.isSuccessful) {
+                    return Result.failure(it.error);
+                }
+
+                return Result.success(it.value.map(PromotionCodeEntity.factory))
+            })
         )
     }
 
     public create(value: PromotionCodeType) {
         return CodesData.facade.create(value).pipe(
-            map((it) => PromotionCodeEntity.factory(it)),
+            map(it => {
+                if(!it.isSuccessful) {
+                    return Result.failure(it.error);
+                }
+
+                return Result.success(PromotionCodeEntity.factory(it.value))
+            })
         )
     }
 
     public update(id: number, value: Partial<PromotionCodeType>) {
         return CodesData.facade.update(id, value).pipe(
-            map((it) => PromotionCodeEntity.factory(it)),
+            map(it => {
+                if(!it.isSuccessful) {
+                    return Result.failure(it.error);
+                }
+
+                return Result.success(PromotionCodeEntity.factory(it.value))
+            })
         )
     }
 
     public delete(id: number) {
         return CodesData.facade.delete(id).pipe(
-            map(() => true)
+            map(it => {
+                if(!it.isSuccessful) {
+                    return Result.failure(it.error);
+                }
+
+                return Result.success(true);
+            })
         )
     }
 }

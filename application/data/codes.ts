@@ -1,8 +1,10 @@
 import {Observable} from "rxjs";
 
+import {FAILURE_MESSAGE, Result} from "utils/result/dto";
+import {singleton} from "utils/singleton";
+
 import { Data } from "data/core/data";
 import type { FiltersProps, PromotionCodeType } from "domains/test/promotions/entity";
-import {singleton} from "utils/singleton";
 
 export const CODES_TEMP: PromotionCodeType = {
     id: 0,
@@ -32,38 +34,42 @@ class CodesData extends Data {
     }
 
     read(filters: FiltersProps) {
-        return new Observable<PromotionCodeType[]>(observer => {
-            observer.next(this.codes);
+        return new Observable<Result<PromotionCodeType[], FAILURE_MESSAGE>>(observer => {
+            observer.next(Result.success(this.codes));
             observer.complete();
         })
     }
 
     create(value: PromotionCodeType) {
-        return new Observable<PromotionCodeType>(observer => {
+        return new Observable<Result<PromotionCodeType, FAILURE_MESSAGE>>(observer => {
             this.ids.push(this.ids.length);
 
-            observer.next({
-                ...CODES_TEMP,
-                ...value,
-                id: this.ids.length - 1
-            });
+            observer.next(
+                Result.success({
+                    ...CODES_TEMP,
+                    ...value,
+                    id: this.ids.length - 1
+                })
+            );
             observer.complete();
         })
     }
 
     update(id: number, value: Partial<any>) {
-        return new Observable<PromotionCodeType>(observer => {
-            observer.next({
-                ...CODES_TEMP,
-                ...value
-            });
+        return new Observable<Result<PromotionCodeType, FAILURE_MESSAGE>>(observer => {
+            observer.next(
+                Result.success({
+                    ...CODES_TEMP,
+                    ...value
+                })
+            );
             observer.complete();
         })
     }
 
     delete(id: number) {
-        return new Observable<boolean>(observer => {
-            observer.next(true);
+        return new Observable<Result<boolean, FAILURE_MESSAGE>>(observer => {
+            observer.next(Result.success(true));
             observer.complete();
         })
     }

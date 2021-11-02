@@ -1,7 +1,7 @@
-import {IdentifierI, UID} from "utils/unique-id";
-import {singleton} from "utils/singleton";
-import type {LoggerI} from "utils/logger";
-import {LOG_LEVELS, Logger} from "utils/logger";
+import { UID } from "utils/unique-id";
+import { singleton } from "utils/singleton";
+import type { LoggerI } from "utils/logger";
+import { LOG_LEVELS, Logger } from "utils/logger";
 
 const PRODUCT = 'web-app';
 const loggerId = `application.logger.${PRODUCT}`;

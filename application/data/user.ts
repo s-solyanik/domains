@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import { Data } from "data/core/data";
 
 import type { UserType } from "domains/test/users/entity";
+import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 
 const initial: UserType = {
     identifier: 'U.as123123213masdsa-asdqwe12-213',
@@ -18,18 +19,20 @@ const initial: UserType = {
 
 class UserData extends Data {
     read() {
-        return new Observable<UserType>(observer => {
-            observer.next(initial);
+        return new Observable<Result<UserType, FAILURE_MESSAGE>>(observer => {
+            observer.next(Result.success(initial));
             observer.complete();
         })
     }
 
     update(id: string, value: Partial<UserType>) {
-        return new Observable<UserType>(observer => {
-            observer.next({
-                ...initial,
-                ...value
-            });
+        return new Observable<Result<UserType, FAILURE_MESSAGE>>(observer => {
+            observer.next(
+                Result.success({
+                    ...initial,
+                    ...value
+                })
+            );
             observer.complete();
         })
     }
