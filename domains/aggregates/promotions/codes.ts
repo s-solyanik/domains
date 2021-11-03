@@ -26,7 +26,7 @@ class PromotionCodesAggregate {
     private readonly filters: FiltersProps;
     private readonly todo: ToDoList<PromotionCodeEntity>;
 
-    constructor(filters: FiltersProps) {
+    private constructor(filters: FiltersProps) {
         this.id = PromotionCodeEntity.id('list');
         this.filters = filters;
         this.todo = new ToDoList<PromotionCodeEntity>(this.id, this.read, 300);

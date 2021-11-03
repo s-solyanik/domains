@@ -29,7 +29,7 @@ class PromotionAdsAggregate {
     private readonly filters: FiltersProps;
     private readonly todo: ToDoList<AdsEntity>;
 
-    constructor(filters: FiltersProps) {
+    private constructor(filters: FiltersProps) {
         this.id = AdsEntity.id('list');
         this.filters = filters;
         this.todo = new ToDoList<AdsEntity>(this.id, this.read, 300);

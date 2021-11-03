@@ -1,5 +1,5 @@
-import {Observable, switchMap} from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { map, tap, switchMap } from "rxjs/operators";
 
 import type { IdentifierI } from "utils/unique-id";
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
@@ -11,39 +11,28 @@ import { Domains } from "domains/core/domains/application";
 
 type ResultWrapper<T> = Result<T, FAILURE_MESSAGE>;
 
-export interface EntityI<EntityType extends Entity<any>, ObjectValueType> {
-    id: IdentifierI
-    ttl: number
-    read(): Observable<ResultWrapper<EntityType>>
-    create?: (value: ObjectValueType) => Observable<ResultWrapper<EntityType>>
-    update?: (value: Partial<ObjectValueType>) => Observable<ResultWrapper<EntityType>>
-    delete?: (id: number|string) => Observable<Result<boolean, FAILURE_MESSAGE>>
-}
+class EntityState<EntityType extends Entity<any>, ObjectValueType extends any> {
+    private readonly ttl: number;
+    private readonly record: StateRecord<ResultWrapper<EntityType>>
 
-class EntityWithState<EntityType extends Entity<any>, ObjectValueType> {
-    private readonly entity: EntityI<EntityType, ObjectValueType>;
-    private readonly state: StateRecord<ResultWrapper<EntityType>>
-
-    constructor(entity: EntityI<EntityType, ObjectValueType>) {
-        this.entity = entity;
-        this.state = Domains.shared().state(this.entity.id, this.read);
-    }
-
-    private read = () => {
-        return this.entity.read().pipe(
-            map(it => ({
-                data: it.isSuccessful ? Result.success(it.value) : Result.failure(it.error),
-                expiration: this.entity.ttl
-            }))
-        )
-    }
-
-    public get id() {
-        return this.entity.id;
+    constructor(
+        id: IdentifierI,
+        actualize: () => Observable<ResultWrapper<EntityType>>,
+        ttl= 0
+    ) {
+        this.ttl = ttl;
+        this.record = Domains.shared().state(id, () => {
+            return actualize().pipe(
+                map(it => ({
+                    data: it.isSuccessful ? Result.success(it.value) : Result.failure(it.error),
+                    expiration: this.ttl
+                }))
+            )
+        });
     }
 
     public data(): Observable<ResultWrapper<ObjectValueType>> {
-        return this.state.data().pipe(
+        return this.record.data().pipe(
             map(it => {
                 if(!it.isSuccessful) {
                     return Result.failure(it.error);
@@ -54,53 +43,29 @@ class EntityWithState<EntityType extends Entity<any>, ObjectValueType> {
         );
     }
 
-    public create(value: ObjectValueType) {
-        if(!this.entity.create) {
-            throw new Error('Method is not implemented');
-        }
-
-        return this.entity.create(value).pipe(
+    public update = (updated: ResultWrapper<EntityType>) => {
+        return of(updated).pipe(
             tap((it) => {
                 if(!it.isSuccessful) {
                     return;
                 }
-                this.state.update(Result.success(it.value), this.entity.ttl)
+                this.record.update(Result.success(it.value), this.ttl);
             }),
             switchMap(EntityResult.errorOrSuccess)
         )
     }
 
-    public update(value: Partial<ObjectValueType>) {
-        if(!this.entity.update) {
-            throw new Error('Method is not implemented');
-        }
-
-        return this.entity.update(value).pipe(
+    public delete = (it: ResultWrapper<boolean>) => {
+        return of(it).pipe(
             tap((it) => {
                 if(!it.isSuccessful) {
                     return;
                 }
-                this.state.update(Result.success(it.value), this.entity.ttl);
-            }),
-            switchMap(EntityResult.errorOrSuccess)
-        )
-    }
-
-    public delete(id: number|string) {
-        if(!this.entity.delete) {
-            throw new Error('Method is not implemented');
-        }
-
-        return this.entity.delete(id).pipe(
-            tap((it) => {
-                if(!it.isSuccessful) {
-                    return;
-                }
-                this.state.delete();
+                this.record.delete();
             }),
             switchMap(EntityResult.errorOrSuccess)
         )
     }
 }
 
-export { EntityWithState };
+export { EntityState };

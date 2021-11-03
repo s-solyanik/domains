@@ -4,27 +4,25 @@ import type { IdentifierI } from "utils/unique-id";
 import { singleton } from "utils/singleton";
 
 import { EntityResult } from "domains/core/entity/result";
-import type { EntityI } from "domains/core/entity/with-state";
-import { EntityWithState } from "domains/core/entity/with-state";
+import { EntityState } from "domains/core/entity/with-state";
 
 import type { FingerprintType } from "domains/entities/users.fingerprint";
 import { UserFingerprintEntity } from "domains/entities/users.fingerprint";
 
 import { FingerprintData } from "data/fingerprint";
 
-class UserFingerPrintAggregate implements EntityI<UserFingerprintEntity, FingerprintType> {
-    static shared = singleton((id: string) => {
-        return new EntityWithState<UserFingerprintEntity, FingerprintType>(new UserFingerPrintAggregate(id))
-    })
+class UserFingerPrintAggregate {
+    static shared = singleton((id: string) => new UserFingerPrintAggregate(id));
 
     public readonly id: IdentifierI;
-    public readonly ttl = 300;
+    private readonly state: EntityState<UserFingerprintEntity, FingerprintType>;
 
-    constructor(id: string) {
+    private constructor(id: string) {
         this.id = UserFingerprintEntity.id(id);
+        this.state = new EntityState<UserFingerprintEntity, FingerprintType>(this.id, this.read, 300);
     }
 
-    public read = () => {
+    private read = () => {
         return FingerprintData.facade.read().pipe(
             switchMap(it => EntityResult.unit(UserFingerprintEntity.factory, it))
         )
@@ -32,8 +30,13 @@ class UserFingerPrintAggregate implements EntityI<UserFingerprintEntity, Fingerp
 
     public update(value: Partial<FingerprintType>) {
         return FingerprintData.facade.update(value).pipe(
-            switchMap(it => EntityResult.unit(UserFingerprintEntity.factory, it))
+            switchMap(it => EntityResult.unit(UserFingerprintEntity.factory, it)),
+            switchMap(this.state.update)
         )
+    }
+
+    public data() {
+        return this.state.data();
     }
 }
 
