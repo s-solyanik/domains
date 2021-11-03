@@ -1,16 +1,22 @@
 import { switchMap } from "rxjs/operators";
 
 import type { IdentifierI } from "utils/unique-id";
+import { singleton } from "utils/singleton";
 
 import { EntityResult } from "domains/core/entity/result";
 import type { EntityI } from "domains/core/entity/with-state";
+import { EntityWithState } from "domains/core/entity/with-state";
 
 import type { FingerprintType } from "domains/common/users.fingerprint";
 import { UserFingerprintEntity } from "domains/common/users.fingerprint";
 
 import { FingerprintData } from "data/fingerprint";
 
-class UserFingerPrint implements EntityI<UserFingerprintEntity, FingerprintType> {
+class UserFingerPrintAggregate implements EntityI<UserFingerprintEntity, FingerprintType> {
+    static shared = singleton((id: string) => {
+        return new EntityWithState<UserFingerprintEntity, FingerprintType>(new UserFingerPrintAggregate(id))
+    })
+
     public readonly id: IdentifierI;
     public readonly ttl = 300;
 
@@ -32,4 +38,4 @@ class UserFingerPrint implements EntityI<UserFingerprintEntity, FingerprintType>
 }
 
 export type { FingerprintType };
-export { UserFingerPrint };
+export { UserFingerPrintAggregate };

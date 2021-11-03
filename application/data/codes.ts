@@ -4,7 +4,7 @@ import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 import {singleton} from "utils/singleton";
 
 import { Data } from "data/core/data";
-import type { FiltersProps, PromotionCodeType } from "domains/aggregates/promotions/entity";
+import type { FiltersProps, PromotionCodeType } from "domains/aggregates/promotions/codes";
 
 export const CODES_TEMP: PromotionCodeType = {
     id: 0,

@@ -2,7 +2,7 @@ import {Observable} from "rxjs";
 
 import { Data } from "data/core/data";
 
-import type { UserType } from "domains/aggregates/users/entity";
+import type { UserType } from "domains/aggregates/users";
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 
 const initial: UserType = {

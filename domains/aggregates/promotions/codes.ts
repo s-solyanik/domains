@@ -1,16 +1,16 @@
-import { map, switchMap } from "rxjs/operators";
+import { switchMap } from "rxjs/operators";
 
 import type { IdentifierI } from "utils/unique-id";
+import { singleton } from "utils/singleton";
 
 import { EntityResult } from "domains/core/entity/result";
 import type { EntityArrayI } from "domains/core/entity/array-with-state";
-import { SORT } from "domains/core/entity/array-with-state";
+import { EntityArrayWithState, SORT } from "domains/core/entity/array-with-state";
 
 import type { PromotionCodeType } from "domains/common/promotions.code";
 import { PromotionCodeEntity } from "domains/common/promotions.code";
 
 import { CodesData } from "data/codes";
-import {Result} from "utils/result/dto";
 
 type FiltersProps = {
     page: number
@@ -19,7 +19,11 @@ type FiltersProps = {
     couponType: string
 }
 
-class PromotionCodesEntity implements EntityArrayI<PromotionCodeEntity, PromotionCodeType> {
+class PromotionCodesAggregate implements EntityArrayI<PromotionCodeEntity, PromotionCodeType> {
+    static shared = singleton((filters: FiltersProps) => {
+        return new EntityArrayWithState<PromotionCodeEntity, PromotionCodeType>(new PromotionCodesAggregate(filters));
+    })
+
     public readonly ttl = 300;
     public readonly sort = SORT.ASC;
 
@@ -61,4 +65,4 @@ class PromotionCodesEntity implements EntityArrayI<PromotionCodeEntity, Promotio
 }
 
 export type { PromotionCodeType, FiltersProps };
-export { PromotionCodesEntity };
+export { PromotionCodesAggregate };

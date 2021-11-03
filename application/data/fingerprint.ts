@@ -2,7 +2,7 @@ import {Observable} from "rxjs";
 
 import { Data } from "data/core/data";
 
-import type { FingerprintType } from "domains/aggregates/fingerprint/entity";
+import type { FingerprintType } from "domains/aggregates/indentity/fingerprint";
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 
 const initial: FingerprintType = {

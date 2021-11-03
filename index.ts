@@ -1,9 +1,9 @@
 import { Application } from "application/main";
 
 import { CODES_TEMP } from "data/codes";
-import { PromotionsCodesEntityWithState } from "domains/aggregates/promotions/with-state";
+import { PromotionCodesAggregate } from "domains/aggregates/promotions/codes";
 
-const codes = PromotionsCodesEntityWithState.shared({
+const codes = PromotionCodesAggregate.shared({
     page: 1,
     pagesize: 20,
     orderby: 'desc',
