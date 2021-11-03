@@ -44,19 +44,19 @@ class PromotionAdsAggregate implements EntityArrayI<AdsEntity, AdsType> {
 
     public read = () => {
         return AdsData.facade.read(this.filters).pipe(
-            switchMap(it => EntityResult.createArray(AdsEntity.factory, it))
+            switchMap(it => EntityResult.array(AdsEntity.factory, it))
         )
     }
 
     public create(value: AdsType) {
         return AdsData.facade.create(value).pipe(
-            switchMap(it => EntityResult.create(AdsEntity.factory, it))
+            switchMap(it => EntityResult.unit(AdsEntity.factory, it))
         )
     }
 
     public update(id: number, value: Partial<AdsType>) {
         return AdsData.facade.update(id, value).pipe(
-            switchMap(it => EntityResult.create(AdsEntity.factory, it))
+            switchMap(it => EntityResult.unit(AdsEntity.factory, it))
         )
     }
 

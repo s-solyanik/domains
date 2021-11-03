@@ -41,19 +41,19 @@ class PromotionCodesAggregate implements EntityArrayI<PromotionCodeEntity, Promo
 
     public read = () => {
         return CodesData.facade.read(this.filters).pipe(
-            switchMap(it => EntityResult.createArray(PromotionCodeEntity.factory, it))
+            switchMap(it => EntityResult.array(PromotionCodeEntity.factory, it))
         )
     }
 
     public create(value: PromotionCodeType) {
         return CodesData.facade.create(value).pipe(
-            switchMap(it => EntityResult.create(PromotionCodeEntity.factory, it))
+            switchMap(it => EntityResult.unit(PromotionCodeEntity.factory, it))
         )
     }
 
     public update(id: number, value: Partial<PromotionCodeType>) {
         return CodesData.facade.update(id, value).pipe(
-            switchMap(it => EntityResult.create(PromotionCodeEntity.factory, it))
+            switchMap(it => EntityResult.unit(PromotionCodeEntity.factory, it))
         )
     }
 

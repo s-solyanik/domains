@@ -33,7 +33,7 @@ class UserAggregate implements EntityI<UserEntity, UserType> {
 
     public read = () => {
         return UserData.facade.read().pipe(
-            switchMap(it => EntityResult.create(UserEntity.factory, it))
+            switchMap(it => EntityResult.unit(UserEntity.factory, it))
         )
     }
 
@@ -47,7 +47,7 @@ class UserAggregate implements EntityI<UserEntity, UserType> {
                 }
 
                 return UserData.facade.update(identifier, rest, it.value).pipe(
-                    switchMap(it => EntityResult.create(UserEntity.factory, it))
+                    switchMap(it => EntityResult.unit(UserEntity.factory, it))
                 )
             })
         )

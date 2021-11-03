@@ -26,13 +26,13 @@ class UserFingerPrintAggregate implements EntityI<UserFingerprintEntity, Fingerp
 
     public read = () => {
         return FingerprintData.facade.read().pipe(
-            switchMap(it => EntityResult.create(UserFingerprintEntity.factory, it))
+            switchMap(it => EntityResult.unit(UserFingerprintEntity.factory, it))
         )
     }
 
     public update(value: Partial<FingerprintType>) {
         return FingerprintData.facade.update(value).pipe(
-            switchMap(it => EntityResult.create(UserFingerprintEntity.factory, it))
+            switchMap(it => EntityResult.unit(UserFingerprintEntity.factory, it))
         )
     }
 }
