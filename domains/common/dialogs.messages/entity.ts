@@ -15,7 +15,7 @@ class DialogsMessageEntity extends Entity<DialogsMessageProps> {
         return this.props.value.get();
     }
 
-    static id(sender: number, recipient: number) {
+    static id(sender: number|string, recipient: number|string) {
         return DialogsMessageEntity.createId(`dialogs.messages.${sender}.${recipient}`);
     }
 
