@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import {Observable, switchMap} from "rxjs";
 import { map, tap } from "rxjs/operators";
 
 import type { IdentifierI } from "utils/unique-id";
@@ -66,7 +66,7 @@ class EntityWithState<EntityType extends Entity<any>, ObjectValueType> {
                 }
                 this.state.update(Result.success(it.value), this.entity.ttl)
             }),
-            map(EntityResult.errorOrSuccess)
+            switchMap(EntityResult.errorOrSuccess)
         )
     }
 
@@ -82,7 +82,7 @@ class EntityWithState<EntityType extends Entity<any>, ObjectValueType> {
                 }
                 this.state.update(Result.success(it.value), this.entity.ttl);
             }),
-            map(EntityResult.errorOrSuccess)
+            switchMap(EntityResult.errorOrSuccess)
         )
     }
 
@@ -98,7 +98,7 @@ class EntityWithState<EntityType extends Entity<any>, ObjectValueType> {
                 }
                 this.state.delete();
             }),
-            map(EntityResult.errorOrSuccess)
+            switchMap(EntityResult.errorOrSuccess)
         )
     }
 }

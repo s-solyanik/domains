@@ -108,7 +108,7 @@ class EntityArrayWithState<EntityType extends Entity<any>, ObjectValueType> {
                             this.entities.ttl
                         );
                     }),
-                    map(EntityResult.errorOrSuccess)
+                    switchMap(EntityResult.errorOrSuccess)
                 );
             })
         )
@@ -145,7 +145,7 @@ class EntityArrayWithState<EntityType extends Entity<any>, ObjectValueType> {
                             this.entities.ttl
                         );
                     }),
-                    map(EntityResult.errorOrSuccess)
+                    switchMap(EntityResult.errorOrSuccess)
                 );
             })
         )
@@ -180,7 +180,7 @@ class EntityArrayWithState<EntityType extends Entity<any>, ObjectValueType> {
                             this.entities.ttl
                         );
                     }),
-                    map(EntityResult.errorOrSuccess)
+                    switchMap(EntityResult.errorOrSuccess)
                 );
             })
         )

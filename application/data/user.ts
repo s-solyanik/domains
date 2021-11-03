@@ -1,9 +1,10 @@
 import {Observable} from "rxjs";
 
+import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 import { Data } from "data/core/data";
 
 import type { UserType } from "domains/aggregates/users";
-import {FAILURE_MESSAGE, Result} from "utils/result/dto";
+import type { FingerprintType } from "domains/common/users.fingerprint";
 
 const initial: UserType = {
     identifier: 'U.as123123213masdsa-asdqwe12-213',
@@ -25,7 +26,7 @@ class UserData extends Data {
         })
     }
 
-    update(id: string, value: Partial<UserType>) {
+    update(id: string, value: Partial<UserType>, fingerprint: FingerprintType) {
         return new Observable<Result<UserType, FAILURE_MESSAGE>>(observer => {
             observer.next(
                 Result.success({

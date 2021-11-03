@@ -14,7 +14,10 @@ const initial: FingerprintType = {
 class FingerprintData extends Data {
     read() {
         return new Observable<Result<FingerprintType, FAILURE_MESSAGE>>(observer => {
-            observer.next(Result.success(initial));
+            observer.next(Result.failure({
+                status: 403,
+                message: 'Forbidden'
+            }));
             observer.complete();
         })
     }

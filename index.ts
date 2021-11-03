@@ -1,25 +1,20 @@
 import { Application } from "application/main";
 
-import { CODES_TEMP } from "data/codes";
-import { PromotionCodesAggregate } from "domains/aggregates/promotions/codes";
+import { UserAggregate } from "domains/aggregates/users";
 
-const codes = PromotionCodesAggregate.shared({
-    page: 1,
-    pagesize: 20,
-    orderby: 'desc',
-    couponType: 'test'
+const user = UserAggregate.shared('U.test-id');
+
+user.data().subscribe(it => {
+    Application.shared().logger.debug('ID %s value %s', user.id.toString(), JSON.stringify(it))
+});
+
+
+user.update({
+    firstName: 'Jack'
+}).subscribe(it => {
+    if(it.isSuccessful) {
+        return;
+    }
+
+    Application.shared().logger.error('Status %s message %s', it.error.status, it.error.message);
 })
-
-codes.data().subscribe(it => {
-    Application.shared().logger.debug('ID %s value %s', codes.id.toString(), it.value.total)
-})
-
-codes.create(CODES_TEMP).subscribe()
-codes.create(CODES_TEMP).subscribe()
-codes.create(CODES_TEMP).subscribe()
-
-
-codes.update(1, {
-    promoCode: 'New update'
-}).subscribe()
-codes.delete(3).subscribe()
