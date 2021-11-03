@@ -1,8 +1,8 @@
 import { map } from "rxjs/operators";
 
-import { Result } from "utils/result/dto";
 import type { IdentifierI } from "utils/unique-id";
 
+import { EntityResult } from "domains/core/entity/result";
 import type { EntityArrayI } from "domains/core/entity/array-with-state";
 import { SORT } from "domains/core/entity/array-with-state";
 
@@ -36,49 +36,25 @@ class PromotionCodesEntity implements EntityArrayI<PromotionCodeType> {
 
     public read = () => {
         return CodesData.facade.read(this.filters).pipe(
-            map(it => {
-                if(!it.isSuccessful) {
-                    return Result.failure(it.error);
-                }
-
-                return Result.success(it.value.map(PromotionCodeEntity.factory))
-            })
+            map(it => EntityResult.createArray(PromotionCodeEntity.factory, it))
         )
     }
 
     public create(value: PromotionCodeType) {
         return CodesData.facade.create(value).pipe(
-            map(it => {
-                if(!it.isSuccessful) {
-                    return Result.failure(it.error);
-                }
-
-                return Result.success(PromotionCodeEntity.factory(it.value))
-            })
+            map(it => EntityResult.create(PromotionCodeEntity.factory, it))
         )
     }
 
     public update(id: number, value: Partial<PromotionCodeType>) {
         return CodesData.facade.update(id, value).pipe(
-            map(it => {
-                if(!it.isSuccessful) {
-                    return Result.failure(it.error);
-                }
-
-                return Result.success(PromotionCodeEntity.factory(it.value))
-            })
+            map(it => EntityResult.create(PromotionCodeEntity.factory, it))
         )
     }
 
     public delete(id: number) {
         return CodesData.facade.delete(id).pipe(
-            map(it => {
-                if(!it.isSuccessful) {
-                    return Result.failure(it.error);
-                }
-
-                return Result.success(true);
-            })
+            map(EntityResult.errorOrSuccess)
         )
     }
 }

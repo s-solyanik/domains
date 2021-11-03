@@ -8,25 +8,15 @@ const codes = PromotionsCodesEntityWithState.shared({
     pagesize: 20,
     orderby: 'desc',
     couponType: 'test'
-});
-
-codes.data().subscribe(it => {
-    Application.shared().logger.debug('Id %s value %s', codes.id.toString(), JSON.stringify(it))
 })
 
-codes.create({
-    ...CODES_TEMP,
-    promoCode: "1"
-}).subscribe()
+codes.data().subscribe(it => {
+    Application.shared().logger.debug('ID %s value %s', codes.id.toString(), JSON.stringify(it))
+})
 
-codes.create({
-    ...CODES_TEMP,
-    promoCode: "2"
-}).subscribe()
+codes.create(CODES_TEMP).subscribe()
 
-codes.update(0, {
-    ...CODES_TEMP,
-    promoCode: "0 Updated"
-}).subscribe()
 
-codes.delete(1).subscribe()
+codes.update(1, {
+    couponType: 'New update'
+}).subscribe()

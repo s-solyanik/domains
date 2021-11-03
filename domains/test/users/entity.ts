@@ -1,8 +1,8 @@
 import { map } from "rxjs/operators";
 
-import { Result } from "utils/result/dto";
-import type {IdentifierI} from "utils/unique-id";
+import type { IdentifierI } from "utils/unique-id";
 
+import { EntityResult } from "domains/core/entity/result";
 import type { EntityI } from "domains/core/entity/with-state";
 
 import type { UserType } from "domains/common/users";
@@ -21,13 +21,7 @@ class UsersEntity implements EntityI<UserType> {
 
     public read = () => {
         return UserData.facade.read().pipe(
-            map(it => {
-                if(!it.isSuccessful) {
-                    return Result.failure(it.error);
-                }
-
-                return Result.success(UserEntity.factory(it.value))
-            })
+            map(it => EntityResult.create(UserEntity.factory, it))
         )
     }
 
@@ -35,13 +29,7 @@ class UsersEntity implements EntityI<UserType> {
         const { identifier, ...rest } = value;
 
         return UserData.facade.update(identifier, rest).pipe(
-            map(it => {
-                if(!it.isSuccessful) {
-                    return Result.failure(it.error);
-                }
-
-                return Result.success(UserEntity.factory(it.value))
-            })
+            map(it => EntityResult.create(UserEntity.factory, it))
         )
     }
 }

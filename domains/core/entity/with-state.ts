@@ -1,12 +1,13 @@
 import { Observable } from "rxjs";
 import { map, tap } from "rxjs/operators";
+
+import type { IdentifierI } from "utils/unique-id";
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 
+import { EntityResult } from "domains/core/entity/result";
 import type { StateRecord } from "domains/core/state/record";
 import { Entity } from "domains/core/entity/index";
-
 import { Domains } from "domains/core/domains/application";
-import {IdentifierI} from "utils/unique-id";
 
 type State = Result<Entity<any>, FAILURE_MESSAGE>;
 
@@ -31,7 +32,7 @@ class EntityWithState<EntityT extends Entity<any>, ValueT> {
     private read = () => {
         return this.entity.read().pipe(
             map(it => ({
-                data: it.isSuccessful ? Result.success(it as unknown as EntityT) : Result.failure(it.error),
+                data: it.isSuccessful ? Result.success(it.value as unknown as EntityT) : Result.failure(it.error),
                 expiration: this.entity.ttl
             }))
         )
@@ -59,7 +60,7 @@ class EntityWithState<EntityT extends Entity<any>, ValueT> {
                 }
                 this.state.update(Result.success(it.value as unknown as EntityT), this.entity.ttl)
             }),
-            map(it => it.isSuccessful ? Result.success(true) : Result.failure(it.error))
+            map(EntityResult.errorOrSuccess)
         )
     }
 
@@ -75,7 +76,7 @@ class EntityWithState<EntityT extends Entity<any>, ValueT> {
                 }
                 this.state.update(Result.success(it.value as unknown as EntityT), this.entity.ttl);
             }),
-            map(it => it.isSuccessful ? Result.success(true) : Result.failure(it.error))
+            map(EntityResult.errorOrSuccess)
         )
     }
 
@@ -91,7 +92,7 @@ class EntityWithState<EntityT extends Entity<any>, ValueT> {
                 }
                 this.state.delete();
             }),
-            map(it => it.isSuccessful ? Result.success(true) : Result.failure(it.error))
+            map(EntityResult.errorOrSuccess)
         )
     }
 }

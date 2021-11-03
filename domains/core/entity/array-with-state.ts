@@ -1,12 +1,12 @@
 import { Observable, switchMap, of } from "rxjs";
 import { map, tap, take } from "rxjs/operators";
 
-import { FAILURE_MESSAGE, Result } from "utils/result/dto";
 import type { IdentifierI } from "utils/unique-id";
+import { FAILURE_MESSAGE, Result } from "utils/result/dto";
 
+import { EntityResult } from "domains/core/entity/result";
 import type { StateRecord } from "domains/core/state/record";
 import { Entity } from "domains/core/entity/index";
-
 import { Domains } from "domains/core/domains/application";
 
 export enum SORT {
@@ -81,7 +81,7 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
                         const state = this.entities.sort === SORT.ASC ? [created, ...it.value] : it.value.concat(created);
                         this.state.update(Result.success(state as unknown as EntityT), this.entities.ttl);
                     }),
-                    map(it => it.isSuccessful ? Result.success(true) : Result.failure(it.error))
+                    map(EntityResult.errorOrSuccess)
                 );
             })
         )
@@ -108,7 +108,7 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
                         const state = it.value.map(entity => this.entities.unitId(id).equals(entity.id) ? updated : entity);
                         this.state.update(Result.success(state as unknown as EntityT), this.entities.ttl);
                     }),
-                    map(it => it.isSuccessful ? Result.success(true) : Result.failure(it.error))
+                    map(EntityResult.errorOrSuccess)
                 );
             })
         )
@@ -133,7 +133,7 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
                         const state = it.value.filter(entity => !this.entities.unitId(id).equals(entity.id));
                         this.state.update(Result.success(state as unknown as EntityT), this.entities.ttl);
                     }),
-                    map(it => it.isSuccessful ? Result.success(true) : Result.failure(it.error))
+                    map(EntityResult.errorOrSuccess)
                 );
             })
         )
