@@ -9,7 +9,7 @@ type Factory<T> = (args: any) => T
 
 class EntityResult {
     static createArray<T extends Entity<any>, Type extends any>(factory: Factory<T>, it: Result<{ items: Type[], total: number }, FAILURE_MESSAGE>) {
-        return of([]).pipe(
+        return of(undefined).pipe(
             map(() => {
                 if(!it.isSuccessful) {
                     return Result.failure(it.error);
@@ -24,7 +24,7 @@ class EntityResult {
     }
 
     static create<T extends Entity<any>, Type extends any>(factory: Factory<T>, it: Result<Type, FAILURE_MESSAGE>) {
-        return of([]).pipe(
+        return of(undefined).pipe(
             map(() => {
                 if(!it.isSuccessful) {
                     return Result.failure(it.error);
@@ -36,7 +36,7 @@ class EntityResult {
     }
 
     static errorOrSuccess(it: Result<any, FAILURE_MESSAGE>) {
-        return of([]).pipe(
+        return of(undefined).pipe(
             map(() => it.isSuccessful ? Result.success(true) : Result.failure(it.error))
         );
     }

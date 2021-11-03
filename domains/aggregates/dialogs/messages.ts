@@ -32,7 +32,7 @@ class DialogsMessagesAggregate implements EntityArrayI<DialogsMessageEntity, Dia
     public readonly id: IdentifierI;
     public readonly ttl = 1000;
 
-    constructor(sender: number, recipient: number, filters: FiltersProps) {
+    private constructor(sender: number, recipient: number, filters: FiltersProps) {
         this.sender = sender;
         this.recipient = recipient;
         this.filters = filters;
