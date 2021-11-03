@@ -24,7 +24,7 @@ interface ToDoI<T> {
 
 class ToDoList<Item extends TodDoItem> implements ToDoI<Item> {
     private readonly ttl: number;
-    private readonly state: StateRecord<ResultWrapper<{ items: Item[], total: number }>>;
+    private readonly record: StateRecord<ResultWrapper<{ items: Item[], total: number }>>;
 
     constructor(
         id: IdentifierI,
@@ -32,7 +32,7 @@ class ToDoList<Item extends TodDoItem> implements ToDoI<Item> {
         ttl= 0
     ) {
         this.ttl = ttl;
-        this.state = Domains.shared().state(id, () => {
+        this.record = Domains.shared().state(id, () => {
             return actualize().pipe(
                 map((it) => ({
                     data: it.isSuccessful ? Result.success(it.value) : Result.failure(it.error),
@@ -43,7 +43,7 @@ class ToDoList<Item extends TodDoItem> implements ToDoI<Item> {
     }
 
     private items() {
-        return this.state.origin().pipe(
+        return this.record.origin().pipe(
             take(1),
             map(it => {
                 if(typeof it === undefined) {
@@ -56,7 +56,7 @@ class ToDoList<Item extends TodDoItem> implements ToDoI<Item> {
     }
 
     public get = () => {
-        return this.state.data();
+        return this.record.data();
     }
 
     public add = (created: ResultWrapper<Item>) => {
@@ -70,7 +70,7 @@ class ToDoList<Item extends TodDoItem> implements ToDoI<Item> {
                     return;
                 }
 
-                this.state.update(
+                this.record.update(
                     Result.success({
                         items: [created.value, ...it.value.items],
                         total: it.value.total + 1
@@ -93,7 +93,7 @@ class ToDoList<Item extends TodDoItem> implements ToDoI<Item> {
                     return;
                 }
 
-                this.state.update(
+                this.record.update(
                     Result.success({
                         items: it.value.items.map(item => item.id.equals(updated.value.id) ? updated.value : item),
                         total: it.value.total
@@ -116,7 +116,7 @@ class ToDoList<Item extends TodDoItem> implements ToDoI<Item> {
                     return;
                 }
 
-                this.state.update(
+                this.record.update(
                     Result.success({
                         items: it.value.items.filter(item => !item.id.equals(deleted.value)),
                         total: it.value.total - 1
