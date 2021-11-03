@@ -28,7 +28,7 @@ class AdsEntity extends Entity<AdsProps>{
         return entity;
     }
 
-    static id(id: number) {
+    static id(id: number|string) {
         return AdsEntity.createId(`promotion.ads.${id}`);
     }
 
