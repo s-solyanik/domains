@@ -1,4 +1,4 @@
-import {map} from "rxjs/operators";
+import { switchMap } from "rxjs/operators";
 
 import type { IdentifierI } from "utils/unique-id";
 
@@ -20,13 +20,13 @@ class UserFingerPrint implements EntityI<UserFingerprintEntity, FingerprintType>
 
     public read = () => {
         return FingerprintData.facade.read().pipe(
-            map(it => EntityResult.create(UserFingerprintEntity.factory, it))
+            switchMap(it => EntityResult.create(UserFingerprintEntity.factory, it))
         )
     }
 
     public update(value: Partial<FingerprintType>) {
         return FingerprintData.facade.update(value).pipe(
-            map(it => EntityResult.create(UserFingerprintEntity.factory, it))
+            switchMap(it => EntityResult.create(UserFingerprintEntity.factory, it))
         )
     }
 }

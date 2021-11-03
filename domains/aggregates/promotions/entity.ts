@@ -1,4 +1,4 @@
-import { map } from "rxjs/operators";
+import { map, switchMap } from "rxjs/operators";
 
 import type { IdentifierI } from "utils/unique-id";
 
@@ -10,6 +10,7 @@ import type { PromotionCodeType } from "domains/common/promotions.code";
 import { PromotionCodeEntity } from "domains/common/promotions.code";
 
 import { CodesData } from "data/codes";
+import {Result} from "utils/result/dto";
 
 type FiltersProps = {
     page: number
@@ -36,25 +37,25 @@ class PromotionCodesEntity implements EntityArrayI<PromotionCodeEntity, Promotio
 
     public read = () => {
         return CodesData.facade.read(this.filters).pipe(
-            map(it => EntityResult.createArray(PromotionCodeEntity.factory, it))
+            switchMap(it => EntityResult.createArray(PromotionCodeEntity.factory, it))
         )
     }
 
     public create(value: PromotionCodeType) {
         return CodesData.facade.create(value).pipe(
-            map(it => EntityResult.create(PromotionCodeEntity.factory, it))
+            switchMap(it => EntityResult.create(PromotionCodeEntity.factory, it))
         )
     }
 
     public update(id: number, value: Partial<PromotionCodeType>) {
         return CodesData.facade.update(id, value).pipe(
-            map(it => EntityResult.create(PromotionCodeEntity.factory, it))
+            switchMap(it => EntityResult.create(PromotionCodeEntity.factory, it))
         )
     }
 
     public delete(id: number) {
         return CodesData.facade.delete(id).pipe(
-            map(EntityResult.errorOrSuccess)
+            switchMap(EntityResult.errorOrSuccess)
         )
     }
 }

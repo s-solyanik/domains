@@ -1,4 +1,4 @@
-import { map } from "rxjs/operators";
+import { switchMap } from "rxjs/operators";
 
 import type { IdentifierI } from "utils/unique-id";
 
@@ -21,7 +21,7 @@ class UsersEntity implements EntityI<UserEntity, UserType> {
 
     public read = () => {
         return UserData.facade.read().pipe(
-            map(it => EntityResult.create(UserEntity.factory, it))
+            switchMap(it => EntityResult.create(UserEntity.factory, it))
         )
     }
 
@@ -29,7 +29,7 @@ class UsersEntity implements EntityI<UserEntity, UserType> {
         const { identifier, ...rest } = value;
 
         return UserData.facade.update(identifier, rest).pipe(
-            map(it => EntityResult.create(UserEntity.factory, it))
+            switchMap(it => EntityResult.create(UserEntity.factory, it))
         )
     }
 }

@@ -20,7 +20,7 @@ export interface EntityArrayI<EntityType extends Entity<any>, ObjectValueType> {
     id: IdentifierI
     ttl: number
     unitId(id: string|number): IdentifierI
-    read(): Observable<ResultWrapper<EntityType[]>>
+    read(): Observable<ResultWrapper<{ items: EntityType[], total: number }>>
     sort?: SORT
     create?: (value: ObjectValueType) => Observable<ResultWrapper<EntityType>>
     update?: (id: number|string, value: Partial<ObjectValueType>) => Observable<ResultWrapper<EntityType>>
@@ -29,7 +29,7 @@ export interface EntityArrayI<EntityType extends Entity<any>, ObjectValueType> {
 
 class EntityArrayWithState<EntityType extends Entity<any>, ObjectValueType> {
     private readonly entities: EntityArrayI<EntityType, ObjectValueType>;
-    private readonly state: StateRecord<ResultWrapper<EntityType[]>>;
+    private readonly state: StateRecord<ResultWrapper<{ items: EntityType[], total: number }>>;
 
     constructor(entities: EntityArrayI<EntityType, ObjectValueType>) {
         this.entities = entities;
@@ -39,7 +39,13 @@ class EntityArrayWithState<EntityType extends Entity<any>, ObjectValueType> {
     private items() {
         return this.state.origin().pipe(
             take(1),
-            map(it => typeof it === undefined ? [] as unknown as ResultWrapper<EntityType[]> :  it)
+            map(it => {
+                if(typeof it === undefined) {
+                    return [] as unknown as ResultWrapper<{ items: EntityType[], total: number }>;
+                }
+
+                return it;
+            })
         );
     }
 
@@ -63,7 +69,10 @@ class EntityArrayWithState<EntityType extends Entity<any>, ObjectValueType> {
                     return Result.failure(it.error);
                 }
 
-                return Result.success(it.value.map(entity => entity.get() as unknown as ObjectValueType));
+                return Result.success({
+                    items: it.value.items.map(entity => entity.get() as unknown as ObjectValueType),
+                    total: it.value.total
+                });
             })
         );
     }
@@ -86,8 +95,18 @@ class EntityArrayWithState<EntityType extends Entity<any>, ObjectValueType> {
                         if(!it.isSuccessful) {
                             return;
                         }
-                        const state = this.entities.sort === SORT.ASC ? [created, ...it.value] : it.value.concat(created);
-                        this.state.update(Result.success(state), this.entities.ttl);
+
+                        const state = this.entities.sort === SORT.ASC
+                            ? [created, ...it.value.items]
+                            : it.value.items.concat(created);
+
+                        this.state.update(
+                            Result.success({
+                                items: state,
+                                total: it.value.total + 1
+                            }),
+                            this.entities.ttl
+                        );
                     }),
                     map(EntityResult.errorOrSuccess)
                 );
@@ -113,8 +132,18 @@ class EntityArrayWithState<EntityType extends Entity<any>, ObjectValueType> {
                         if(!it.isSuccessful) {
                             return;
                         }
-                        const state = it.value.map(entity => this.entities.unitId(id).equals(entity.id) ? updated : entity);
-                        this.state.update(Result.success(state), this.entities.ttl);
+
+                        const state = it.value.items.map(entity => {
+                            return this.entities.unitId(id).equals(entity.id) ? updated : entity
+                        });
+
+                        this.state.update(
+                            Result.success({
+                                items: state,
+                                total: it.value.total
+                            }),
+                            this.entities.ttl
+                        );
                     }),
                     map(EntityResult.errorOrSuccess)
                 );
@@ -138,8 +167,18 @@ class EntityArrayWithState<EntityType extends Entity<any>, ObjectValueType> {
                         if(!it.isSuccessful) {
                             return;
                         }
-                        const state = it.value.filter(entity => !this.entities.unitId(id).equals(entity.id));
-                        this.state.update(Result.success(state), this.entities.ttl);
+
+                        const state = it.value.items.filter(entity => {
+                            return !this.entities.unitId(id).equals(entity.id)
+                        });
+
+                        this.state.update(
+                            Result.success({
+                                items: state,
+                                total: it.value.total - 1
+                            }),
+                            this.entities.ttl
+                        );
                     }),
                     map(EntityResult.errorOrSuccess)
                 );

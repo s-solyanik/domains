@@ -34,8 +34,8 @@ class CodesData extends Data {
     }
 
     read(filters: FiltersProps) {
-        return new Observable<Result<PromotionCodeType[], FAILURE_MESSAGE>>(observer => {
-            observer.next(Result.success(this.codes));
+        return new Observable<Result<{ items: PromotionCodeType[], total: number }, FAILURE_MESSAGE>>(observer => {
+            observer.next(Result.success({ items: this.codes, total: this.codes.length }));
             observer.complete();
         })
     }
