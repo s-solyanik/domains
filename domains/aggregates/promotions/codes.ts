@@ -7,8 +7,8 @@ import { EntityResult } from "domains/core/entity/result";
 import type { EntityArrayI } from "domains/core/entity/array-with-state";
 import { EntityArrayWithState, SORT } from "domains/core/entity/array-with-state";
 
-import type { PromotionCodeType } from "domains/common/promotions.code";
-import { PromotionCodeEntity } from "domains/common/promotions.code";
+import type { PromotionCodeType } from "domains/entities/promotions.code";
+import { PromotionCodeEntity } from "domains/entities/promotions.code";
 
 import { CodesData } from "data/codes";
 

@@ -7,8 +7,8 @@ import { EntityResult } from "domains/core/entity/result";
 import type { EntityArrayI } from "domains/core/entity/array-with-state";
 import { EntityArrayWithState } from "domains/core/entity/array-with-state";
 
-import type { DialogsMessageType } from "domains/common/dialogs.messages";
-import { DialogsMessageEntity } from "domains/common/dialogs.messages";
+import type { DialogsMessageType } from "domains/entities/dialogs.messages";
+import { DialogsMessageEntity } from "domains/entities/dialogs.messages";
 
 import { MessagesData } from "data/messages";
 

@@ -7,8 +7,8 @@ import { EntityResult } from "domains/core/entity/result";
 import type { EntityI } from "domains/core/entity/with-state";
 import { EntityWithState } from "domains/core/entity/with-state";
 
-import type { FingerprintType } from "domains/common/users.fingerprint";
-import { UserFingerprintEntity } from "domains/common/users.fingerprint";
+import type { FingerprintType } from "domains/entities/users.fingerprint";
+import { UserFingerprintEntity } from "domains/entities/users.fingerprint";
 
 import { FingerprintData } from "data/fingerprint";
 

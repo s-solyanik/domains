@@ -7,8 +7,8 @@ import { EntityResult } from "domains/core/entity/result";
 import type { EntityArrayI } from "domains/core/entity/array-with-state";
 import { EntityArrayWithState, SORT } from "domains/core/entity/array-with-state";
 
-import type { AdsType } from "domains/common/promotions";
-import { AdsEntity } from "domains/common/promotions";
+import type { AdsType } from "domains/entities/promotions";
+import { AdsEntity } from "domains/entities/promotions";
 
 import { AdsData } from "data/ads";
 

@@ -4,7 +4,7 @@ import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 import { Data } from "data/core/data";
 
 import type { UserType } from "domains/aggregates/users";
-import type { FingerprintType } from "domains/common/users.fingerprint";
+import type { FingerprintType } from "domains/entities/users.fingerprint";
 
 const initial: UserType = {
     identifier: 'U.as123123213masdsa-asdqwe12-213',

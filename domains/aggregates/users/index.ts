@@ -8,8 +8,8 @@ import { EntityResult } from "domains/core/entity/result";
 import type { EntityI } from "domains/core/entity/with-state";
 import { EntityWithState } from "domains/core/entity/with-state";
 
-import type { UserType } from "domains/common/users";
-import { UserEntity } from "domains/common/users";
+import type { UserType } from "domains/entities/users";
+import { UserEntity } from "domains/entities/users";
 
 import { UserFingerPrintAggregate } from "domains/aggregates/indentity/fingerprint";
 
