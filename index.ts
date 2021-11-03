@@ -1,14 +1,18 @@
 import { Application } from "application/main";
 
-import { DialogsMessagesAggregate } from "domains/aggregates/dialogs/messages";
+import { ADS_TEMP } from "data/ads";
+import { PromotionAdsAggregate } from "domains/aggregates/promotions/ads";
 
-const dialog = DialogsMessagesAggregate.shared(1, 2, {
+const codes = PromotionAdsAggregate.shared({
     page: 1,
     pagesize: 20,
-    orderBy: 'asc'
-})
-
-dialog.data().subscribe(it => {
-    Application.shared().logger.debug('ID %s value %s', dialog.id.toString(), JSON.stringify(it))
 });
 
+codes.data().subscribe(it => {
+    Application.shared().logger.debug('Id %s value %s', it.value.items.map(i => i.id));
+})
+
+
+codes.create(ADS_TEMP).subscribe();
+codes.update(1, { adName: '21' }).subscribe();
+codes.delete(0).subscribe();

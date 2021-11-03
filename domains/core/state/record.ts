@@ -2,8 +2,8 @@ import {defer, Observable, switchMap, zip, EMPTY, of, catchError} from "rxjs";
 import {take, map, distinctUntilChanged} from "rxjs/operators";
 import equal from 'fast-deep-equal';
 
-import type {IdentifierI} from "utils/unique-id";
-import type {StorageI, Record} from "domains/core/storage";
+import type { IdentifierI } from "utils/unique-id";
+import type { StorageI, Record } from "domains/core/storage";
 
 enum STATUS {
     INIT = 'init',

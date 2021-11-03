@@ -42,6 +42,21 @@ class EntityResult {
         );
     }
 
+    static arrayGet<Entity extends AbstractEntity<any>, ObjectValue extends any>(it: ResultWrapper<{ items: Entity[], total: number }>) {
+        return of(undefined).pipe(
+            map(() => {
+                if(!it.isSuccessful) {
+                    return Result.failure(it.error);
+                }
+
+                return Result.success({
+                    items: it.value.items.map(item => item.get() as ObjectValue),
+                    total: it.value.total
+                });
+            })
+        );
+    }
+
     static errorOrSuccess(it: ResultWrapper<any>) {
         return of(undefined).pipe(
             map(() => it.isSuccessful ? Result.success(true) : Result.failure(it.error))
