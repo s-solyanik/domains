@@ -10,7 +10,7 @@ import { UserEntity } from "domains/common/users";
 
 import { UserData } from "data/user";
 
-class UsersEntity implements EntityI<UserType> {
+class UsersEntity implements EntityI<UserEntity, UserType> {
     public readonly ttl = 300;
 
     public readonly id: IdentifierI;

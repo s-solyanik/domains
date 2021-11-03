@@ -10,7 +10,7 @@ import { UserFingerprintEntity } from "domains/common/users.fingerprint";
 
 import { FingerprintData } from "data/fingerprint";
 
-class UserFingerPrint implements EntityI<FingerprintType> {
+class UserFingerPrint implements EntityI<UserFingerprintEntity, FingerprintType> {
     public readonly id: IdentifierI;
     public readonly ttl = 300;
 

@@ -5,8 +5,8 @@ import type { IdentifierI } from "utils/unique-id";
 import { FAILURE_MESSAGE, Result } from "utils/result/dto";
 
 import { EntityResult } from "domains/core/entity/result";
+import type { Entity } from "domains/core/entity/index";
 import type { StateRecord } from "domains/core/state/record";
-import { Entity } from "domains/core/entity/index";
 import { Domains } from "domains/core/domains/application";
 
 export enum SORT {
@@ -14,37 +14,36 @@ export enum SORT {
     DESC
 }
 
-export interface EntityArrayI<T> {
+type ResultWrapper<T> = Result<T, FAILURE_MESSAGE>;
+
+export interface EntityArrayI<EntityType extends Entity<any>, ObjectValueType> {
     id: IdentifierI
     ttl: number
     unitId(id: string|number): IdentifierI
-    read(): Observable<Result<Entity<any>[], FAILURE_MESSAGE>>
+    read(): Observable<ResultWrapper<EntityType[]>>
     sort?: SORT
-    create?: (value: T) => Observable<Result<Entity<any>, FAILURE_MESSAGE>>
-    update?: (id: number|string, value: Partial<T>) => Observable<Result<Entity<any>, FAILURE_MESSAGE>>
+    create?: (value: ObjectValueType) => Observable<ResultWrapper<EntityType>>
+    update?: (id: number|string, value: Partial<ObjectValueType>) => Observable<ResultWrapper<EntityType>>
     delete?: (id: number|string) => Observable<Result<boolean, FAILURE_MESSAGE>>
 }
 
-class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
-    private readonly entities: EntityArrayI<ValueT>;
-    private readonly state: StateRecord<Result<EntityT, FAILURE_MESSAGE>>;
+class EntityArrayWithState<EntityType extends Entity<any>, ObjectValueType> {
+    private readonly entities: EntityArrayI<EntityType, ObjectValueType>;
+    private readonly state: StateRecord<Result<EntityType[], FAILURE_MESSAGE>>;
 
-    constructor(entities: EntityArrayI<ValueT>) {
+    constructor(entities: EntityArrayI<EntityType, ObjectValueType>) {
         this.entities = entities;
-        this.state = Domains.shared().state<Result<EntityT, FAILURE_MESSAGE>>(this.entities.id, this.read);
+        this.state = Domains.shared().state(this.entities.id, this.read);
     }
 
     private items() {
-        return this.state.origin([]).pipe(
-            take(1),
-            map(it => it as unknown as Result<EntityT, FAILURE_MESSAGE>)
-        );
+        return this.state.origin([] as unknown as ResultWrapper<EntityType[]>).pipe(take(1));
     }
 
     private read = () => {
         return this.entities.read().pipe(
             map((it) => ({
-                data: it.isSuccessful ? Result.success(it.value as unknown as EntityT) : Result.failure(it.error),
+                data: it.isSuccessful ? Result.success(it.value) : Result.failure(it.error),
                 expiration: this.entities.ttl
             }))
         )
@@ -54,13 +53,19 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
         return this.entities.id;
     }
 
-    public data(): Observable<Result<ValueT[], FAILURE_MESSAGE>> {
+    public data() {
         return this.state.data().pipe(
-            map(it => it.isSuccessful ? Result.success(it.value.map(entity => entity.get())) : Result.failure(it.error))
+            map(it => {
+                if(!it.isSuccessful) {
+                    return Result.failure(it.error);
+                }
+
+                return Result.success(it.value.map(entity => entity.get() as unknown as ObjectValueType));
+            })
         );
     }
 
-    public create(value: ValueT) {
+    public create(value: ObjectValueType) {
         if(!this.entities.create) {
             throw new Error('Method is not implemented');
         }
@@ -79,7 +84,7 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
                             return;
                         }
                         const state = this.entities.sort === SORT.ASC ? [created, ...it.value] : it.value.concat(created);
-                        this.state.update(Result.success(state as unknown as EntityT), this.entities.ttl);
+                        this.state.update(Result.success(state), this.entities.ttl);
                     }),
                     map(EntityResult.errorOrSuccess)
                 );
@@ -87,7 +92,7 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
         )
     }
 
-    public update(id: number|string, value: Partial<ValueT>) {
+    public update(id: number|string, value: Partial<ObjectValueType>) {
         if(!this.entities.update) {
             throw new Error('Method is not implemented');
         }
@@ -106,7 +111,7 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
                             return;
                         }
                         const state = it.value.map(entity => this.entities.unitId(id).equals(entity.id) ? updated : entity);
-                        this.state.update(Result.success(state as unknown as EntityT), this.entities.ttl);
+                        this.state.update(Result.success(state), this.entities.ttl);
                     }),
                     map(EntityResult.errorOrSuccess)
                 );
@@ -131,7 +136,7 @@ class EntityArrayWithState<EntityT extends Entity<any>[], ValueT> {
                             return;
                         }
                         const state = it.value.filter(entity => !this.entities.unitId(id).equals(entity.id));
-                        this.state.update(Result.success(state as unknown as EntityT), this.entities.ttl);
+                        this.state.update(Result.success(state), this.entities.ttl);
                     }),
                     map(EntityResult.errorOrSuccess)
                 );

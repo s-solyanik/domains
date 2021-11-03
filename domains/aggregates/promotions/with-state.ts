@@ -9,7 +9,7 @@ import { PromotionCodesEntity } from "domains/aggregates/promotions/entity";
 
 class PromotionsCodesEntityWithState {
     static shared = singleton((filters: FiltersProps) => {
-        return new EntityArrayWithState<PromotionCodeEntity[], PromotionCodeType>(new PromotionCodesEntity(filters))
+        return new EntityArrayWithState<PromotionCodeEntity, PromotionCodeType>(new PromotionCodesEntity(filters))
     })
 }
 

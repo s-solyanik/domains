@@ -9,30 +9,30 @@ import type { StateRecord } from "domains/core/state/record";
 import { Entity } from "domains/core/entity/index";
 import { Domains } from "domains/core/domains/application";
 
-type State = Result<Entity<any>, FAILURE_MESSAGE>;
+type ResultWrapper<T> = Result<T, FAILURE_MESSAGE>;
 
-export interface EntityI<T> {
+export interface EntityI<EntityType extends Entity<any>, ObjectValueType> {
     id: IdentifierI
     ttl: number
-    read(): Observable<State>
-    create?: (value: T) => Observable<State>
-    update?: (value: Partial<T>) => Observable<State>
+    read(): Observable<ResultWrapper<EntityType>>
+    create?: (value: ObjectValueType) => Observable<ResultWrapper<EntityType>>
+    update?: (value: Partial<ObjectValueType>) => Observable<ResultWrapper<EntityType>>
     delete?: (id: number|string) => Observable<Result<boolean, FAILURE_MESSAGE>>
 }
 
-class EntityWithState<EntityT extends Entity<any>, ValueT> {
-    private readonly entity: EntityI<ValueT>;
-    private readonly state: StateRecord<Result<EntityT, FAILURE_MESSAGE>>
+class EntityWithState<EntityType extends Entity<any>, ObjectValueType> {
+    private readonly entity: EntityI<EntityType, ObjectValueType>;
+    private readonly state: StateRecord<ResultWrapper<EntityType>>
 
-    constructor(entity: EntityI<ValueT>) {
+    constructor(entity: EntityI<EntityType, ObjectValueType>) {
         this.entity = entity;
-        this.state = Domains.shared().state<Result<EntityT, FAILURE_MESSAGE>>(this.entity.id, this.read);
+        this.state = Domains.shared().state(this.entity.id, this.read);
     }
 
     private read = () => {
         return this.entity.read().pipe(
             map(it => ({
-                data: it.isSuccessful ? Result.success(it.value as unknown as EntityT) : Result.failure(it.error),
+                data: it.isSuccessful ? Result.success(it.value) : Result.failure(it.error),
                 expiration: this.entity.ttl
             }))
         )
@@ -42,13 +42,19 @@ class EntityWithState<EntityT extends Entity<any>, ValueT> {
         return this.entity.id;
     }
 
-    public data(): Observable<Result<ValueT, FAILURE_MESSAGE>> {
+    public data(): Observable<ResultWrapper<ObjectValueType>> {
         return this.state.data().pipe(
-            map(it => it.isSuccessful ? Result.success(it.value.get()) : Result.failure(it.error))
+            map(it => {
+                if(!it.isSuccessful) {
+                    return Result.failure(it.error);
+                }
+
+                return Result.success(it.value.get() as unknown as ObjectValueType);
+            })
         );
     }
 
-    public create(value: ValueT) {
+    public create(value: ObjectValueType) {
         if(!this.entity.create) {
             throw new Error('Method is not implemented');
         }
@@ -58,13 +64,13 @@ class EntityWithState<EntityT extends Entity<any>, ValueT> {
                 if(!it.isSuccessful) {
                     return;
                 }
-                this.state.update(Result.success(it.value as unknown as EntityT), this.entity.ttl)
+                this.state.update(Result.success(it.value), this.entity.ttl)
             }),
             map(EntityResult.errorOrSuccess)
         )
     }
 
-    public update(value: Partial<ValueT>) {
+    public update(value: Partial<ObjectValueType>) {
         if(!this.entity.update) {
             throw new Error('Method is not implemented');
         }
@@ -74,7 +80,7 @@ class EntityWithState<EntityT extends Entity<any>, ValueT> {
                 if(!it.isSuccessful) {
                     return;
                 }
-                this.state.update(Result.success(it.value as unknown as EntityT), this.entity.ttl);
+                this.state.update(Result.success(it.value), this.entity.ttl);
             }),
             map(EntityResult.errorOrSuccess)
         )

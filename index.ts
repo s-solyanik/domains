@@ -16,7 +16,6 @@ codes.data().subscribe(it => {
 
 codes.create(CODES_TEMP).subscribe()
 
-
 codes.update(1, {
     promoCode: 'New update'
 }).subscribe()

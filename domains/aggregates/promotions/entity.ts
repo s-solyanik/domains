@@ -18,7 +18,7 @@ type FiltersProps = {
     couponType: string
 }
 
-class PromotionCodesEntity implements EntityArrayI<PromotionCodeType> {
+class PromotionCodesEntity implements EntityArrayI<PromotionCodeEntity, PromotionCodeType> {
     public readonly ttl = 300;
     public readonly sort = SORT.ASC;
 
