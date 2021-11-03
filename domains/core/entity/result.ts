@@ -3,12 +3,16 @@ import { map } from 'rxjs/operators';
 
 import { FAILURE_MESSAGE, Result } from "utils/result/dto";
 
-import { Entity } from "domains/core/entity/index";
+import type { Entity as AbstractEntity} from "domains/core/entity/index";
 
-type Factory<T> = (args: any) => T
+type Factory<Entity, ObjectValue> = (args: ObjectValue) => Entity;
+type ResultWrapper<T> = Result<T, FAILURE_MESSAGE>;
 
 class EntityResult {
-    static createArray<T extends Entity<any>, Type extends any>(factory: Factory<T>, it: Result<{ items: Type[], total: number }, FAILURE_MESSAGE>) {
+    static createArray<Entity extends AbstractEntity<any>, ObjectValue extends any>(
+        factory: Factory<Entity, ObjectValue>,
+        it: ResultWrapper<{ items: ObjectValue[], total: number }>
+    ) {
         return of(undefined).pipe(
             map(() => {
                 if(!it.isSuccessful) {
@@ -23,7 +27,10 @@ class EntityResult {
         );
     }
 
-    static create<T extends Entity<any>, Type extends any>(factory: Factory<T>, it: Result<Type, FAILURE_MESSAGE>) {
+    static create<Entity extends AbstractEntity<any>, ObjectValue extends any>(
+        factory:  Factory<Entity, ObjectValue>,
+        it: ResultWrapper<ObjectValue>
+    ) {
         return of(undefined).pipe(
             map(() => {
                 if(!it.isSuccessful) {
@@ -35,7 +42,7 @@ class EntityResult {
         );
     }
 
-    static errorOrSuccess(it: Result<any, FAILURE_MESSAGE>) {
+    static errorOrSuccess(it: ResultWrapper<any>) {
         return of(undefined).pipe(
             map(() => it.isSuccessful ? Result.success(true) : Result.failure(it.error))
         );

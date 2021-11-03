@@ -46,7 +46,7 @@ class DialogsMessagesAggregate implements EntityArrayI<DialogsMessageEntity, Dia
     public read = () => {
         return MessagesData.facade.read(this.sender, this.recipient, this.filters).pipe(
             switchMap(it => EntityResult.createArray(
-                (props: DialogsMessageType) => DialogsMessageEntity.factory(this.sender, this.recipient, props),
+                (props) => DialogsMessageEntity.factory(this.sender, this.recipient, props),
                 it
             ))
         )
