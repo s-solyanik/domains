@@ -3,7 +3,7 @@ import { singleton } from "utils/singleton";
 import { EntityWithState } from "domains/core/entity/with-state";
 
 import type { UserEntity, UserType } from "domains/common/users";
-import { UsersEntity } from "domains/test/users/entity";
+import { UsersEntity } from "domains/aggregates/users/entity";
 
 class UsersEntityWithState {
     static shared = singleton((id: string) => {

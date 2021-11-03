@@ -1,7 +1,7 @@
 import { Application } from "application/main";
 
 import { CODES_TEMP } from "data/codes";
-import { PromotionsCodesEntityWithState } from "domains/test/promotions/with-state";
+import { PromotionsCodesEntityWithState } from "domains/aggregates/promotions/with-state";
 
 const codes = PromotionsCodesEntityWithState.shared({
     page: 1,
