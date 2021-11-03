@@ -29,7 +29,7 @@ export interface EntityArrayI<EntityType extends Entity<any>, ObjectValueType> {
 
 class EntityArrayWithState<EntityType extends Entity<any>, ObjectValueType> {
     private readonly entities: EntityArrayI<EntityType, ObjectValueType>;
-    private readonly state: StateRecord<Result<EntityType[], FAILURE_MESSAGE>>;
+    private readonly state: StateRecord<ResultWrapper<EntityType[]>>;
 
     constructor(entities: EntityArrayI<EntityType, ObjectValueType>) {
         this.entities = entities;
@@ -37,7 +37,10 @@ class EntityArrayWithState<EntityType extends Entity<any>, ObjectValueType> {
     }
 
     private items() {
-        return this.state.origin([] as unknown as ResultWrapper<EntityType[]>).pipe(take(1));
+        return this.state.origin().pipe(
+            take(1),
+            map(it => typeof it === undefined ? [] as unknown as ResultWrapper<EntityType[]> :  it)
+        );
     }
 
     private read = () => {

@@ -85,15 +85,9 @@ class StateRecord<T> {
         });
     };
 
-    public origin<T>(empty: T) {
+    public origin() {
         return this.storage.subject<T>(this.id.toString()).pipe(
-            map(it => {
-                if(!it) {
-                    return empty;
-                }
-
-                return it.data as T;
-            })
+            map(it => it.data)
         );
     }
 
