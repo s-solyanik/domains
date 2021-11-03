@@ -60,7 +60,8 @@ class CodesData extends Data {
             observer.next(
                 Result.success({
                     ...CODES_TEMP,
-                    ...value
+                    ...value,
+                    id: id
                 })
             );
             observer.complete();

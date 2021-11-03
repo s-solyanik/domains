@@ -18,5 +18,5 @@ codes.create(CODES_TEMP).subscribe()
 
 
 codes.update(1, {
-    couponType: 'New update'
+    promoCode: 'New update'
 }).subscribe()
