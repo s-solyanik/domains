@@ -19,9 +19,9 @@ class UsersBlockingEntity extends Entity<UsersBlockingProps> {
         return UsersBlockingEntity.createId(`users.blocking.${id}`);
     }
 
-    static factory(id: string, props: UsersBlockingType) {
+    static factory(props: UsersBlockingType) {
         return new UsersBlockingEntity({
-            id: UsersBlockingEntity.id(id),
+            id: UsersBlockingEntity.id(`${props.data.id}`),
             value: UsersBlockingValueObject.factory(props)
         });
     }

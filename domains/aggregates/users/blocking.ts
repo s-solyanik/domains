@@ -24,13 +24,12 @@ class UsersBlockingAggregate {
 
     public readonly id: IdentifierI;
 
-    private readonly userId: string;
     private readonly filers: FiltersProps;
     private readonly todo: ToDoList<UsersBlockingEntity>;
     private readonly blockingData: OutgoingBlockingData|IncomingBlockingData;
 
     private constructor(id: string, filers: FiltersProps, data: OutgoingBlockingData|IncomingBlockingData) {
-        this.id = UsersBlockingEntity.id(id);
+        this.id = UsersBlockingEntity.id(`by.${id}`);
         this.filers = filers;
         this.blockingData = data;
         this.todo = new ToDoList<UsersBlockingEntity>(this.id, this.read, 0);
@@ -40,7 +39,7 @@ class UsersBlockingAggregate {
         return this.blockingData.read().pipe(
             switchMap(it =>
                 EntityResult.array(
-                    (props) => UsersBlockingEntity.factory(this.userId, props),
+                    (props) => UsersBlockingEntity.factory(props),
                     it
                 )
             )
