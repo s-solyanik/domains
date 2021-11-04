@@ -19,7 +19,7 @@ class ModerationCategoriesAggregate {
 
     private constructor() {
         this.id = ModerationCategoriesEntity.id();
-        this.state = new EntityState<ModerationCategoriesEntity, ModerationCategoriesType>(this.id, this.read, 0);
+        this.state = new EntityState<ModerationCategoriesEntity, ModerationCategoriesType>(this.id, this.read, 300);
     }
 
     private read = () => {

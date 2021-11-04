@@ -1,19 +1,19 @@
 import {Application} from "application/main";
 
-import {ModerationImageAggregate, Sort, Deleted} from "domains/aggregates/moderation/queue";
-import { Reason } from "domains/entities/users.moderation.image";
+import {UsersBlockingAggregate} from "domains/aggregates/users/blocking";
 
-const entity = ModerationImageAggregate.shared({
-    queueName: 'male',
-    newestFirst: Sort.NEWEST,
-    timestamp: Date.now(),
+const entity = UsersBlockingAggregate.shared('123', {
     page: 1,
-    pagesize: 20,
-    showDeleted: Deleted.FALSE
+    pagesize: 20
 });
 
 entity.data().subscribe(it => {
-    Application.shared().logger.debug('ID %s value %s', entity.id.toString(), JSON.stringify(it));
+    Application.shared().logger.debug('Out ID %s value %s', entity.id.toString(), JSON.stringify(it));
 })
 
-entity.decline('I.GI2DCMNROSFNL5LQUI', Reason.CHILD_ADOLESCENT).subscribe();
+entity.incoming('321', {
+    page: 1,
+    pagesize: 20
+}).data().subscribe(it => {
+    Application.shared().logger.debug('In ID %s value %s', entity.id.toString(), JSON.stringify(it));
+})
