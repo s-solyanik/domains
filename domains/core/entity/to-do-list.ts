@@ -42,12 +42,12 @@ class ToDoList<Item extends TodDoItem> implements ToDoI<Item> {
         });
     }
 
-    private items() {
+    public items() {
         return this.record.origin().pipe(
             take(1),
             map(it => {
                 if(typeof it === undefined) {
-                    return [] as unknown as ResultWrapper<{ items: Item[], total: number }>;
+                    return { items: [], total: 0 } as unknown as ResultWrapper<{ items: Item[], total: number }>;
                 }
 
                 return it;

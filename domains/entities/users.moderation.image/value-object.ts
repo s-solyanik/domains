@@ -1,10 +1,10 @@
 import { ValueObject } from 'domains/core/entity/value-object';
-import type { Moderation } from 'domains/entities/users.moderation.image/type';
+import type { ModerationImageType } from 'domains/entities/users.moderation.image/type';
 
-class UserModerationImageValueObject extends ValueObject<Moderation> {
-    static factory(moderation: Moderation): UserModerationImageValueObject {
-        return new UserModerationImageValueObject(moderation);
+class UserModerationImageImageValueObject extends ValueObject<ModerationImageType> {
+    static factory(ModerationImage: ModerationImageType): UserModerationImageImageValueObject {
+        return new UserModerationImageImageValueObject(ModerationImage);
     }
 }
 
-export { UserModerationImageValueObject };
+export { UserModerationImageImageValueObject };

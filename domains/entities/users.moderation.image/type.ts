@@ -22,7 +22,7 @@ export enum Reason {
     PHOTO_MISMATCH = 'photoMismatch'
 }
 
-export type Moderation = {
+export type ModerationImageType = {
     id: number
     identifier: string
     url: URL
