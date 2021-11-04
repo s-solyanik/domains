@@ -46,10 +46,6 @@ class ModerationImageAggregate {
         this.todo = new ToDoList<ModerationImageEntity>(this.id, this.read, 300);
     }
 
-    private static notFoundError(entity: ModerationImageEntity) {
-        return entity ? Result.success(entity) : Result.failure({ status: 404, message: 'Image was not founded'});
-    }
-
     private find(id: string) {
         return this.todo.items().pipe(
             map(it => {
@@ -60,7 +56,7 @@ class ModerationImageAggregate {
                 const entity = it.value.items.find(it => it.id.equals(ModerationImageEntity.id(id)));
 
                 if(!entity) {
-                    return Result.failure({ status: 404, message: 'Image was not founded'});
+                    return Result.failure({ status: 404, message: 'Image not found'});
                 }
 
                 return Result.success(entity);
@@ -84,7 +80,7 @@ class ModerationImageAggregate {
                 const approved = it.value.approve();
 
                 return ModerationImageData.facade.update(approved.get()).pipe(
-                    map(() => ModerationImageAggregate.notFoundError(approved)),
+                    map(() => Result.success(approved)),
                     switchMap(this.todo.update)
                 )
             })
@@ -101,7 +97,7 @@ class ModerationImageAggregate {
                 const declined = it.value.setReason(reason).decline();
 
                 return ModerationImageData.facade.update(declined.get()).pipe(
-                    map(() => ModerationImageAggregate.notFoundError(declined)),
+                    map(() => Result.success(declined)),
                     switchMap(this.todo.update)
                 )
             })
