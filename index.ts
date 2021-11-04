@@ -1,10 +1,15 @@
 import {Application} from "application/main";
 
-import {ModerationImageAggregate} from "domains/aggregates/moderation/queue";
+import {ModerationImageAggregate, Sort, Deleted} from "domains/aggregates/moderation/queue";
 import { Reason } from "domains/entities/users.moderation.image";
 
 const entity = ModerationImageAggregate.shared({
-
+    queueName: 'male',
+    newestFirst: Sort.NEWEST,
+    timestamp: Date.now(),
+    page: 1,
+    pagesize: 20,
+    showDeleted: Deleted.FALSE
 });
 
 entity.data().subscribe(it => {

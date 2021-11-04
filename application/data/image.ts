@@ -34,10 +34,7 @@ class ModerationImageData extends Data {
 
     update(value: ModerationImageType) {
         return new Observable<Result<any, FAILURE_MESSAGE>>(observer => {
-            observer.next(Result.success({
-                items: [initial],
-                total: 1
-            }));
+            observer.next(Result.success(true));
             observer.complete();
         })
     }

@@ -3,17 +3,35 @@ import { switchMap, map } from "rxjs/operators";
 
 import type {IdentifierI} from "utils/unique-id";
 import {singleton} from "utils/singleton";
+import {Result} from "utils/result/dto";
 
 import {EntityResult} from "domains/core/entity/result";
 import {ToDoList} from "domains/core/entity/to-do-list";
 
+import type {ModerationCategoriesType} from "domains/entities/users.moderation.categories";
 import type {ModerationImageType} from "domains/entities/users.moderation.image";
-import {ModerationImageEntity, Reason} from "domains/entities/users.moderation.image";
+import {ModerationImageEntity, Reason, Action} from "domains/entities/users.moderation.image";
 
 import {ModerationImageData} from "data/image";
-import {Result} from "utils/result/dto";
 
-type FiltersProps = {}
+enum Sort {
+    NEWEST,
+    OLDEST
+}
+
+enum Deleted {
+    FALSE,
+    TRUE
+}
+
+type FiltersProps = {
+    readonly queueName: keyof ModerationCategoriesType
+    newestFirst: Sort
+    timestamp: number
+    page: number
+    pagesize: number
+    showDeleted: Deleted
+}
 
 class ModerationImageAggregate {
     static shared = singleton((filters: FiltersProps) => new ModerationImageAggregate(filters));
@@ -98,4 +116,4 @@ class ModerationImageAggregate {
 }
 
 export type {ModerationImageType, FiltersProps};
-export {ModerationImageAggregate};
+export {ModerationImageAggregate, Sort, Deleted};
