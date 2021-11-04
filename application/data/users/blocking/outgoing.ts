@@ -7,7 +7,31 @@ import type { UsersBlockingType} from "domains/entities/users.blocking";
 
 const initial: UsersBlockingType = {
     blockedAt: new Date(),
-    profileId: 12321321321,
+    data: {
+        identifier: 'U.as123123213masdsa-asdqwe12-213',
+        age: 12,
+        about: 'Bats are amazing!',
+        gender: 'other',
+        height: 123,
+        firstName: 'John',
+        id: 12321321321,
+        lastName: 'Jonson',
+        birthday: new Date(1972, 12, 2)
+    },
+    media: {
+        userId: '123123',
+        pictureUrl: 'asdasdasd',
+        imageIdentifiers: ['123123123'],
+        profilePictures: [{
+            identifier: 'asdas',
+            createdAt: new Date(),
+            moderator: 'asd',
+            decision: 'asdasd',
+            displayText: 'string',
+            moderatedAt: new Date()
+        }],
+        thumbnail: 'adasdasdasd'
+    }
 };
 
 class OutgoingBlockingData extends Data {

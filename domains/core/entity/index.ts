@@ -6,6 +6,7 @@ import type { ValueObject } from 'domains/core/entity/value-object';
 interface EntityLikeProps {
     id: IdentifierI
     readonly value: ValueObject<any>
+    readonly entities?: Record<string, Entity<any>>
 }
 
 interface EntityLike<Props extends EntityLikeProps> {

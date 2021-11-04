@@ -1,4 +1,8 @@
+import type { UserType } from "domains/entities/users";
+import type { UserMedia } from "domains/entities/users.media";
+
 export type UsersBlockingType = {
     blockedAt: Date
-    profileId: number|null
+    data: UserType
+    media: UserMedia
 }
