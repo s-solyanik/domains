@@ -2,7 +2,7 @@ import {Observable} from "rxjs";
 
 import { Data } from "data/core/data";
 
-import type { FiltersProps, UserPurchasesType } from "domains/aggregates/users/purchases";
+import type { FiltersProps, UserPurchasesType } from "domains/admin/aggregates/users/purchases";
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 
 const Value:UserPurchasesType = {

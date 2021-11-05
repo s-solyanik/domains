@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import { Data } from "data/core/data";
 
 import { FAILURE_MESSAGE, Result } from "utils/result/dto";
-import type { UserReportedType, FiltersProps } from "domains/aggregates/users/reported";
+import type { UserReportedType, FiltersProps } from "domains/admin/aggregates/users/reported";
 
 const initial: UserReportedType = {
     id: 2623202,

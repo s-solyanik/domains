@@ -2,7 +2,7 @@ import {Observable} from "rxjs";
 
 import { Data } from "data/core/data";
 
-import type { UserImpressionType, FiltersProps } from "domains/aggregates/users/impression";
+import type { UserImpressionType, FiltersProps } from "domains/admin/aggregates/users/impression";
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 
 const initial: UserImpressionType = {

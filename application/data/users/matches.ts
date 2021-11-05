@@ -2,7 +2,7 @@ import {Observable} from "rxjs";
 
 import { Data } from "data/core/data";
 
-import type { FiltersProps, UserMatchesType } from "domains/aggregates/users/matches";
+import type { FiltersProps, UserMatchesType } from "domains/admin/aggregates/users/matches";
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 
 const Value: UserMatchesType = {

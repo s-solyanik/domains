@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 import { Data } from "data/core/data";
 
-import type { FiltersProps, DialogsMessageType } from "domains/aggregates/dialogs/messages";
+import type { FiltersProps, DialogsMessageType } from "domains/admin/aggregates/dialogs/messages";
 
 const initial: DialogsMessageType = {
     sender: 123,

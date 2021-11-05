@@ -4,7 +4,7 @@ import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 import {singleton} from "utils/singleton";
 
 import { Data } from "data/core/data";
-import type { FiltersProps, AdsType } from "domains/aggregates/promotions/ads";
+import type { FiltersProps, AdsType } from "domains/admin/aggregates/promotions/ads";
 
 export const ADS_TEMP = {
     adName: "elite - video - instant match - male - 10/21/21",

@@ -2,7 +2,7 @@ import {Observable} from "rxjs";
 
 import { Data } from "data/core/data";
 
-import type { FiltersProps, UserUnmatchedType } from "domains/aggregates/users/unmatches";
+import type { FiltersProps, UserUnmatchedType } from "domains/admin/aggregates/users/unmatches";
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 
 const Value: UserUnmatchedType = {

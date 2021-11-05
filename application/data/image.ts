@@ -4,7 +4,7 @@ import { Data } from "data/core/data";
 
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 
-import type { FiltersProps, ModerationImageType } from "domains/aggregates/moderation/queue";
+import type { FiltersProps, ModerationImageType } from "domains/admin/aggregates/moderation/queue";
 
 const initial = {
     action: "report",
