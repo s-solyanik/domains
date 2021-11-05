@@ -1,8 +1,8 @@
 import { ValueObject } from 'domains/core/entity/value-object';
-import type { UserMatches } from 'domains/entities/users.matches/type';
+import type { UserMatchesType } from 'domains/entities/users.matches/type';
 
-class UserMatchesValueObject extends ValueObject<UserMatches> {
-    static factory(preference: UserMatches): UserMatchesValueObject {
+class UserMatchesValueObject extends ValueObject<UserMatchesType> {
+    static factory(preference: UserMatchesType) {
         return new UserMatchesValueObject(preference);
     }
 }

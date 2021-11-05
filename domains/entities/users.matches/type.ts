@@ -1,5 +1,4 @@
-export type UserMatches = {
-    userId: string
+export type UserMatchesType = {
     id: number
     uuid: string
     createdAt: Date

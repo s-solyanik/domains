@@ -1,8 +1,8 @@
 import {Application} from "application/main";
 
-import {UserImpressionAggregate} from "domains/aggregates/users/impression";
+import {UserMatchesAggregate} from "domains/aggregates/users/matches";
 
-const outgoing = UserImpressionAggregate.shared('123', {
+const outgoing = UserMatchesAggregate.shared('123', {
     page: 1,
     pagesize: 20
 });
