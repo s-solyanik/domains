@@ -26,7 +26,7 @@ class UserMatchesAggregate {
     private constructor(id: string, filters: FiltersProps) {
         this.id = UserMatchesEntity.id(`list.${id}`);
         this.filters = filters;
-        this.todo = new ToDoList<UserMatchesEntity>(this.id, this.read, 300);
+        this.todo = new ToDoList<UserMatchesEntity>(this.id, this.read, 1000);
     }
 
     private read = () => {

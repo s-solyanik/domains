@@ -1,10 +1,10 @@
 import { ValueObject } from 'domains/core/entity/value-object';
-import type { Purchase } from 'domains/entities/users.purchases/type';
+import type { UserPurchasesType } from 'domains/entities/users.purchases/type';
 
-class PurchaseValueObject extends ValueObject<Purchase> {
-    static factory(preference: Purchase): PurchaseValueObject {
-        return new PurchaseValueObject(preference);
+class UserPurchaseValueObject extends ValueObject<UserPurchasesType> {
+    static factory(purchases: UserPurchasesType) {
+        return new UserPurchaseValueObject(purchases);
     }
 }
 
-export { PurchaseValueObject };
+export { UserPurchaseValueObject };

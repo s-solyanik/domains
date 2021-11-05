@@ -1,5 +1,4 @@
-export type Purchase = {
-    userId: string
+export type UserPurchasesType = {
     id: number
     createdAt: Date
     profileId: number
