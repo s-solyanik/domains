@@ -1,5 +1,4 @@
-export type Impression = {
-    userId: string
+export type UserImpressionType = {
     count: number
     date: Date
 }

@@ -1,10 +1,10 @@
 import { ValueObject } from 'domains/core/entity/value-object';
-import type { Impression } from 'domains/entities/users.impressions/type';
+import type { UserImpressionType } from 'domains/entities/users.impressions/type';
 
-class ImpressionValueObject extends ValueObject<Impression> {
-    static factory(impression: Impression): ImpressionValueObject {
-        return new ImpressionValueObject(impression);
+class UserImpressionValueObject extends ValueObject<UserImpressionType> {
+    static factory(impression: UserImpressionType) {
+        return new UserImpressionValueObject(impression);
     }
 }
 
-export { ImpressionValueObject };
+export { UserImpressionValueObject };
