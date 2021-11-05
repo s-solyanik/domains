@@ -1,5 +1,5 @@
-import { Observable, of } from "rxjs";
-import { map, tap, switchMap } from "rxjs/operators";
+import { Observable, of} from "rxjs";
+import {map, tap, switchMap, take} from "rxjs/operators";
 
 import type { IdentifierI } from "utils/unique-id";
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
@@ -29,6 +29,13 @@ class EntityState<EntityType extends Entity<any>, ObjectValueType extends any> {
                 }))
             )
         });
+    }
+
+    public origin() {
+        return this.record.origin().pipe(
+            take(1),
+            map(it => it)
+        );
     }
 
     public data(): Observable<ResultWrapper<ObjectValueType>> {

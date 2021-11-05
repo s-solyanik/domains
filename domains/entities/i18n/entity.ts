@@ -11,6 +11,10 @@ interface I18nProps {
 }
 
 class I18nEntity extends Entity<I18nProps> {
+    public get() {
+        return this;
+    }
+
     public text(resource: URL) {
         const { host, pathname, hash } = resource;
 
