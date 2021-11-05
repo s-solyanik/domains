@@ -3,7 +3,7 @@ import type { IdentifierI } from 'utils/unique-id';
 import { Entity } from 'domains/core/entity';
 
 import { UserUnmatchedValueObject } from 'domains/entities/users.unmatched/value-object';
-import type { UserUnmatched } from 'domains/entities/users.unmatched/type';
+import type { UserUnmatchedType } from 'domains/entities/users.unmatched/type';
 
 interface UserUnmatchedProps {
     readonly id: IdentifierI
@@ -11,14 +11,6 @@ interface UserUnmatchedProps {
 }
 
 class UserUnmatchedEntity extends Entity<UserUnmatchedProps> {
-    public update(value: Partial< Omit<UserUnmatched, 'userId'>>) {
-        const { userId, ...rest } = this.get();
-        return UserUnmatchedEntity.factory(userId, {
-            ...rest,
-            ...value
-        });
-    }
-
     public get() {
         return this.props.value.get();
     }
@@ -27,13 +19,10 @@ class UserUnmatchedEntity extends Entity<UserUnmatchedProps> {
         return UserUnmatchedEntity.createId(`users.unmatched.${id}`);
     }
 
-    static factory(id: string, props: Omit<UserUnmatched, 'userId'>) {
+    static factory(props: UserUnmatchedType) {
         return new UserUnmatchedEntity({
-            id: UserUnmatchedEntity.id(id),
-            value: UserUnmatchedValueObject.factory({
-                userId: id,
-                ...props
-            })
+            id: UserUnmatchedEntity.id(`${props.id}`),
+            value: UserUnmatchedValueObject.factory(props)
         });
     }
 }

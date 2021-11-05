@@ -1,5 +1,4 @@
-export type UserUnmatched = {
-    userId: string
+export type UserUnmatchedType = {
     id: number
     createdAt: Date
     action: string
