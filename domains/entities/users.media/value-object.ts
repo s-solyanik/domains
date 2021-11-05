@@ -1,8 +1,8 @@
 import { ValueObject } from 'domains/core/entity/value-object';
-import type { UserMedia } from 'domains/entities/users.media/type';
+import type { UserMediaType } from 'domains/entities/users.media/type';
 
-class UserMediaValueObject extends ValueObject<UserMedia> {
-    static factory(preference: UserMedia): UserMediaValueObject {
+class UserMediaValueObject extends ValueObject<UserMediaType> {
+    static factory(preference: UserMediaType) {
         return new UserMediaValueObject(preference);
     }
 }

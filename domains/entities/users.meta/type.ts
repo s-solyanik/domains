@@ -24,8 +24,8 @@ export type AnalyticsLink = {
     src: string
 }
 
-export type UserMeta = {
-    userId: string
+export type UserMetaType = {
+    id: number
     community: string
     education: string
     occupation: string

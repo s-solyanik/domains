@@ -1,5 +1,5 @@
 import { ValueObject } from 'domains/core/entity/value-object';
-import type { UserMeta } from 'domains/entities/users.meta/type';
+import type { UserMetaType } from 'domains/entities/users.meta/type';
 
 const TEST_PHONE_NUMBERS: string[] = [
     '14243714614',
@@ -21,7 +21,7 @@ const TEST_PHONE_NUMBERS: string[] = [
     '7148667276'
 ];
 
-class UserMetaValueObject extends ValueObject<UserMeta> {
+class UserMetaValueObject extends ValueObject<UserMetaType> {
     static getReview() {
         return [
             'Visible',
@@ -34,7 +34,7 @@ class UserMetaValueObject extends ValueObject<UserMeta> {
         ];
     }
 
-    static factory(preference: UserMeta): UserMetaValueObject {
+    static factory(preference: UserMetaType) {
         return new UserMetaValueObject(preference);
     }
 }

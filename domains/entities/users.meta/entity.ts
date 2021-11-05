@@ -2,7 +2,7 @@ import type { IdentifierI } from 'utils/unique-id';
 
 import { Entity } from 'domains/core/entity';
 
-import type { UserMeta } from 'domains/entities/users.meta/type';
+import type { UserMetaType } from 'domains/entities/users.meta/type';
 import { UserMetaValueObject, TEST_PHONE_NUMBERS } from 'domains/entities/users.meta/value-object';
 
 interface UserMetaProps {
@@ -11,22 +11,13 @@ interface UserMetaProps {
 }
 
 class UserMetaEntity extends Entity<UserMetaProps> {
-    private readonly mandatoryFields: Array<Partial<keyof UserMeta>> = [
+    private readonly mandatoryFields: Array<Partial<keyof UserMetaType>> = [
         'email'
     ];
 
-    public update(value: Partial<Omit<UserMeta, 'userId'>>) {
-        const { userId, ...rest } = this.get();
-        return UserMetaEntity.factory(userId, {
-            ...rest,
-            ...value
-        });
-    }
-
     public hide() {
-        const { userId, ...rest } = this.get();
-        return UserMetaEntity.factory(userId, {
-            ...rest,
+        return UserMetaEntity.factory({
+            ...this.get(),
             review: 'Hidden'
         });
     }
@@ -51,13 +42,10 @@ class UserMetaEntity extends Entity<UserMetaProps> {
         return UserMetaEntity.createId(`users.meta.${id}`);
     }
 
-    static factory(id: string, props: Omit<UserMeta, 'userId'>) {
+    static factory(props: UserMetaType) {
         return new UserMetaEntity({
-            id: UserMetaEntity.id(id),
-            value: UserMetaValueObject.factory({
-                userId: id,
-                ...props
-            })
+            id: UserMetaEntity.id(`${props.id}`),
+            value: UserMetaValueObject.factory(props)
         });
     }
 }

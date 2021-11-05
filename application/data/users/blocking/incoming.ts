@@ -19,7 +19,7 @@ const initial: UsersBlockingType = {
         birthday: new Date(1972, 12, 2)
     },
     media: {
-        userId: '123123',
+        id: 123123,
         pictureUrl: 'asdasdasd',
         imageIdentifiers: ['123123123'],
         profilePictures: [{

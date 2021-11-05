@@ -1,5 +1,5 @@
-export type UserLocation = {
-    userId: string
+export type UserLocationType = {
+    id: number
     city: string
     country: string
     state: string

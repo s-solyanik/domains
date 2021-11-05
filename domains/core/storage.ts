@@ -2,8 +2,8 @@ import {BehaviorSubject, Observable, EMPTY, of, zip } from 'rxjs';
 import { switchMap, take } from "rxjs/operators";
 
 import type {IdentifierI} from "utils/unique-id";
-import {singleton} from "utils/singleton";
 import {UID} from "utils/unique-id";
+import {singleton} from "utils/singleton";
 
 export type Record<T> = {
     data: T

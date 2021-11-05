@@ -2,7 +2,7 @@ import type { IdentifierI } from 'utils/unique-id';
 
 import { Entity } from 'domains/core/entity';
 
-import type { UserMedia } from 'domains/entities/users.media/type';
+import type { UserMediaType } from 'domains/entities/users.media/type';
 import { UserMediaValueObject } from 'domains/entities/users.media/value-object';
 
 interface UserMediaProps {
@@ -11,17 +11,9 @@ interface UserMediaProps {
 }
 
 class UserMediaEntity extends Entity<UserMediaProps> {
-    private readonly mandatoryFields: Array<Partial<keyof UserMedia>> = [
+    private readonly mandatoryFields: Array<Partial<keyof UserMediaType>> = [
         'pictureUrl'
     ];
-
-    public update(value: Partial<Omit<UserMedia, 'userId'>>) {
-        const { userId, ...rest } = this.get();
-        return UserMediaEntity.factory(userId, {
-            ...rest,
-            ...value
-        });
-    }
 
     public get() {
         return this.props.value.get();
@@ -35,13 +27,10 @@ class UserMediaEntity extends Entity<UserMediaProps> {
         return UserMediaEntity.createId(`users.media.${id}`);
     }
 
-    static factory(id: string, props: Omit<UserMedia, 'userId'>) {
+    static factory(props: UserMediaType) {
         return new UserMediaEntity({
-            id: UserMediaEntity.id(id),
-            value: UserMediaValueObject.factory({
-                userId: id,
-                ...props
-            })
+            id: UserMediaEntity.id(`${props.id}`),
+            value: UserMediaValueObject.factory(props)
         });
     }
 }

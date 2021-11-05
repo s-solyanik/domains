@@ -7,8 +7,8 @@ export type ProfilePicture = {
     moderatedAt?: Date
 }
 
-export type UserMedia = {
-    userId: string
+export type UserMediaType = {
+    id: number
     pictureUrl: string
     imageIdentifiers: string[]
     profilePictures: ProfilePicture[]

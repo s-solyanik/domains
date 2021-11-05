@@ -2,7 +2,7 @@ import type { IdentifierI } from 'utils/unique-id';
 
 import { Entity } from 'domains/core/entity';
 
-import type { UserLocation } from 'domains/entities/users.location/type';
+import type { UserLocationType } from 'domains/entities/users.location/type';
 import { UserLocationValueObject } from 'domains/entities/users.location/value-object';
 
 interface UserLocationProps {
@@ -11,14 +11,6 @@ interface UserLocationProps {
 }
 
 class UserLocationEntity extends Entity<UserLocationProps> {
-    public update(value: Partial<Omit<UserLocation, 'userId'>>) {
-        const { userId, ...rest } = this.get();
-        return UserLocationEntity.factory(userId, {
-            ...rest,
-            ...value
-        });
-    }
-
     public get() {
         return this.props.value.get();
     }
@@ -27,13 +19,10 @@ class UserLocationEntity extends Entity<UserLocationProps> {
         return UserLocationEntity.createId(`users.location.${id}`);
     }
 
-    static factory(id: string, props: Omit<UserLocation, 'userId'>) {
+    static factory(props: UserLocationType) {
         return new UserLocationEntity({
-            id: UserLocationEntity.id(id),
-            value: UserLocationValueObject.factory({
-                userId: id,
-                ...props
-            })
+            id: UserLocationEntity.id(`${props.id}`),
+            value: UserLocationValueObject.factory(props)
         });
     }
 }
