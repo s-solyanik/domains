@@ -1,8 +1,8 @@
 import {Application} from "application/main";
 
-import {UserUnmatchedAggregate} from "domains/aggregates/users/unmatches";
+import {UserReportedAggregate} from "domains/aggregates/users/reported";
 
-const outgoing = UserUnmatchedAggregate.shared('123', {
+const outgoing = UserReportedAggregate.shared('123', {
     page: 1,
     pagesize: 20
 });
