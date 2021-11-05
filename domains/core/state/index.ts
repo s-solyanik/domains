@@ -40,7 +40,7 @@ class State<T> {
 
     public data(): Observable<ResultWrapper<T>> {
         return this.record.data().pipe(
-            map(it => {
+            map((it) => {
                 if(!it.isSuccessful) {
                     return Result.failure(it.error);
                 }
@@ -54,7 +54,7 @@ class State<T> {
                     })
                 }
 
-                return Result.success(value);
+                return Result.success(value as T);
             })
         );
     }

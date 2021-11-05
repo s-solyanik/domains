@@ -36,7 +36,9 @@ class UserFingerPrintAggregate {
     }
 
     public data() {
-        return this.state.data();
+        return this.state.data().pipe(
+            switchMap(it => EntityResult.unitGet<UserFingerprintEntity, FingerprintType>(it)),
+        );
     }
 }
 

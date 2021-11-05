@@ -1,10 +1,9 @@
 import {Application} from "application/main";
 
-import {I18nAggregate} from "domains/aggregates/i18n";
+import {UserFingerPrintAggregate} from "domains/aggregates/indentity/fingerprint";
 
-const outgoing = I18nAggregate.shared(undefined);
-const url = new URL('https://test.co/text');
-url.hash = '#test'
-outgoing.text(url).subscribe(it => {
-    Application.shared().logger.debug('Out ID %s value %s', outgoing.id.toString(), JSON.stringify(it));
+const entity = UserFingerPrintAggregate.shared('Uasdasd');
+
+entity.data().subscribe(it => {
+    Application.shared().logger.debug('ID %s value %s', entity.id.toString(), JSON.stringify(it));
 })

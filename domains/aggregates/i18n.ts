@@ -40,7 +40,7 @@ class I18nAggregate {
     }
 
     //UrlWithStringQuery
-    public text(link: any) {
+    public data(link: any) {
         return this.state.data().pipe(
             map(it => {
                 if(!it.isSuccessful) {

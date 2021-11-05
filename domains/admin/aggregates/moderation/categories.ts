@@ -29,7 +29,9 @@ class ModerationCategoriesAggregate {
     }
 
     public data() {
-        return this.state.data();
+        return this.state.data().pipe(
+            switchMap(it => EntityResult.unitGet<ModerationCategoriesEntity, ModerationCategoriesType>(it))
+        );
     }
 }
 
