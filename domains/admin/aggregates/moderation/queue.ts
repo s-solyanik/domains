@@ -6,7 +6,7 @@ import {singleton} from "utils/singleton";
 import {Result} from "utils/result/dto";
 
 import {EntityResult} from "domains/core/entity/result";
-import {ToDoList} from "domains/core/entity/to-do-list";
+import {ToDoList} from "domains/core/to-do-list";
 
 import type {ModerationCategoriesType} from "domains/entities/users.moderation.categories";
 import type {ModerationImageType} from "domains/entities/users.moderation.image";

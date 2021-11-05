@@ -4,7 +4,7 @@ import type { IdentifierI } from "utils/unique-id";
 import { singleton } from "utils/singleton";
 
 import { EntityResult } from "domains/core/entity/result";
-import { EntityState } from "domains/core/entity/with-state";
+import { State } from "domains/core/state";
 
 import type { FingerprintType } from "domains/entities/users.fingerprint";
 import { UserFingerprintEntity } from "domains/entities/users.fingerprint";
@@ -15,11 +15,11 @@ class UserFingerPrintAggregate {
     static shared = singleton((id: string) => new UserFingerPrintAggregate(id));
 
     public readonly id: IdentifierI;
-    private readonly state: EntityState<UserFingerprintEntity, FingerprintType>;
+    private readonly state: State<UserFingerprintEntity>;
 
     private constructor(id: string) {
         this.id = UserFingerprintEntity.id(id);
-        this.state = new EntityState<UserFingerprintEntity, FingerprintType>(this.id, this.read, 300);
+        this.state = new State<UserFingerprintEntity>(this.id, this.read, 300);
     }
 
     private read = () => {

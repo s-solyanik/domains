@@ -12,7 +12,7 @@ interface I18nProps {
 
 class I18nEntity extends Entity<I18nProps> {
     public get() {
-        return this;
+        return this.props.value.get();
     }
 
     public text(resource: URL) {

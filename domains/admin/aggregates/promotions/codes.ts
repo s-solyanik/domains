@@ -5,7 +5,7 @@ import { Result } from "utils/result/dto";
 import { singleton } from "utils/singleton";
 
 import { EntityResult } from "domains/core/entity/result";
-import { ToDoList } from "domains/core/entity/to-do-list";
+import { ToDoList } from "domains/core/to-do-list";
 
 import type { PromotionCodeType } from "domains/entities/promotions.code";
 import { PromotionCodeEntity } from "domains/entities/promotions.code";

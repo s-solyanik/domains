@@ -6,7 +6,7 @@ import {singleton} from "utils/singleton";
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 
 import {EntityResult} from "domains/core/entity/result";
-import {EntityState} from "domains/core/entity/with-state";
+import {State} from "domains/core/state";
 
 import type {I18nType} from "domains/entities/i18n";
 import {I18nEntity} from "domains/entities/i18n";
@@ -17,11 +17,11 @@ class I18nAggregate {
     static shared = singleton((texts?: Record<string, any>) => new I18nAggregate(texts));
 
     public readonly id: IdentifierI;
-    private readonly state: EntityState<I18nEntity, I18nType>;
+    private readonly state: State<I18nEntity>;
 
     private constructor(texts?: Record<string, any>) {
         this.id = I18nEntity.id();
-        this.state = new EntityState<I18nEntity, I18nType>(
+        this.state = new State<I18nEntity>(
             this.id,
             !texts ? this.read : () => {
                 return new Observable<Result<I18nEntity, FAILURE_MESSAGE>>(observer => {

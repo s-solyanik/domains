@@ -4,7 +4,7 @@ import type {IdentifierI} from "utils/unique-id";
 import {singleton} from "utils/singleton";
 
 import {EntityResult} from "domains/core/entity/result";
-import {ToDoList} from "domains/core/entity/to-do-list";
+import {ToDoList} from "domains/core/to-do-list";
 
 import type {UsersBlockingType} from "domains/entities/users.blocking";
 import {UsersBlockingEntity} from "domains/entities/users.blocking";

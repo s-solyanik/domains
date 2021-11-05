@@ -6,18 +6,18 @@ import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 
 import { EntityResult } from "domains/core/entity/result";
 import type { StateRecord } from "domains/core/state/record";
-import { Entity } from "domains/core/entity/index";
+
 import { Domains } from "domains/core/domains/application";
 
 type ResultWrapper<T> = Result<T, FAILURE_MESSAGE>;
 
-class EntityState<EntityType extends Entity<any>, ObjectValueType extends any> {
+class State<T> {
     private readonly ttl: number;
-    private readonly record: StateRecord<ResultWrapper<EntityType>>
+    private readonly record: StateRecord<ResultWrapper<T>>
 
     constructor(
         id: IdentifierI,
-        actualize: () => Observable<ResultWrapper<EntityType>>,
+        actualize: () => Observable<ResultWrapper<T>>,
         ttl= 0
     ) {
         this.ttl = ttl;
@@ -38,19 +38,28 @@ class EntityState<EntityType extends Entity<any>, ObjectValueType extends any> {
         );
     }
 
-    public data(): Observable<ResultWrapper<ObjectValueType>> {
+    public data(): Observable<ResultWrapper<T>> {
         return this.record.data().pipe(
             map(it => {
                 if(!it.isSuccessful) {
                     return Result.failure(it.error);
                 }
 
-                return Result.success(it.value.get() as unknown as ObjectValueType);
+                const value = it.value;
+
+                if(!value) {
+                    return Result.failure({
+                        status: 404,
+                        message: 'Record not found'
+                    })
+                }
+
+                return Result.success(value);
             })
         );
     }
 
-    public update = (updated: ResultWrapper<EntityType>) => {
+    public update = (updated: ResultWrapper<T>) => {
         return of(updated).pipe(
             tap((it) => {
                 if(!it.isSuccessful) {
@@ -75,4 +84,4 @@ class EntityState<EntityType extends Entity<any>, ObjectValueType extends any> {
     }
 }
 
-export { EntityState };
+export { State };

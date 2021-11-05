@@ -4,7 +4,7 @@ import type {IdentifierI} from "utils/unique-id";
 import {singleton} from "utils/singleton";
 
 import {EntityResult} from "domains/core/entity/result";
-import {EntityState} from "domains/core/entity/with-state";
+import {State} from "domains/core/state";
 
 import type {ModerationCategoriesType} from "domains/entities/users.moderation.categories";
 import {ModerationCategoriesEntity} from "domains/entities/users.moderation.categories";
@@ -15,11 +15,11 @@ class ModerationCategoriesAggregate {
     static shared = singleton(() => new ModerationCategoriesAggregate());
 
     public readonly id: IdentifierI;
-    private readonly state: EntityState<ModerationCategoriesEntity, ModerationCategoriesType>;
+    private readonly state: State<ModerationCategoriesEntity>;
 
     private constructor() {
         this.id = ModerationCategoriesEntity.id();
-        this.state = new EntityState<ModerationCategoriesEntity, ModerationCategoriesType>(this.id, this.read, 300);
+        this.state = new State<ModerationCategoriesEntity>(this.id, this.read, 300);
     }
 
     private read = () => {
