@@ -2,16 +2,16 @@ import type { IdentifierI } from 'utils/unique-id';
 
 import { Entity } from 'domains/core/entity';
 
-import type { UserType } from 'domains/entities/users/type';
-import { UserValueObject } from 'domains/entities/users/value-object';
+import type { UserDataType } from 'domains/entities/users.data/type';
+import { UserValueObject } from 'domains/entities/users.data/value-object';
 
 interface UserProps {
     readonly id: IdentifierI
     readonly value: UserValueObject
 }
 
-class UserEntity extends Entity<UserProps> {
-    private readonly mandatoryFields: Array<Partial<keyof UserType>> = [
+class UserDataEntity extends Entity<UserProps> {
+    private readonly mandatoryFields: Array<Partial<keyof UserDataType>> = [
         'firstName',
         'gender',
         'birthday'
@@ -21,8 +21,8 @@ class UserEntity extends Entity<UserProps> {
         return this.props.value.get();
     }
 
-    public update(value: Partial<UserType>) {
-        return UserEntity.factory({
+    public update(value: Partial<UserDataType>) {
+        return UserDataEntity.factory({
             ...this.get(),
             ...value
         });
@@ -33,15 +33,15 @@ class UserEntity extends Entity<UserProps> {
     }
 
     static id(id: string) {
-        return Entity.createId(`users.${id}`);
+        return Entity.createId(`users.data.${id}`);
     }
 
-    static factory(props: UserType) {
-        return new UserEntity({
-            id: UserEntity.id(props.identifier),
+    static factory(props: UserDataType) {
+        return new UserDataEntity({
+            id: UserDataEntity.id(props.identifier),
             value: UserValueObject.factory(props)
         });
     }
 }
 
-export { UserEntity };
+export { UserDataEntity };

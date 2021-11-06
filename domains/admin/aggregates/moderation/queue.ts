@@ -53,7 +53,7 @@ class ModerationImageAggregate {
                     return Result.failure(it.error);
                 }
 
-                const entity = it.value.items.find(it => it.id.equals(ModerationImageEntity.id(id)));
+                const entity = it.value.items.find(item => item.id.equals(ModerationImageEntity.id(id)));
 
                 if(!entity) {
                     return Result.failure({ status: 404, message: 'Image not found'});

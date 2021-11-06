@@ -1,4 +1,4 @@
-export type UserType = {
+export type UserDataType = {
     identifier: string
     age: number
     about: string

@@ -9,7 +9,7 @@ type Factory<Entity, ObjectValue> = (args: ObjectValue) => Entity;
 type ResultWrapper<T> = Result<T, FAILURE_MESSAGE>;
 
 class EntityResult {
-    static array<Entity extends AbstractEntity<any>, ObjectValue extends any>(
+    static array<Entity, ObjectValue>(
         factory: Factory<Entity, ObjectValue>,
         it: ResultWrapper<{ items: ObjectValue[], total: number }>
     ) {
@@ -42,7 +42,7 @@ class EntityResult {
         );
     }
 
-    static unit<Entity extends AbstractEntity<any>, ObjectValue extends any>(
+    static unit<Entity, ObjectValue>(
         factory:  Factory<Entity, ObjectValue>,
         it: ResultWrapper<ObjectValue>
     ) {
