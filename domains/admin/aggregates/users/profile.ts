@@ -6,8 +6,8 @@ import {singleton} from "utils/singleton";
 import {EntityResult} from "domains/core/entity/result";
 import {State} from "domains/core/state";
 
-import type { UserI } from "domains/admin/user";
-import { User } from "domains/admin/user";
+import type { UserI } from "domains/admin/entities/user";
+import { User } from "domains/admin/entities/user";
 
 import {UserData} from "data/users/profile";
 import {Result} from "utils/result/dto";

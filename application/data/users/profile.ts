@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import { Data } from "data/core/data";
 
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
-import type { UserI } from "domains/admin/user";
+import type { UserI } from "domains/admin/entities/user";
 
 const initial: UserI = {
     data: {
