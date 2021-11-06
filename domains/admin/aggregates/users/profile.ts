@@ -1,9 +1,9 @@
-import {of} from "rxjs";
+import {of, Observable} from "rxjs";
 import {switchMap, map} from "rxjs/operators";
 
 import type {IdentifierI} from "utils/unique-id";
 import {singleton} from "utils/singleton";
-import {Result} from "utils/result/dto";
+import {Result, SuccessfulResult} from "utils/result/dto";
 
 import {EntityResult} from "domains/core/entity/result";
 import {State} from "domains/core/state";
@@ -11,8 +11,10 @@ import {State} from "domains/core/state";
 import type {UserI} from "domains/admin/entities/user";
 import {User} from "domains/admin/entities/user";
 import {UserFingerPrintAggregate} from "domains/aggregates/indentity/fingerprint";
+import type {UserDefaultPreferencesType} from "domains/entities/users.preference";
 
 import {UserData} from "data/users/user";
+import {UserPreferenceEntity} from "domains/entities/users.preference";
 
 enum Action {
     NOTE = 'note',
@@ -113,6 +115,13 @@ class ProfileAggregate {
         }).pipe(
             switchMap(EntityResult.errorOrSuccess)
         );
+    }
+
+    static getDefaultPreferences() {
+        return new Observable<SuccessfulResult<UserDefaultPreferencesType>>((observer) => {
+            observer.next(Result.success(UserPreferenceEntity.getDefaultPreference()));
+            observer.complete();
+        });
     }
 
     public data() {
