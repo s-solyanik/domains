@@ -2,15 +2,23 @@ import {switchMap, map} from "rxjs/operators";
 
 import type {IdentifierI} from "utils/unique-id";
 import {singleton} from "utils/singleton";
+import {Result} from "utils/result/dto";
 
 import {EntityResult} from "domains/core/entity/result";
 import {ToDoList} from "domains/core/to-do-list";
 
+import { TEST_PHONE_NUMBERS } from "domains/entities/users.meta";
+import { UserPreferenceEntity } from "domains/entities/users.preference";
+import { UserMetaEntity } from "domains/entities/users.meta";
 import type { UserI } from "domains/admin/entities/user";
 import { User } from "domains/admin/entities/user";
 
 import {ProfilesData} from "data/users/profiles";
-import {Result} from "utils/result/dto";
+
+enum Action {
+    NOTE = 'note',
+    SUPER_LIKE = 'superlike'
+}
 
 class ProfilesAggregate {
     static shared = singleton(() => new ProfilesAggregate());
@@ -29,13 +37,6 @@ class ProfilesAggregate {
         )
     }
 
-    public create(value: UserI) {
-        return ProfilesData.facade.create(value).pipe(
-            switchMap(it => EntityResult.unit(User.factory, it)),
-            switchMap(this.todo.update)
-        )
-    }
-
     public update(value: Partial<UserI>) {
         return ProfilesData.facade.update(value).pipe(
             switchMap(it => EntityResult.unit(User.factory, it)),
@@ -47,6 +48,38 @@ class ProfilesAggregate {
         return ProfilesData.facade.delete(id).pipe(
             switchMap(this.todo.remove)
         )
+    }
+
+    public sendSuperLike(id: number, recipient: number) {
+        return ProfilesData.facade.sendAction(id, {
+            decision: Action.SUPER_LIKE,
+            message: null,
+            interestProfileId: recipient
+        }).pipe(
+            switchMap(EntityResult.errorOrSuccess)
+        );
+    }
+
+    public sendNote(id: number, recipient: number, message: string) {
+        return ProfilesData.facade.sendAction(id, {
+            decision: Action.NOTE,
+            message: message,
+            interestProfileId: recipient
+        }).pipe(
+            switchMap(EntityResult.errorOrSuccess)
+        );
+    }
+
+    static getTestPhoneNumbers() {
+        return TEST_PHONE_NUMBERS;
+    }
+
+    static preference() {
+        return UserPreferenceEntity.getDefaultPreference();
+    }
+
+    static review() {
+        return UserMetaEntity.getReview();
     }
 
     public data() {

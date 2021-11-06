@@ -79,6 +79,13 @@ class ProfilesData extends Data {
         })
     }
 
+    sendAction(id: number, payload: any) {
+        return new Observable(observer => {
+            observer.next(Result.success());
+            observer.complete();
+        })
+    }
+
     static get facade() {
         return new ProfilesData();
     }
