@@ -1,6 +1,6 @@
 import {Observable} from "rxjs";
 
-import { Data } from "data/core/data";
+import { Data } from "application/data/core/data";
 
 import type { FiltersProps, UserPurchasesType } from "domains/admin/aggregates/users/purchases";
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";

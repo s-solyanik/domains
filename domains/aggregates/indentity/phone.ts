@@ -3,6 +3,7 @@ import {switchMap, tap, map} from "rxjs/operators";
 
 import type {IdentifierI} from "utils/unique-id";
 import {singleton} from "utils/singleton";
+import {Result} from "utils/result/dto";
 
 import {EntityResult} from "domains/core/entity/result";
 import {State} from "domains/core/state";
@@ -11,7 +12,6 @@ import type {IdentityPhoneType} from "domains/entities/identity.common";
 import {IdentityPhoneEntity} from "domains/entities/identity.common";
 
 import {IdentityPhoneData} from "data/identity/phone";
-import {Result} from "utils/result/dto";
 
 class IdentityPhoneAggregate {
     static shared = singleton(() => new IdentityPhoneAggregate());

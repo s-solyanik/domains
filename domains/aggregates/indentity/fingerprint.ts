@@ -9,7 +9,7 @@ import { State } from "domains/core/state";
 import type { FingerprintType } from "domains/entities/users.fingerprint";
 import { UserFingerprintEntity } from "domains/entities/users.fingerprint";
 
-import { FingerprintData } from "data/fingerprint";
+import { FingerprintData } from "data/identity/fingerprint";
 
 class UserFingerPrintAggregate {
     static shared = singleton((id: string) => new UserFingerPrintAggregate(id));

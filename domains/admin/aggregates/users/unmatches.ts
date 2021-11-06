@@ -35,6 +35,7 @@ class UserUnmatchedAggregate {
             switchMap(it => EntityResult.array(UserUnmatchedEntity.factory, it)),
         )
     }
+
     public data() {
         return this.todo.get().pipe(
             switchMap(it => EntityResult.arrayGet<UserUnmatchedEntity, UserUnmatchedType>(it))

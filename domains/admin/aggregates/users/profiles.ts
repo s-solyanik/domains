@@ -48,7 +48,7 @@ class ProfilesAggregate {
     static shared = singleton((filters: FiltersProps) => new ProfilesAggregate(filters));
 
     public readonly id: IdentifierI;
-    private filters: FiltersProps;
+    private readonly filters: FiltersProps;
     private readonly todo: ToDoList<User>;
 
     private constructor(filters: FiltersProps) {
@@ -89,15 +89,15 @@ class ProfilesAggregate {
         );
     }
 
-    static getTestPhoneNumbers() {
+    static get phones() {
         return TEST_PHONE_NUMBERS;
     }
 
-    static preference() {
+    static get preference() {
         return UserPreferenceEntity.getDefaultPreference();
     }
 
-    static review() {
+    static get review() {
         return UserMetaEntity.getReview();
     }
 

@@ -11,7 +11,7 @@ import {State} from "domains/core/state";
 import type {I18nType} from "domains/entities/i18n";
 import {I18nEntity} from "domains/entities/i18n";
 
-import {I18nData} from "data/i18n";
+import {I18nData} from "data/i18n/static";
 
 class I18nAggregate {
     static shared = singleton((texts?: Record<string, any>) => new I18nAggregate(texts));

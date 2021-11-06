@@ -1,10 +1,10 @@
 import {Observable} from "rxjs";
 
-import { Data } from "data/core/data";
+import { Data } from "application/data/core/data";
 
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 import type { UserI } from "domains/admin/aggregates/users/profiles";
-import { USER } from "data/users/user-data";
+import { USER } from "application/data/users/user-data";
 
 const initial: UserI = USER;
 

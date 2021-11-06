@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
 import {singleton} from "utils/singleton";
 
-import { Data } from "data/core/data";
+import { Data } from "application/data/core/data";
 import type { FiltersProps, PromotionCodeType } from "domains/admin/aggregates/promotions/codes";
 
 export const CODES_TEMP: PromotionCodeType = {

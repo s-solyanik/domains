@@ -10,7 +10,7 @@ import { ToDoList } from "domains/core/to-do-list";
 import type { AdsType } from "domains/entities/promotions";
 import { AdsEntity } from "domains/entities/promotions";
 
-import { AdsData } from "data/ads";
+import { AdsData } from "data/promotion/ads";
 
 type FiltersProps = {
     orderby?: 'desc'|'id'|'startDate.desc,id'

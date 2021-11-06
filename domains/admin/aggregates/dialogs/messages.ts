@@ -9,7 +9,7 @@ import { ToDoList } from "domains/core/to-do-list";
 import type { DialogsMessageType } from "domains/entities/dialogs.messages";
 import { DialogsMessageEntity } from "domains/entities/dialogs.messages";
 
-import { MessagesData } from "data/messages";
+import { MessagesData } from "data/dialogs/messages";
 
 type FiltersProps = {
     page: number

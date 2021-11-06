@@ -1,7 +1,7 @@
 import {Observable} from "rxjs";
 
 import {FAILURE_MESSAGE, Result} from "utils/result/dto";
-import { Data } from "data/core/data";
+import { Data } from "application/data/core/data";
 
 import type { FiltersProps, DialogsMessageType } from "domains/admin/aggregates/dialogs/messages";
 
