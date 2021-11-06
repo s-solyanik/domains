@@ -28,7 +28,7 @@ class User {
         meta: UserMetaEntity
     }
 
-    constructor(user: UserI) {
+    private constructor(user: UserI) {
         this.id = User.id(`${user.data.id}`);
         this.entities = Object.freeze({
             data: UserDataEntity.factory(user.data),
