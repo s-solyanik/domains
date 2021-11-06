@@ -9,7 +9,7 @@ interface IdentityProps {
     readonly value: IdentityValueObject
 }
 
-class Identity extends Entity<IdentityProps> {
+class IdentityEntity extends Entity<IdentityProps> {
     private static readonly ms = 1000;
     private static readonly sec = 60;
 
@@ -33,9 +33,9 @@ class Identity extends Entity<IdentityProps> {
         const { exp } = this.get().tokens.access;
 
         //exp in min
-        const expMin = Math.floor((exp - Date.now()) / (Identity.sec * Identity.ms));
+        const expMin = Math.floor((exp - Date.now()) / (IdentityEntity.sec * IdentityEntity.ms));
 
-        const isValid = Identity.minDelta <= expMin;
+        const isValid = IdentityEntity.minDelta <= expMin;
 
         if(!isValid) {
             const { expiredAt, now } = this.expirationMessage();
@@ -47,15 +47,15 @@ class Identity extends Entity<IdentityProps> {
     }
 
     static id() {
-        return Identity.createId('users.identity.email');
+        return IdentityEntity.createId('users.identity.email');
     }
 
     static factory(access: string, refresh: string, email: string) {
-        return new Identity({
-            id: Identity.id(),
+        return new IdentityEntity({
+            id: IdentityEntity.id(),
             value: IdentityValueObject.factory(access, refresh, email)
         });
     }
 }
 
-export { Identity };
+export { IdentityEntity };
