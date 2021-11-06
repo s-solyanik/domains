@@ -14,7 +14,7 @@ export type FailureResult<E> = {
 export type FAILURE_MESSAGE = {
     status: number
     message: string
-}|null
+}
 
 export type Result<T, E> = SuccessfulResult<T> | FailureResult<E>
 

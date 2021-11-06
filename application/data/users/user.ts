@@ -26,9 +26,16 @@ class UserData extends Data {
         })
     }
 
+    create(payload: any, fingerprint: any) {
+        return new Observable<Result<UserI, FAILURE_MESSAGE>>(observer => {
+            observer.next(Result.success(initial));
+            observer.complete();
+        })
+    }
+
     update(payload: any) {
-        return new Observable(observer => {
-            observer.next(Result.success());
+        return new Observable<Result<UserI, FAILURE_MESSAGE>>(observer => {
+            observer.next(Result.success(initial));
             observer.complete();
         })
     }
