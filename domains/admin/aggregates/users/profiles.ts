@@ -37,13 +37,6 @@ class ProfilesAggregate {
         )
     }
 
-    public update(value: Partial<UserI>) {
-        return ProfilesData.facade.update(value).pipe(
-            switchMap(it => EntityResult.unit(User.factory, it)),
-            switchMap(this.todo.update)
-        )
-    }
-
     public delete(id: string | number) {
         return ProfilesData.facade.delete(id).pipe(
             switchMap(this.todo.remove)
