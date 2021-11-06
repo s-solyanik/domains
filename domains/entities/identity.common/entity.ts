@@ -2,7 +2,7 @@ import type { IdentifierI } from 'utils/unique-id';
 
 import { Entity } from 'domains/core/entity';
 
-import type { IdentityType } from 'domains/entities/identity.common/type';
+import type { IdentityPhoneType } from 'domains/entities/identity.common/type';
 import { IdentityValueObject } from 'domains/entities/identity.common/value-object';
 
 interface IdentityProps {
@@ -10,21 +10,21 @@ interface IdentityProps {
     readonly value: IdentityValueObject
 }
 
-class Identity extends Entity<IdentityProps> {
+class IdentityPhoneEntity extends Entity<IdentityProps> {
     public get() {
         return this.props.value.get();
     }
 
     static id() {
-        return Identity.createId('users.identity.entities');
+        return IdentityPhoneEntity.createId('users.identity.phone');
     }
 
-    static factory(props: IdentityType) {
-        return new Identity({
-            id: Identity.id(),
+    static factory(props: IdentityPhoneType) {
+        return new IdentityPhoneEntity({
+            id: IdentityPhoneEntity.id(),
             value: IdentityValueObject.factory(props)
         });
     }
 }
 
-export { Identity };
+export { IdentityPhoneEntity };

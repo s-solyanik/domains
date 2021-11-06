@@ -57,9 +57,7 @@ class EntityResult {
         );
     }
 
-    static unitGet<Entity extends AbstractEntity<any>, ObjectValue extends any>(
-        it: ResultWrapper<Entity>
-    ) {
+    static unitGet<Entity extends AbstractEntity<any>, ObjectValue extends any>(it: ResultWrapper<Entity>) {
         return of(undefined).pipe(
             map(() => {
                 if(!it.isSuccessful) {

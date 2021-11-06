@@ -1,4 +1,4 @@
-export type IdentityType = {
+export type IdentityPhoneType = {
     guid: string
     identifier: string
     invitedBy: string[]

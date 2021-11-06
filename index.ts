@@ -1,11 +1,8 @@
 import {Application} from "application/main";
 
-import {ProfilesAggregate} from "domains/admin/aggregates/users/profiles";
+import {IdentityPhoneAggregate} from "domains/aggregates/indentity/phone";
 
-const entity = ProfilesAggregate.shared({
-    page: 1,
-    pagesize: 20
-});
+const entity = IdentityPhoneAggregate.shared();
 
 entity.data().subscribe(it => {
     Application.shared().logger.debug('ID %s value %s', entity.id.toString(), JSON.stringify(it));
