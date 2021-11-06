@@ -13,7 +13,8 @@ import { UserMetaEntity } from "domains/entities/users.meta";
 import type { UserI } from "domains/admin/entities/user";
 import { User } from "domains/admin/entities/user";
 
-import {ProfilesData} from "data/users/profiles";
+import {ProfilesData} from "data/users/user-list";
+import {UserData} from "data/users/user";
 
 enum Action {
     NOTE = 'note',
@@ -69,7 +70,7 @@ class ProfilesAggregate {
     }
 
     public sendSuperLike(id: number, recipient: number) {
-        return ProfilesData.facade.sendAction(id, {
+        return UserData.facade.sendAction(id, {
             decision: Action.SUPER_LIKE,
             message: null,
             interestProfileId: recipient
@@ -79,7 +80,7 @@ class ProfilesAggregate {
     }
 
     public sendNote(id: number, recipient: number, message: string) {
-        return ProfilesData.facade.sendAction(id, {
+        return UserData.facade.sendAction(id, {
             decision: Action.NOTE,
             message: message,
             interestProfileId: recipient
