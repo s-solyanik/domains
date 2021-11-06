@@ -108,7 +108,7 @@ class ProfilesAggregate {
                 }
 
                 return {
-                    items: it.value.items.map(item => ({
+                    items: it.value?.items.map(item => ({
                         data: item.get().data.get(),
                         location: item.get().location.get(),
                         media: item.get().media.get(),
