@@ -20,19 +20,44 @@ enum Action {
     SUPER_LIKE = 'superlike'
 }
 
+type isDeleted = 'all'|'false'|'true';
+
+type FiltersProps = {
+    page: number
+    pagesize: number
+    id?: string
+    query?: string
+    firstName?: string
+    lastName?: string
+    identifier?: string
+    facebookId?: string
+    email?: string
+    phoneNumber?: string
+    gender?: 'male' | 'female' | 'other'
+    community?: string
+    religion?: string
+    education?: string
+    career?: string
+    review?: string[]
+    age?: string
+    isDeleted?: isDeleted
+};
+
 class ProfilesAggregate {
-    static shared = singleton(() => new ProfilesAggregate());
+    static shared = singleton((filters: FiltersProps) => new ProfilesAggregate(filters));
 
     public readonly id: IdentifierI;
+    private filters: FiltersProps;
     private readonly todo: ToDoList<User>;
 
-    private constructor() {
+    private constructor(filters: FiltersProps) {
         this.id = User.id('list');
+        this.filters = filters;
         this.todo = new ToDoList<User>(this.id, this.read, 0);
     }
 
     private read = () => {
-        return ProfilesData.facade.read().pipe(
+        return ProfilesData.facade.read(this.filters).pipe(
             switchMap(it => EntityResult.array(User.factory, it))
         )
     }
@@ -96,5 +121,5 @@ class ProfilesAggregate {
     }
 }
 
-export type {UserI};
+export type {UserI, FiltersProps};
 export {ProfilesAggregate};
