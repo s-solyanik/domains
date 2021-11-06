@@ -68,17 +68,20 @@ const initial: UserI = {
     }
 };
 
-class UserData extends Data {
+class ProfilesData extends Data {
     read() {
-        return new Observable<Result<UserI, FAILURE_MESSAGE>>(observer => {
-            observer.next(Result.success(initial));
+        return new Observable<Result<{ items: UserI[], total: number }, FAILURE_MESSAGE>>(observer => {
+            observer.next(Result.success({
+                items: [initial],
+                total: 1
+            }));
             observer.complete();
         })
     }
 
     static get facade() {
-        return new UserData();
+        return new ProfilesData();
     }
 }
 
-export { UserData }
+export { ProfilesData }

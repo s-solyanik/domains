@@ -19,7 +19,7 @@ export interface UserI {
 }
 
 class User {
-    private readonly id: IdentifierI;
+    public readonly id: IdentifierI;
 
     private readonly entities: {
         data: UserDataEntity

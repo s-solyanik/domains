@@ -1,8 +1,8 @@
 import {Application} from "application/main";
 
-import {UserAggregate} from "domains/admin/aggregates/users/profile";
+import {ProfilesAggregate} from "domains/admin/aggregates/users/profiles";
 
-const entity = UserAggregate.shared('Uasdasd');
+const entity = ProfilesAggregate.shared();
 
 entity.data().subscribe(it => {
     Application.shared().logger.debug('ID %s value %s', entity.id.toString(), JSON.stringify(it));
