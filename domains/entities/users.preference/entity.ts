@@ -2,7 +2,7 @@ import type { IdentifierI } from 'utils/unique-id';
 
 import { Entity } from 'domains/core/entity';
 
-import type { UserPreference, UserDefaultPreferences } from 'domains/entities/users.preference/type';
+import type { UserPreferenceType, UserDefaultPreferencesType } from 'domains/entities/users.preference/type';
 import { UserPreferenceValueObject } from 'domains/entities/users.preference/value-object';
 
 interface UserPreferenceProps {
@@ -11,20 +11,11 @@ interface UserPreferenceProps {
 }
 
 class UserPreferenceEntity extends Entity<UserPreferenceProps> {
-    public update(value: Partial<Omit<UserPreference, 'userId'>>) {
-        const { userId, ...rest } = this.get();
-
-        return UserPreferenceEntity.factory(userId, {
-            ...rest,
-            ...value
-        });
-    }
-
     public get() {
         return this.props.value.get();
     }
 
-    static getDefaultPreference(): UserDefaultPreferences {
+    static getDefaultPreference(): UserDefaultPreferencesType {
         return {
             community: UserPreferenceValueObject.community,
             education: UserPreferenceValueObject.education,
@@ -39,13 +30,10 @@ class UserPreferenceEntity extends Entity<UserPreferenceProps> {
         return UserPreferenceEntity.createId(`users.preference.${id}`);
     }
 
-    static factory(id: string, props: Omit<UserPreference, 'userId'>) {
+    static factory(props: UserPreferenceType) {
         return new UserPreferenceEntity({
-            id: UserPreferenceEntity.id(id),
-            value: UserPreferenceValueObject.factory({
-                userId: id,
-                ...props
-            })
+            id: UserPreferenceEntity.id(`${props.id}`),
+            value: UserPreferenceValueObject.factory(props)
         });
     }
 }

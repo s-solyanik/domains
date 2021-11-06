@@ -2,7 +2,7 @@ import type { IdentifierI } from 'utils/unique-id';
 
 import { Entity } from 'domains/core/entity';
 
-import type { UserDevices } from 'domains/entities/users.devices/type';
+import type { UserDevicesType } from 'domains/entities/users.devices/type';
 import { UserDevicesValueObject } from 'domains/entities/users.devices/value-object';
 
 interface UserDevicesProps {
@@ -19,9 +19,9 @@ class UserDevicesEntity extends Entity<UserDevicesProps> {
         return UserDevicesEntity.createId(`users.devices.${id}`);
     }
 
-    static factory(id: string, props: UserDevices) {
+    static factory(props: UserDevicesType) {
         return new UserDevicesEntity({
-            id: UserDevicesEntity.id(id),
+            id: UserDevicesEntity.id(`${props.id}`),
             value: UserDevicesValueObject.factory(props)
         });
     }

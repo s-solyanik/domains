@@ -1,9 +1,9 @@
 import { ValueObject } from 'domains/core/entity/value-object';
-import type { UserDevices } from 'domains/entities/users.devices/type';
+import type { UserDevicesType } from 'domains/entities/users.devices/type';
 
-class UserDevicesValueObject extends ValueObject<UserDevices> {
-    static factory(preference: UserDevices): UserDevicesValueObject {
-        return new UserDevicesValueObject(preference);
+class UserDevicesValueObject extends ValueObject<UserDevicesType> {
+    static factory(devices: UserDevicesType) {
+        return new UserDevicesValueObject(devices);
     }
 }
 

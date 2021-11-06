@@ -1,5 +1,5 @@
-export type UserSocial = {
-    userId: string
+export type UserSocialType = {
+    id: number
     facebookId: string
     facebookToken: string | null
     facebookLikes: string[] | null

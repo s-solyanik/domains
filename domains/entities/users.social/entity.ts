@@ -2,7 +2,7 @@ import type { IdentifierI } from 'utils/unique-id';
 
 import { Entity } from 'domains/core/entity';
 
-import type { UserSocial } from 'domains/entities/users.social/type';
+import type { UserSocialType } from 'domains/entities/users.social/type';
 import { UserSocialValueObject } from 'domains/entities/users.social/value-object';
 
 interface UserSocialProps {
@@ -11,14 +11,6 @@ interface UserSocialProps {
 }
 
 class UserSocialEntity extends Entity<UserSocialProps> {
-    public update(value: Partial<Omit<UserSocial, 'userId'>>) {
-        const { userId, ...rest } = this.get();
-        return UserSocialEntity.factory(userId, {
-            ...rest,
-            ...value
-        });
-    }
-
     public get() {
         return this.props.value.get();
     }
@@ -27,13 +19,10 @@ class UserSocialEntity extends Entity<UserSocialProps> {
         return UserSocialEntity.createId(`users.social.${id}`);
     }
 
-    static factory(id: string, props: Omit<UserSocial, 'userId'>) {
+    static factory(props: UserSocialType) {
         return new UserSocialEntity({
-            id: UserSocialEntity.id(id),
-            value: UserSocialValueObject.factory({
-                userId: id,
-                ...props
-            })
+            id: UserSocialEntity.id(`${props.id}`),
+            value: UserSocialValueObject.factory(props)
         });
     }
 }

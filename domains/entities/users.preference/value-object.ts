@@ -1,8 +1,8 @@
 import { ValueObject } from 'domains/core/entity/value-object';
-import type { UserPreference } from 'domains/entities/users.preference/type';
+import type { UserPreferenceType } from 'domains/entities/users.preference/type';
 
-class UserPreferenceValueObject extends ValueObject<UserPreference> {
-    static factory(preference: UserPreference): UserPreferenceValueObject {
+class UserPreferenceValueObject extends ValueObject<UserPreferenceType> {
+    static factory(preference: UserPreferenceType) {
         return new UserPreferenceValueObject(preference);
     }
 

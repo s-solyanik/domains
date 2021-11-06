@@ -1,5 +1,5 @@
-export type UserPreference = {
-    userId: string
+export type UserPreferenceType = {
+    id: number
     prefGender: string
     prefMaxAge: number
     prefMinAge: number
@@ -22,7 +22,7 @@ export type UserPreference = {
     }>
 }
 
-export type UserDefaultPreferences = {
+export type UserDefaultPreferencesType = {
     community: string[]
     education: string[]
     gender: string[]

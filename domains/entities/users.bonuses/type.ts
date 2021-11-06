@@ -1,4 +1,5 @@
-export type UserBonuses = {
+export type UserBonusesType = {
+    id: number
     dils: number
     bought: number
     daily: number
