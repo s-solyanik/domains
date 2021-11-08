@@ -10,7 +10,7 @@ import { ToDoList } from "domains/core/to-do-list";
 import type { PromotionCodeType } from "domains/entities/promotions.code";
 import { PromotionCodeEntity } from "domains/entities/promotions.code";
 
-import { CodesData } from "data/promotion/codes";
+import { CodesData } from "data/admin/promotion/codes";
 
 type FiltersProps = {
     page: number

@@ -10,7 +10,7 @@ import {State} from "domains/core/state";
 import type {BlogPostType} from "domains/entities/blog.post";
 import {BlogPostEntity} from "domains/entities/blog.post";
 
-import {BlogPostData} from "data/blog/post";
+import {BlogPostData} from "data/web-app/blog/post";
 
 class BlogPostAggregate {
     static shared = singleton((slug: string) => new BlogPostAggregate(slug));

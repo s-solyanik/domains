@@ -11,7 +11,7 @@ import {State} from "domains/core/state";
 import type {IdentityType} from "domains/entities/identity.email";
 import {IdentityEntity} from "domains/entities/identity.email";
 
-import {IdentityEmailData} from "data/identity/email";
+import {IdentityEmailData} from "data/admin/identity/email";
 
 const MS = 1000;
 

@@ -13,8 +13,8 @@ import { UserMetaEntity } from "domains/entities/users.meta";
 import type { UserI } from "domains/admin/entities/user";
 import { User } from "domains/admin/entities/user";
 
-import {ProfilesData} from "data/users/user-list";
-import {UserData} from "data/users/user";
+import {ProfilesData} from "data/admin/users/user-list";
+import {UserData} from "data/admin/users/user";
 
 enum Action {
     NOTE = 'note',

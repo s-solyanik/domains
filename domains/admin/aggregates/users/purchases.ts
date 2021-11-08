@@ -9,7 +9,7 @@ import {ToDoList} from "domains/core/to-do-list";
 import type {UserPurchasesType} from "domains/entities/users.purchases";
 import {UserPurchasesEntity} from "domains/entities/users.purchases";
 
-import {UserPurchasesData} from "data/users/purchases";
+import {UserPurchasesData} from "data/admin/users/purchases";
 
 type FiltersProps = {
     page: number

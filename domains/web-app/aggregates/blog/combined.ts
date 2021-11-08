@@ -15,7 +15,7 @@ import {BlogPostsAggregate} from "domains/web-app/aggregates/blog/posts";
 import {BlogPostAggregate} from "domains/web-app/aggregates/blog/post";
 
 
-import {BlogCombinedData} from "data/blog/combined";
+import {BlogCombinedData} from "data/web-app/blog/combined";
 
 type LayoutFiltersProps = {
     layouts: string

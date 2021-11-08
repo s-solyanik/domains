@@ -10,7 +10,7 @@ import {ToDoList} from "domains/core/to-do-list";
 import type {BlogCategoriesType} from "domains/entities/blog.categories";
 import {BlogCategoriesEntity} from "domains/entities/blog.categories";
 
-import {BlogCategoriesData} from "data/blog/categories";
+import {BlogCategoriesData} from "data/web-app/blog/categories";
 
 class BlogCategoriesAggregate {
     static shared = singleton(() => new BlogCategoriesAggregate());

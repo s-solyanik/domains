@@ -9,8 +9,8 @@ import {ToDoList} from "domains/core/to-do-list";
 import type {UsersBlockingType} from "domains/entities/users.blocking";
 import {UsersBlockingEntity} from "domains/entities/users.blocking";
 
-import {IncomingBlockingData} from "data/users/blocking/incoming";
-import {OutgoingBlockingData} from "data/users/blocking/outgoing";
+import {IncomingBlockingData} from "data/admin/users/blocking/incoming";
+import {OutgoingBlockingData} from "data/admin/users/blocking/outgoing";
 
 type FiltersProps = {
     page: number

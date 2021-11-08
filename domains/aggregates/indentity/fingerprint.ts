@@ -9,16 +9,16 @@ import { State } from "domains/core/state";
 import type { FingerprintType } from "domains/entities/users.fingerprint";
 import { UserFingerprintEntity } from "domains/entities/users.fingerprint";
 
-import { FingerprintData } from "data/identity/fingerprint";
+import { FingerprintData } from "data/common/identity/fingerprint";
 
 class UserFingerPrintAggregate {
-    static shared = singleton((id: string) => new UserFingerPrintAggregate(id));
+    static shared = singleton(() => new UserFingerPrintAggregate());
 
     public readonly id: IdentifierI;
     private readonly state: State<UserFingerprintEntity>;
 
-    private constructor(id: string) {
-        this.id = UserFingerprintEntity.id(id);
+    private constructor() {
+        this.id = UserFingerprintEntity.id('owner');
         this.state = new State<UserFingerprintEntity>(this.id, this.read, 300);
     }
 

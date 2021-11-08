@@ -9,7 +9,7 @@ import {ToDoList} from "domains/core/to-do-list";
 import type {UserMatchesType} from "domains/entities/users.matches";
 import {UserMatchesEntity} from "domains/entities/users.matches";
 
-import {UserMatchesData} from "data/users/matches";
+import {UserMatchesData} from "data/admin/users/matches";
 
 type FiltersProps = {
     page: number

@@ -10,7 +10,7 @@ import {State} from "domains/core/state";
 import type {BlogMediaType} from "domains/entities/blog.media";
 import {BlogMediaEntity} from "domains/entities/blog.media";
 
-import {BlogMediaData} from "data/blog/media";
+import {BlogMediaData} from "data/web-app/blog/media";
 
 class BlogMediaAggregate {
     static shared = singleton((id: number) => new BlogMediaAggregate(id));

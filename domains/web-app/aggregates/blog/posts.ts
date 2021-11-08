@@ -10,7 +10,7 @@ import {ToDoList} from "domains/core/to-do-list";
 import type {BlogPostType} from "domains/entities/blog.post";
 import {BlogPostEntity} from "domains/entities/blog.post";
 
-import {BlogPostsData} from "data/blog/posts";
+import {BlogPostsData} from "data/web-app/blog/posts";
 
 type FiltersProps = {
     page?: number

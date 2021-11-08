@@ -12,7 +12,7 @@ import type {ModerationCategoriesType} from "domains/entities/users.moderation.c
 import type {ModerationImageType} from "domains/entities/users.moderation.image";
 import {ModerationImageEntity, Reason, Action} from "domains/entities/users.moderation.image";
 
-import {ModerationImageData} from "data/moderation/image";
+import {ModerationImageData} from "data/admin/moderation/image";
 
 enum Sort {
     NEWEST,

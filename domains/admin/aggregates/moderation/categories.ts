@@ -9,7 +9,7 @@ import {State} from "domains/core/state";
 import type {ModerationCategoriesType} from "domains/entities/users.moderation.categories";
 import {ModerationCategoriesEntity} from "domains/entities/users.moderation.categories";
 
-import {ModerationCategoriesData} from "data/moderation/queue";
+import {ModerationCategoriesData} from "data/admin/moderation/queue";
 
 class ModerationCategoriesAggregate {
     static shared = singleton(() => new ModerationCategoriesAggregate());

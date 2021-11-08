@@ -16,7 +16,7 @@ import {User} from "domains/admin/entities/user";
 
 import {UserFingerPrintAggregate} from "domains/aggregates/indentity/fingerprint";
 
-import {UserData} from "data/users/user";
+import {UserData} from "data/admin/users/user";
 
 enum Action {
     NOTE = 'note',
@@ -46,7 +46,7 @@ class ProfileAggregate {
     public create(value: UserI) {
         const { data: { firstName, lastName, birthday, gender }, ...rest } = value;
 
-        return UserFingerPrintAggregate.shared('user id').data().pipe(
+        return UserFingerPrintAggregate.shared().data().pipe(
             switchMap(it => {
                 if(!it.isSuccessful) {
                     return of(Result.failure(it.error));

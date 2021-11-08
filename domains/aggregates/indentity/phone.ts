@@ -11,7 +11,7 @@ import {State} from "domains/core/state";
 import type {IdentityPhoneType} from "domains/entities/identity.common";
 import {IdentityPhoneEntity} from "domains/entities/identity.common";
 
-import {IdentityPhoneData} from "data/identity/phone";
+import {IdentityPhoneData} from "data/common/identity/phone";
 
 class IdentityPhoneAggregate {
     static shared = singleton(() => new IdentityPhoneAggregate());

@@ -9,7 +9,7 @@ import {ToDoList} from "domains/core/to-do-list";
 import type {UserReportedType} from "domains/entities/users.reported";
 import {UserReportedEntity} from "domains/entities/users.reported";
 
-import {UserReportedData} from "data/users/reported";
+import {UserReportedData} from "data/admin/users/reported";
 
 type FiltersProps = {
     page: number

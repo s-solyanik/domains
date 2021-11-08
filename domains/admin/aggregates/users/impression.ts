@@ -9,7 +9,7 @@ import {ToDoList} from "domains/core/to-do-list";
 import type {UserImpressionType} from "domains/entities/users.impressions";
 import {UserImpressionEntity} from "domains/entities/users.impressions";
 
-import {UserImpressionData} from "data/users/impression";
+import {UserImpressionData} from "data/admin/users/impression";
 
 type FiltersProps = {
     page: number

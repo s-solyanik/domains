@@ -10,7 +10,7 @@ import {ToDoList} from "domains/core/to-do-list";
 import type {UserUnmatchedType} from "domains/entities/users.unmatched";
 import {UserUnmatchedEntity} from "domains/entities/users.unmatched";
 
-import {UserUnmatchedData} from "data/users/unmatches";
+import {UserUnmatchedData} from "data/admin/users/unmatches";
 
 type FiltersProps = {
     page: number
