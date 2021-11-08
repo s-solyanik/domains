@@ -2,7 +2,7 @@ import type { IdentifierI } from 'utils/unique-id';
 
 import { Entity } from 'domains/core/entity';
 
-import type { UserSubscription } from 'domains/entities/users.subscription/type';
+import type { UserSubscriptionType } from 'domains/entities/users.subscription/type';
 import { UserSubscriptionValueObject } from 'domains/entities/users.subscription/value-object';
 
 interface UserSubscriptionProps {
@@ -19,13 +19,10 @@ class UserSubscriptionEntity extends Entity<UserSubscriptionProps> {
         return UserSubscriptionEntity.createId(`users.subscription.${id}`);
     }
 
-    static factory(id: string, props: Omit<UserSubscription, 'userId'>) {
+    static factory(props: UserSubscriptionType) {
         return new UserSubscriptionEntity({
-            id: UserSubscriptionEntity.id(id),
-            value: UserSubscriptionValueObject.factory({
-                userId: id,
-                ...props
-            })
+            id: UserSubscriptionEntity.id(`${props.id}`),
+            value: UserSubscriptionValueObject.factory(props)
         });
     }
 }

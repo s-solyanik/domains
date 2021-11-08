@@ -1,9 +1,9 @@
 import { ValueObject } from 'domains/core/entity/value-object';
-import type { UserSubscription } from 'domains/entities/users.subscription/type';
+import type { UserSubscriptionType } from 'domains/entities/users.subscription/type';
 
-class UserSubscriptionValueObject extends ValueObject<UserSubscription> {
-    static factory(preference: UserSubscription): UserSubscriptionValueObject {
-        return new UserSubscriptionValueObject(preference);
+class UserSubscriptionValueObject extends ValueObject<UserSubscriptionType> {
+    static factory(subscription: UserSubscriptionType) {
+        return new UserSubscriptionValueObject(subscription);
     }
 }
 

@@ -7,9 +7,8 @@ export enum SUBSCRIPTION_STATE {
     ONGOING = 'ongoing',
 }
 
-export type UserSubscription = {
+export type UserSubscriptionType = {
     id: number
-    userId: string
     caption: string
     state: SUBSCRIPTION_STATE
 }
