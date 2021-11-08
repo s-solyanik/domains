@@ -15,7 +15,7 @@ class BlogCategoriesEntity extends Entity<BlogCategoriesProps> {
         return this.props.value.get();
     }
 
-    static id(id: number) {
+    static id(id: string|number) {
         return BlogCategoriesEntity.createId(`blog.categories.${id}`);
     }
 

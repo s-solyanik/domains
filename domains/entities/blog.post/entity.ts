@@ -29,13 +29,13 @@ class BlogPostEntity extends Entity<BlogPostProps>{
         };
     }
 
-    static id(id: number) {
+    static id(id: string) {
         return BlogPostEntity.createId(`blog.posts.${id}`);
     }
 
     static factory(props: BlogPostType) {
         return new BlogPostEntity({
-            id: BlogPostEntity.id(props.id),
+            id: BlogPostEntity.id(`${props.id}`),
             value: BlogPostValueObject.factory(props)
         });
     }
