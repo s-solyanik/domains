@@ -1,3 +1,4 @@
+import {of} from "rxjs";
 import {map, switchMap} from "rxjs/operators";
 
 import type {IdentifierI} from "utils/unique-id";
@@ -12,7 +13,6 @@ import {User} from "domains/web-app/entities/user";
 import { UserFingerPrintAggregate } from "domains/aggregates/indentity/fingerprint";
 
 import {UsersMatchesData} from "data/web-app/users/matches";
-import {of} from "rxjs";
 
 enum ACTION {
     LIKE = 'like',
@@ -57,7 +57,7 @@ class UserMatchesAggregate {
             })
         )
     }
-    
+
     public like(id: string) {
         return this.action(id, ACTION.LIKE);
     }
