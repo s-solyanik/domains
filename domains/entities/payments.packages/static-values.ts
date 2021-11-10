@@ -1,6 +1,6 @@
-import type { Package } from 'domains/entities/payments.packages/type';
+import type { PaymentsPackageType } from 'domains/entities/payments.packages/type';
 
-export const PACKAGES: Package[] = [
+export const PACKAGES: PaymentsPackageType[] = [
     {
         'id':'co.dilmil.vip.elite.w.1mo',
         'name':'1 Month',

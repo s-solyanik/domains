@@ -2,41 +2,29 @@ import type { IdentifierI } from 'utils/unique-id';
 
 import { Entity } from 'domains/core/entity';
 
-import type { Package, PackageIds } from 'domains/entities/payments.packages/type';
+import type { PaymentsPackageType } from 'domains/entities/payments.packages/type';
 import { PaymentsPackageValueObject } from 'domains/entities/payments.packages/value-object';
 
-interface PaymentsPackagesProps {
+interface PaymentsPackageProps {
     readonly id: IdentifierI
     readonly value: PaymentsPackageValueObject
 }
 
-class PaymentsPackages extends Entity<PaymentsPackagesProps>{
+class PaymentsPackageEntity extends Entity<PaymentsPackageProps>{
     public get() {
-        return this.props.value.get().map((value) => value);
+        return this.props.value.get();
     }
 
-    public find(id: PackageIds) {
-        return this.props.value.get().find(pkg => pkg.id === id);
+    static id(id: string) {
+        return PaymentsPackageEntity.createId(`payments.packages.${id}`);
     }
 
-    public findAll(...ids: PackageIds[]) {
-        if(!ids) {
-            return this.get();
-        }
-
-        return this.props.value.get().filter(pkg => ids.some(id => pkg.id === id));
-    }
-
-    static id() {
-        return PaymentsPackages.createId('payments.packages');
-    }
-
-    static factory(props?: Package[]) {
-        return new PaymentsPackages({
-            id: PaymentsPackages.id(),
-            value: PaymentsPackageValueObject.factory(props || [])
+    static factory(props: PaymentsPackageType) {
+        return new PaymentsPackageEntity({
+            id: PaymentsPackageEntity.id(`${props.id}`),
+            value: PaymentsPackageValueObject.factory(props)
         });
     }
 }
 
-export { PaymentsPackages };
+export { PaymentsPackageEntity };

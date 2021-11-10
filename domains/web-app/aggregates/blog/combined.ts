@@ -69,7 +69,6 @@ class BlogCombinedAggregate {
                     );
                 }
 
-
                 if(it.value.post.length) {
                     combineAll.push(
                         forkJoin(
