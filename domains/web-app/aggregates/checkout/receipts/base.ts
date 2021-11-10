@@ -1,4 +1,4 @@
-import {of} from "rxjs";
+import {EMPTY, of} from "rxjs";
 import {map} from "rxjs/operators";
 
 import type {IdentifierI} from "utils/unique-id";
@@ -6,6 +6,8 @@ import { UID} from "utils/unique-id";
 import {Result,FAILURE_MESSAGE} from "utils/result/dto";
 
 import {Entity} from "domains/core/entity";
+import {State} from "domains/core/state";
+
 import type { PackageIds } from "domains/entities/payments.packages";
 
 import type { FingerprintType } from 'domains/aggregates/indentity/fingerprint';
@@ -27,9 +29,15 @@ type ReceiptBaseOutPut = FingerprintType & {
 
 class PaymentsBaseReceiptAggregate {
     public readonly id: IdentifierI;
+    private readonly state: State<ReceiptBaseOutPut>;
 
     constructor() {
         this.id = UID.factory(Entity.name, 'payments.receipt.base');
+        this.state = new State<ReceiptBaseOutPut>(this.id, this.read, 0)
+    }
+
+    private read() {
+        return EMPTY;
     }
 
     public create(receipt: ReceiptBaseInput) {
@@ -51,8 +59,13 @@ class PaymentsBaseReceiptAggregate {
                     beneficiaryName: receipt.beneficiaryName,
                     beneficiaryEmail: receipt.beneficiaryEmail,
                 })
-            })
+            }),
+            map(it => this.state.update(it))
         )
+    }
+
+    public data() {
+        return this.state.data();
     }
 }
 
