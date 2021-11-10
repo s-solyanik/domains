@@ -10,21 +10,21 @@ interface PaymentsExchangeProps {
     readonly value: PaymentsExchangeValueObject
 }
 
-class PaymentsExchange extends Entity<PaymentsExchangeProps> {
+class PaymentsExchangeEntity extends Entity<PaymentsExchangeProps> {
     public get() {
         return this.props.value.get();
     }
 
     static id() {
-        return PaymentsExchange.createId('payments.exchange');
+        return PaymentsExchangeEntity.createId('payments.exchange');
     }
 
     static factory(props: PaymentsExchangeType) {
-        return new PaymentsExchange({
-            id: PaymentsExchange.id(),
+        return new PaymentsExchangeEntity({
+            id: PaymentsExchangeEntity.id(),
             value: PaymentsExchangeValueObject.factory(props)
         });
     }
 }
 
-export { PaymentsExchange };
+export { PaymentsExchangeEntity };

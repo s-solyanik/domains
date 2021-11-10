@@ -33,11 +33,7 @@ class PaymentsBaseReceiptAggregate {
 
     constructor() {
         this.id = UID.factory(Entity.name, 'payments.receipt.base');
-        this.state = new State<ReceiptBaseOutPut>(this.id, this.read, 0)
-    }
-
-    private read() {
-        return EMPTY;
+        this.state = new State<ReceiptBaseOutPut>(this.id, () => EMPTY, 0)
     }
 
     public create(receipt: ReceiptBaseInput) {
@@ -69,4 +65,5 @@ class PaymentsBaseReceiptAggregate {
     }
 }
 
+export type {ReceiptBaseInput}
 export {PaymentsBaseReceiptAggregate}

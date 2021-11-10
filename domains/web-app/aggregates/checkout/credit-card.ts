@@ -2,14 +2,18 @@ import {of, Observable, EMPTY} from 'rxjs';
 import {switchMap} from "rxjs/operators";
 
 import type {IdentifierI} from "utils/unique-id";
+import {UID} from "utils/unique-id";
 import {singleton} from "utils/singleton";
 import {Result, FAILURE_MESSAGE} from "utils/result/dto";
+
+import {Entity} from "domains/core/entity";
 
 import {EntityResult} from "domains/core/entity/result";
 import {State} from "domains/core/state";
 
 import type { PaymentsMethodCardType, PaymentsCreditCardType } from "domains/entities/payments.method.card";
 import {PaymentsMethodCardEntity} from "domains/entities/payments.method.card";
+
 
 type Verification = {
     isValid: boolean
@@ -23,12 +27,16 @@ class PaymentsMethodCardAggregate {
     private readonly state: State<PaymentsMethodCardEntity>;
 
     private constructor() {
-        this.id = PaymentsMethodCardEntity.id();
+        this.id = PaymentsMethodCardAggregate.id();
         this.state = new State<PaymentsMethodCardEntity>(this.id, this.read, 0);
     }
 
     private read = () => {
         return EMPTY;
+    }
+
+    public static id() {
+        return UID.factory(Entity.name, 'payments.method.credit.card');
     }
 
     public create(card: Partial<PaymentsCreditCardType>) {

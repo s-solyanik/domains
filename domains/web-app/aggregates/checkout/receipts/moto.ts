@@ -48,8 +48,8 @@ type ReceiptMotoMethod = {
     billingAddress?: Partial<BillingAddress>
 }
 
-class PaymentsReceiptAggregate {
-    static shared = singleton(() => new PaymentsReceiptAggregate());
+class PaymentsReceiptMotoAggregate {
+    static shared = singleton(() => new PaymentsReceiptMotoAggregate());
 
     public readonly id: IdentifierI;
     private readonly state: State<PaymentsReceiptEntity<ReceiptMotoMethod>>;
@@ -126,4 +126,4 @@ class PaymentsReceiptAggregate {
 }
 
 export type {PaymentsReceiptType};
-export {PaymentsReceiptAggregate};
+export {PaymentsReceiptMotoAggregate};
