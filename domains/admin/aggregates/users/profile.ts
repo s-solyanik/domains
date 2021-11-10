@@ -48,10 +48,6 @@ class ProfileAggregate {
 
         return UserFingerPrintAggregate.shared().data().pipe(
             switchMap(it => {
-                if(!it.isSuccessful) {
-                    return of(Result.failure(it.error));
-                }
-
                 return UserData.facade.create({ firstName, lastName, birthday, gender }, it.value).pipe(
                     map(it => {
                         if(!it.isSuccessful) {

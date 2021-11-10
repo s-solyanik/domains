@@ -29,11 +29,6 @@ class UserSubscriptionAggregate {
     private read = () => {
         return UserFingerPrintAggregate.shared().data().pipe(
             switchMap(it => {
-                if(!it.isSuccessful) {
-                    return of(Result.failure(it.error));
-                }
-
-
                 return SubscriptionsData.facade.read(it.value).pipe(
                     switchMap(it => EntityResult.array(UserSubscriptionEntity.factory, it)),
                 )
@@ -60,13 +55,7 @@ class UserSubscriptionAggregate {
 
     public delete(id: number) {
         return UserFingerPrintAggregate.shared().data().pipe(
-            switchMap((it) => {
-                if(!it.isSuccessful) {
-                    return EMPTY;
-                }
-
-                return SubscriptionsData.facade.delete({ ...it.value, subscriptionId: id });
-            }),
+            switchMap((it) => SubscriptionsData.facade.delete({ ...it.value, subscriptionId: id })),
             map((it) => {
                 if(it.isSuccessful) {
                     return Result.success(UserSubscriptionEntity.id(`${id}`));

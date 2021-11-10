@@ -33,10 +33,6 @@ class UserMatchesAggregate {
     private read = () => {
         return UserFingerPrintAggregate.shared().data().pipe(
             switchMap(it => {
-                if(!it.isSuccessful) {
-                    return of(Result.failure(it.error));
-                }
-
                 return UsersMatchesData.facade.read(it.value).pipe(
                     switchMap(it => EntityResult.array(User.factory, it)),
                 )
@@ -47,10 +43,6 @@ class UserMatchesAggregate {
     private action(id: string, action: ACTION) {
         return UserFingerPrintAggregate.shared().data().pipe(
             switchMap(it => {
-                if(!it.isSuccessful) {
-                    return of(Result.failure(it.error));
-                }
-
                 return UsersMatchesData.facade.create(id, action, it.value).pipe(
                     switchMap(EntityResult.errorOrSuccess)
                 )
