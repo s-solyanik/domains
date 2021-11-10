@@ -2,7 +2,7 @@ import type { IdentifierI } from 'utils/unique-id';
 
 import { Entity } from 'domains/core/entity';
 
-import type { CreditCard } from 'domains/entities/payments.method.card/type';
+import type { PaymentsCreditCardType } from 'domains/entities/payments.method.card/type';
 import { PaymentsMethodCardValueObject } from 'domains/entities/payments.method.card/value-object';
 
 interface PaymentsMethodCardProps {
@@ -39,7 +39,7 @@ class PaymentsMethodCardEntity extends Entity<PaymentsMethodCardProps> {
         return PaymentsMethodCardEntity.createId('payments.method.card');
     }
 
-    static factory(creditCard: Partial<CreditCard>) {
+    static factory(creditCard: Partial<PaymentsCreditCardType>) {
         return new PaymentsMethodCardEntity({
             id: PaymentsMethodCardEntity.id(),
             value: PaymentsMethodCardValueObject.factory(creditCard)

@@ -13,7 +13,7 @@ export enum CARDS_IDS {
     HIPERCARD = 'hipercard',
 }
 
-export type CreditCard = {
+export type PaymentsCreditCardType = {
     card: number
     cvv: string
     name: string
@@ -21,7 +21,7 @@ export type CreditCard = {
     strict?: boolean
 }
 
-export type CreditCardType = {
+export type PaymentsMethodCardType = {
     niceType: string
     type: string
     patterns: Array<number[] | number>

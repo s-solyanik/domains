@@ -1,7 +1,7 @@
-import type { CreditCardType } from 'domains/entities/payments.method.card/type';
+import type { PaymentsMethodCardType } from 'domains/entities/payments.method.card/type';
 import { CARDS_IDS } from 'domains/entities/payments.method.card/type';
 
-const CREDIT_CARDS: { [key in CARDS_IDS]: CreditCardType } = {
+const CREDIT_CARDS: { [key in CARDS_IDS]: PaymentsMethodCardType } = {
     [CARDS_IDS.VISA]: {
         niceType: 'Visa',
         type: CARDS_IDS.VISA,

@@ -1,6 +1,6 @@
 import validator from 'card-validator';
 
-import type { CreditCard, CreditCardType } from 'domains/entities/payments.method.card/type';
+import type { PaymentsCreditCardType, PaymentsMethodCardType } from 'domains/entities/payments.method.card/type';
 import { CARDS_IDS, CREDIT_CARDS } from 'domains/entities/payments.method.card/cards';
 import { ValueObject } from 'domains/core/entity/value-object';
 
@@ -9,16 +9,16 @@ type Verification = {
     isPotentiallyValid: boolean
 }
 
-type CardNumber = Verification & { card: CreditCardType|null };
+type CardNumber = Verification & { card: PaymentsMethodCardType|null };
 
-class PaymentsMethodCardValueObject extends ValueObject<Partial<CreditCard>> {
+class PaymentsMethodCardValueObject extends ValueObject<Partial<PaymentsCreditCardType>> {
     private static allowedCardTypes = [
         CREDIT_CARDS.visa,
         CREDIT_CARDS.mastercard,
         CREDIT_CARDS['american-express']
     ];
 
-    private isAllowedCardType(card: CreditCardType) {
+    private isAllowedCardType(card: PaymentsMethodCardType) {
         return PaymentsMethodCardValueObject.allowedCardTypes.some(type => {
             return type.type === card.type;
         });
@@ -116,7 +116,7 @@ class PaymentsMethodCardValueObject extends ValueObject<Partial<CreditCard>> {
         });
     }
 
-    public async name() {
+    public async name(): Promise<Verification> {
         const validation = validator.cardholderName(this.get().name);
 
         let response = null;
@@ -148,7 +148,7 @@ class PaymentsMethodCardValueObject extends ValueObject<Partial<CreditCard>> {
                 await this.date()
             ]);
 
-            return Promise.resolve(this.get() as CreditCard);
+            return Promise.resolve(this.get() as PaymentsCreditCardType);
         } catch (errors) {
             return Promise.reject({
                 status: 400,
@@ -167,7 +167,7 @@ class PaymentsMethodCardValueObject extends ValueObject<Partial<CreditCard>> {
         return CARDS_IDS;
     }
 
-    static factory(creditCard: Partial<CreditCard>): PaymentsMethodCardValueObject {
+    static factory(creditCard: Partial<PaymentsCreditCardType>): PaymentsMethodCardValueObject {
         return new PaymentsMethodCardValueObject(creditCard);
     }
 }
