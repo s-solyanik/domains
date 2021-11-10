@@ -49,7 +49,7 @@ class PaymentsExchangeAggregate {
                         status: 0,
                         message: 'Error. Reload a page and try again.',
                         ...error,
-                    }));
+                    } as FAILURE_MESSAGE));
                 }
                 PaymentsReceiptMotoAggregate.shared().create(base.value, creditCard.value);
                 return PaymentsReceiptMotoAggregate.shared().data();
